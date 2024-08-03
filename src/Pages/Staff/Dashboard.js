@@ -1,21 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../../Components/Sidebar';
 import Header from '../../Components/Navbar';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   BarChart, Bar, AreaChart, Area, PieChart, Pie, Cell
 } from 'recharts';
 
 export const Dashboard = () => {
-  const salesData = [
+  const [userId, setUserId] = useState(''); // User ID to be used for API calls
+  const [checkInTime, setCheckInTime] = useState(null);
+  const [checkOutTime, setCheckOutTime] = useState(null);
+  const [message, setMessage] = useState('');
+  const [salesData, setSalesData] = useState([
     { month: 'Jan', sales: 4000 },
     { month: 'Feb', sales: 3000 },
     { month: 'Mar', sales: 5000 },
     { month: 'Apr', sales: 4000 },
     { month: 'May', sales: 6000 },
     { month: 'Jun', sales: 7000 },
-  ];
+  ]);
 
   const revenueData = [
     { day: 'Mon', revenue: 1000 },
@@ -44,20 +49,43 @@ export const Dashboard = () => {
 
   const COLORS = ['#7267ef', '#00C49F', '#FFBB28', '#FF8042']; // Updated colors
 
+  useEffect(() => {
+    // You can fetch the initial state from the backend if needed
+  }, []);
+
+  const handleCheckIn = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/checkin', { userId });
+      setCheckInTime(new Date(response.data.checkIn));
+      setMessage('Checked in successfully!');
+    } catch (error) {
+      setMessage('Error checking in');
+    }
+  };
+
+  const handleCheckOut = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/checkout', { userId });
+      setCheckOutTime(new Date(response.data.checkOut));
+      setMessage('Checked out successfully!');
+    } catch (error) {
+      setMessage('Error checking out');
+    }
+  };
+
   return (
     <>
       <Header />
-      <br/>
-      <br/>
-      <br/>  <br/>
-     
-
-      <div className="container-fluid " style={{ fontFamily: "Inter sans-serif",fontSize:'14px'}}>
-        <div className="row ">
-          <div className="col-lg-3 ">
+      <br />
+      <br />
+      <br />
+      <br />
+      <div className="container-fluid" style={{ fontFamily: "Inter sans-serif", fontSize: '14px' }}>
+        <div className="row">
+          <div className="col-lg-3">
             <Sidebar />
           </div>
-          <div className="col-lg-9 ">
+          <div className="col-lg-9">
             <section className="d-flex justify-content-between align-items-center mb-4">
               <div className="profile-details d-flex align-items-center">
                 <img src="https://via.placeholder.com/50" className="img-fluid rounded-circle me-3" alt="profile" />
@@ -66,7 +94,7 @@ export const Dashboard = () => {
                   <p className="mb-0">@profile</p>
                 </div>
               </div>
-              <Link to='/' className="btn" style={{ backgroundColor: '#7267ef', color: '#fff' }}>Log Out</ Link>
+              <Link to='/' className="btn" style={{ backgroundColor: '#7267ef', color: '#fff' }}>Log Out</Link>
             </section>
             <section>
               <div className="row mb-4">
@@ -77,16 +105,15 @@ export const Dashboard = () => {
                       <h6 className="card-title mb-2" style={{ color: '#7267ef' }}>My Shift: 09:30 am To 06:30 pm</h6>
                       <div className="row text-center my-3">
                         <div className='col'>
-
-                        <button className="btn btn-sm text-white rounded-1" style={{ backgroundColor: '#17c666', color: '#fff' }}>Clock IN</button>
+                          <button className="btn btn-sm text-white rounded-1" style={{ backgroundColor: '#17c666', color: '#fff' }} onClick={handleCheckIn}>Clock IN</button>
                         </div>
                         <div className='col'>
-
-                        <button className="btn btn-secondary btn-sm text-white rounded-1">Clock OUT</button>
+                          <button className="btn btn-secondary btn-sm text-white rounded-1" onClick={handleCheckOut}>Clock OUT</button>
                         </div>
-                        
-                      
                       </div>
+                      {checkInTime && <p>Checked In At: {checkInTime.toLocaleTimeString()}</p>}
+                      {checkOutTime && <p>Checked Out At: {checkOutTime.toLocaleTimeString()}</p>}
+                      <p>{message}</p>
                     </div>
                     <Link to="#" className="text-decoration-none">
                       <div className="card-footer text-center" style={{ backgroundColor: '#7267ef', color: '#fff' }}>
@@ -96,7 +123,7 @@ export const Dashboard = () => {
                   </div>
                   <div className="d-flex justify-content-around align-items-center gap-5">
                     <div className="col my-3">
-                      <div className="card card-body border-0 ">
+                      <div className="card card-body border-0">
                         <h6 className="card-title mb-2 fw-normal">Overtime Request</h6>
                         <div className="d-flex justify-content-between align-items-center">
                           <h3 className="card-title mb-0">0</h3>
@@ -136,7 +163,7 @@ export const Dashboard = () => {
                   </div>
                   <div className="d-flex justify-content-around align-items-center">
                     <div className="col-5 my-3">
-                      <div className="card card-body border-0 ">
+                      <div className="card card-body border-0">
                         <h6 className="card-title mb-2 fw-normal">My Awards</h6>
                         <div className="d-flex justify-content-between align-items-center">
                           <h3 className="card-title mb-0">0</h3>
@@ -242,4 +269,5 @@ export const Dashboard = () => {
     </>
   );
 };
-export default  Dashboard
+
+export default Dashboard;
