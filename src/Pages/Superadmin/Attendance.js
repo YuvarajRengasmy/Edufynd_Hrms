@@ -1,8 +1,33 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import  SuperAdminSidebar from '../../Components/SuperadminSidebar'
+import Navbar from '../../Components/Navbar'
 export const Attendance = () => {
   return (
-    <> <div className="col-md-8">
+    <> 
+   <Navbar/>
+   <br/>
+   <br/>
+   <br/>
+   <br/>
+
+    <div className='container-fluid'>
+        <div className='row'>
+            <div className='col-lg-3'>
+                <SuperAdminSidebar/>
+            </div>
+            <div className="col-lg-9">
+            <section className="d-flex justify-content-between align-items-center mb-4">
+            <nav  aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><Link to='/SADashboard' className='text-dark text-decoration-none' >Home</Link></li>
+    <li class="breadcrumb-item active" aria-current="page">Attendace</li>
+  </ol>
+</nav>
+      <Link to='/' className="btn" style={{ backgroundColor: '#7267ef', color: '#fff' }}>
+        Log Out
+      </Link>
+    </section>
     <div className="card border-0 p-2">
         <div className="card-header border-0 bg-white">
             <h6 className="h6 fw-semibold">Daily Attendace Report</h6>
@@ -30,20 +55,44 @@ export const Attendance = () => {
                         <th>Date</th>
                         <th>Status</th>
                         <th>Clock In</th>
-                        <th>Status</th>
-                        <th>Status</th>
-                        <th>Status</th>
+                        <th>Clock Out</th>
+                        <th>Late</th>
+                        <th>Early Leaving</th>
                         <th className="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody style={{ fontSize: '11px' }}>
                     <tr>
-                        <td>SuperAdmin</td>
-                        <td>Saravanan</td>
-                        <td>02-08-2024</td>
-                        <td className="text-center">
-                            <button className="btn btn-sm btn-link text-decoration-none" data-bs-toggle="modal" data-bs-target="#departmentModaledit" style={{ backgroundColor: '#7267ef', color: '#fff' }}></button>
-                            <button className="btn btn-sm btn-link text-decoration-none text-danger" data-bs-toggle="modal" data-bs-target="#departmentModaldelete" style={{ backgroundColor: '#dc3545', color: '#fff' }}></button>
+                        <td>Gopinath</td>
+                        <td>03-08-2024</td>
+                        <td>Present</td>
+                        <td>10.00AM</td>
+                        <td>07.00PM</td>
+                        <td>Nil</td>
+                        <td>Nil</td>
+                        <td className=" text-center d-flex gap-3 justify-content-center">
+                        <Link
+                                      
+                                      to={{
+                                        pathname: "/ViewAttendance",
+                                        
+                                      }}
+                                      data-bs-toggle="modal" 
+                                      data-bs-target="#AttendanceModalView"
+                                    >
+                                      <i className="far fa-eye  me-1"></i>
+
+                                    </Link>
+                                    <Link
+                                      data-bs-toggle="modal" 
+                                      data-bs-target="#AttendanceModaldelete"
+                                  
+                                     
+                                    >
+                                      <i className="far fa-trash-alt text-danger me-1"></i>
+
+                                    </Link>
+                         
                         </td>
                     </tr>
                 </tbody>
@@ -61,7 +110,29 @@ export const Attendance = () => {
             </nav>
         </div>
     </div>
-</div></>
+</div>
+        </div>
+    </div>
+    <div class="modal fade" id="AttendanceModaldelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-6  " id="exampleModalLabel">Are you sure you want to delete this record?</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div className='alert alert-danger fw-semibold'>
+                                                                You won't be able to revert this!
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-light  border-0 rounded-1" data-bs-dismiss="modal" style={{ fontSize: '13px' }}>Close</button>
+                                                            <button type="button" class="btn border-0 rounded-1 " style={{ backgroundColor: '#7267ef', color: '#fff', fontSize: '13px' }}>Confirm</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+    </>
   )
 }
 export default Attendance

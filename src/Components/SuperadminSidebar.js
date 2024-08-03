@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faClipboardList, faProjectDiagram, faQuestionCircle, faUsers, faGavel } from '@fortawesome/free-solid-svg-icons';
 import './Sidebar.css';
 
 const SuperadminSidebar = () => {
@@ -9,51 +7,51 @@ const SuperadminSidebar = () => {
     <div className="sidebar d-flex flex-column align-items-start justify-content-start vh-100 p-4 bg-white text-dark position-fixed">
       <ul className="nav flex-column mb-auto">
         <li className="nav-item">
-          <Link to="/StaffDashboard" className="nav-link">
-            <FontAwesomeIcon icon={faHome} className="me-2 nav-icon" />
+          <Link to="/SADashboard" className="nav-link">
+            <i className="fas fa-home me-2 nav-icon"></i>
             Home
           </Link>
         </li>
         <li className="nav-item">
-          <Link to="/attendance" className="nav-link">
-            <FontAwesomeIcon icon={faClipboardList} className="me-2 nav-icon" />
+          <Link to="/SAListEmployees" className="nav-link">
+            <i className="fas fa-clipboard-list me-2 nav-icon"></i>
             Employees
           </Link>
         </li>
         <li className="nav-item">
           <div className="nav-link" data-bs-toggle="collapse" href="#coreHrCollapse" role="button" aria-expanded="false" aria-controls="coreHrCollapse">
-            <FontAwesomeIcon icon={faUsers} className="me-2 nav-icon" />
+            <i className="fas fa-users me-2 nav-icon"></i>
             Core HR
           </div>
           <div className="collapse" id="coreHrCollapse">
             <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
               <li>
-                <Link to="/department" className="nav-link">
-                  <FontAwesomeIcon icon={faGavel} className="me-2 nav-icon" />
+                <Link to="/SAdepartment" className="nav-link">
+                  <i className="fas fa-gavel me-2 nav-icon"></i>
                   Department
                 </Link>
               </li>
               <li>
-                <Link to="/designation" className="nav-link">
-                  <FontAwesomeIcon icon={faGavel} className="me-2 nav-icon" />
+                <Link to="/SAdesignation" className="nav-link">
+                  <i className="fas fa-briefcase me-2 nav-icon"></i>
                   Designation
                 </Link>
               </li>
               <li>
-                <Link to="/policies" className="nav-link">
-                  <FontAwesomeIcon icon={faGavel} className="me-2 nav-icon" />
+                <Link to="/SApolicies" className="nav-link">
+                  <i className="fas fa-gavel me-2 nav-icon"></i>
                   Policies
                 </Link>
               </li>
               <li>
-                <Link to="/announcement" className="nav-link">
-                  <FontAwesomeIcon icon={faGavel} className="me-2 nav-icon" />
-                  Make Announcement
+                <Link to="/SAannouncement" className="nav-link">
+                  <i className="fas fa-bullhorn me-2 nav-icon"></i>
+                  Announcement
                 </Link>
               </li>
               <li>
-                <Link to="/organization-chart" className="nav-link">
-                  <FontAwesomeIcon icon={faGavel} className="me-2 nav-icon" />
+                <Link to="/SAorganization-chart" className="nav-link">
+                  <i className="fas fa-sitemap me-2 nav-icon"></i>
                   Organisation Chart
                 </Link>
               </li>
@@ -62,43 +60,49 @@ const SuperadminSidebar = () => {
         </li>
         <li className="nav-item">
           <div className="nav-link" data-bs-toggle="collapse" href="#attendanceCollapse" role="button" aria-expanded="false" aria-controls="attendanceCollapse">
-            <FontAwesomeIcon icon={faClipboardList} className="me-2 nav-icon" />
+            <i className="fas fa-clipboard-list me-2 nav-icon"></i>
             Attendance
           </div>
           <div className="collapse" id="attendanceCollapse">
             <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
               <li>
-                <Link to="/attendance/departments" className="nav-link">
-                  <FontAwesomeIcon icon={faGavel} className="me-2 nav-icon" />
-                  Department
+                <Link to="/SAattendance" className="nav-link">
+                  <i className="fas fa-calendar-check me-2 nav-icon"></i>
+                  Attendance Records
                 </Link>
               </li>
             </ul>
           </div>
         </li>
         <li className="nav-item">
-          <Link to="/projects" className="nav-link">
-            <FontAwesomeIcon icon={faProjectDiagram} className="me-2 nav-icon" />
+          <Link to="/SAprojects" className="nav-link">
+            <i className="fas fa-project-diagram me-2 nav-icon"></i>
             Projects
           </Link>
         </li>
         <li className="nav-item">
-          <Link to="/helpdesk" className="nav-link">
-            <FontAwesomeIcon icon={faQuestionCircle} className="me-2 nav-icon" />
+          <Link to="/SAPayroll" className="nav-link">
+            <i className="fas fa-money-check-alt me-2 nav-icon"></i>
+            Payroll
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link to="/SAhelpdesk" className="nav-link">
+            <i className="fas fa-question-circle me-2 nav-icon"></i>
             Helpdesk
           </Link>
         </li>
         <li className="nav-item">
           <div className="nav-link" data-bs-toggle="collapse" href="#inventoryCollapse" role="button" aria-expanded="false" aria-controls="inventoryCollapse">
-            <FontAwesomeIcon icon={faUsers} className="me-2 nav-icon" />
+            <i className="fas fa-boxes me-2 nav-icon"></i>
             Inventory Control
           </div>
           <div className="collapse" id="inventoryCollapse">
             <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
               <li>
-                <Link to="/inventory/departments" className="nav-link">
-                  <FontAwesomeIcon icon={faGavel} className="me-2 nav-icon" />
-                  Departments
+                <Link to="/SAinventory" className="nav-link">
+                  <i className="fas fa-warehouse me-2 nav-icon"></i>
+                  Inventory Management
                 </Link>
               </li>
             </ul>

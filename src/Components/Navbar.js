@@ -40,7 +40,7 @@ export const Navbar = () => {
                   data-tooltip-id="tooltip-accounts"
                   data-tooltip-content="Accounts Settings"
                 >
-                  <FontAwesomeIcon icon={faUser} className="nav-icon" />
+                  <FontAwesomeIcon icon={faUser}  />
                 </Link>
               </li>
               <li className="nav-item px-2 dropdown">
@@ -68,7 +68,7 @@ export const Navbar = () => {
                   data-tooltip-id="tooltip-calendar"
                   data-tooltip-content="System Calendar"
                 >
-                  <FontAwesomeIcon icon={faCalendarAlt} className="nav-icon" />
+                  <FontAwesomeIcon icon={faCalendarAlt}  />
                 </Link>
               </li>
             </ul>
@@ -80,7 +80,7 @@ export const Navbar = () => {
                   data-tooltip-id="tooltip-language"
                   data-tooltip-content="Language"
                 >
-                  <FontAwesomeIcon icon={faLanguage} className="nav-icon" />
+                  <FontAwesomeIcon icon={faLanguage}  />
                 </Link>
               </li>
               <li className="nav-item px-2">
@@ -90,7 +90,7 @@ export const Navbar = () => {
                   data-tooltip-id="tooltip-todolist"
                   data-tooltip-content="Todo List"
                 >
-                  <FontAwesomeIcon icon={faList} className="nav-icon" />
+                  <FontAwesomeIcon icon={faList}  />
                 </Link>
               </li>
               <li className="nav-item px-2">

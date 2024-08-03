@@ -8,6 +8,7 @@
     color: #231f20; /* Black color for text */
     padding: 0.75rem 1.25rem;
     transition: background-color 0.3s, color 0.3s;
+    font-size: 14px !important;
   }
   
  .nav-link:hover
@@ -20,6 +21,10 @@
   .nav-link.active{
     background-color: #ebebeb !important; /* Black background on hover/active */
     color: #7267ef; /* White color for text */
+  }
+
+  .nav-icon{
+    font-size: 13px !important;
   }
   /* Responsive Styles */
   @media (max-width: 992px) {

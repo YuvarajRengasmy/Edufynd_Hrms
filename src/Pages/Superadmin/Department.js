@@ -80,9 +80,28 @@ const Department = () => {
                                                         <td>SuperAdmin</td>
                                                         <td>Saravanan</td>
                                                         <td>02-08-2024</td>
-                                                        <td className="text-center">
-                                                            <button className="btn btn-sm btn-link text-decoration-none" data-bs-toggle="modal" data-bs-target="#departmentModaledit" style={{ backgroundColor: '#7267ef', color: '#fff' }}></button>
-                                                            <button className="btn btn-sm btn-link text-decoration-none text-danger" data-bs-toggle="modal" data-bs-target="#departmentModaldelete" style={{ backgroundColor: '#dc3545', color: '#fff' }}></button>
+                                                        <td className=" text-center d-flex gap-3 justify-content-center">
+                                                       
+                                 
+                                   
+                                    <Link
+                                     data-bs-toggle="modal" data-bs-target="#departmentModaledit"
+                                     
+                                    >
+                                      <i className="far fa-edit  me-1"></i>
+
+                                    </Link>
+                                    <Link
+                                      data-bs-toggle="modal" data-bs-target="#departmentModaldelete" 
+                                    >
+                                      <i className="far fa-trash-alt text-danger me-1"></i>
+
+                                    </Link>
+                                    
+                                  
+
+                                
+                                                            
                                                         </td>
                                                     </tr>
                                                 </tbody>
