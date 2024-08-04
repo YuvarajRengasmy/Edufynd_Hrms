@@ -1,11 +1,12 @@
 import React from "react";
+import Header from "../../Components/Navbar";
+import Sidebar from "../../Components/Sidebar";
 import { Link } from "react-router-dom";
-import SuperAdminSidebar from "../../Components/SuperadminSidebar";
-import Navbar from "../../Components/Navbar";
+
 export const Attendance = () => {
   return (
     <>
-      <Navbar />
+      <Header />
       <br />
       <br />
       <br />
@@ -14,7 +15,7 @@ export const Attendance = () => {
       <div className="container-fluid">
         <div className="row">
           <div className="col-lg-3">
-            <SuperAdminSidebar />
+            <Sidebar />
           </div>
           <div className="col-lg-9">
             <section className="d-flex justify-content-between align-items-center mb-4">

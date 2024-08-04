@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Sidebar.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import "./Sidebar.css";
 
 const SuperadminSidebar = () => {
   return (
@@ -19,7 +19,14 @@ const SuperadminSidebar = () => {
           </Link>
         </li>
         <li className="nav-item">
-          <div className="nav-link" data-bs-toggle="collapse" href="#coreHrCollapse" role="button" aria-expanded="false" aria-controls="coreHrCollapse">
+          <div
+            className="nav-link"
+            data-bs-toggle="collapse"
+            href="#coreHrCollapse"
+            role="button"
+            aria-expanded="false"
+            aria-controls="coreHrCollapse"
+          >
             <i className="fas fa-users me-2 nav-icon"></i>
             Core HR
           </div>
@@ -59,7 +66,14 @@ const SuperadminSidebar = () => {
           </div>
         </li>
         <li className="nav-item">
-          <div className="nav-link" data-bs-toggle="collapse" href="#attendanceCollapse" role="button" aria-expanded="false" aria-controls="attendanceCollapse">
+          <div
+            className="nav-link"
+            data-bs-toggle="collapse"
+            href="#attendanceCollapse"
+            role="button"
+            aria-expanded="false"
+            aria-controls="attendanceCollapse"
+          >
             <i className="fas fa-clipboard-list me-2 nav-icon"></i>
             Attendance
           </div>
@@ -93,7 +107,14 @@ const SuperadminSidebar = () => {
           </Link>
         </li>
         <li className="nav-item">
-          <div className="nav-link" data-bs-toggle="collapse" href="#inventoryCollapse" role="button" aria-expanded="false" aria-controls="inventoryCollapse">
+          <div
+            className="nav-link"
+            data-bs-toggle="collapse"
+            href="#inventoryCollapse"
+            role="button"
+            aria-expanded="false"
+            aria-controls="inventoryCollapse"
+          >
             <i className="fas fa-boxes me-2 nav-icon"></i>
             Inventory Control
           </div>
