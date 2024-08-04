@@ -107,9 +107,9 @@ export const ListEmployees = () => {
                       <td>Amirtha</td>
                       <td>Active</td>
 
-                      <td className="text-center d-flex gap-3 justify-content-center">
-                        <td>
-                          <div className="d-flex">
+                      <td className=" d-flex  justify-content-between">
+                        
+                         
                             <Link to="/SAViewEmployees">
                               <i className="far fa-eye  me-1"></i>
                             </Link>
@@ -122,8 +122,8 @@ export const ListEmployees = () => {
                             >
                               <i className="far fa-trash-alt text-danger me-1"></i>
                             </Link>
-                          </div>
-                        </td>
+                         
+                       
                       </td>
                     </tr>
                   </tbody>

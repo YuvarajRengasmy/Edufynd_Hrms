@@ -25,7 +25,7 @@ export const AddEmployees = () => {
                 <form>
                   <div className="row">
                     <div className="col-xl-12 ">
-                      <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                      <div className="card my-4 border-0 rounded-0 shadow-sm p-3 position-relative">
                         <div
                           className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                           style={{ background: "#7267ef", color: "#fff" }}
@@ -36,7 +36,7 @@ export const AddEmployees = () => {
                         </div>
 
                         <div className="card-body mt-2 ">
-                          <div className="row g-3 ">
+                          <div className="row gy-3 gx-5 ">
                             <div className="position-relative d-inline-block">
                               <img
                                 className="img-fluid rounded-circle img-thumbnail mx-auto d-block"
@@ -94,7 +94,7 @@ export const AddEmployees = () => {
 
                               <input
                                 type="date"
-                                className="form-control text-uppercase "
+                                className="form-control rounded-1 text-uppercase "
                                 placeholder="Enter  DOB "
                                 style={{
                                   backgroundColor: "#fff",
@@ -215,7 +215,7 @@ export const AddEmployees = () => {
                               </label>
                               <select
                                 name="team"
-                                className="form-select  rounded-1"
+                                className="form-select  text-muted  rounded-1"
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -237,8 +237,9 @@ export const AddEmployees = () => {
                                 isMulti
                                 placeholder="Select Staff"
                                 name="staffList"
+                                
                                 styles={{
-                                  fontSize: "12px",
+                                  fontSize: "10px",
                                 }}
                               ></Select>
                             </div>
@@ -396,7 +397,7 @@ export const AddEmployees = () => {
                                 ID Card <span className="text-danger">*</span>
                               </label>
                               <select
-                                className="form-select  rounded-1"
+                                className="form-select   rounded-1"
                                 name="idCard"
                                 style={{
                                   backgroundColor: "#fff",
@@ -414,7 +415,7 @@ export const AddEmployees = () => {
                                 Status <span className="text-danger">*</span>
                               </label>
                               <select
-                                className="form-select  rounded-1"
+                                className="form-select   rounded-1"
                                 name="status"
                                 style={{
                                   backgroundColor: "#fff",
@@ -452,7 +453,7 @@ export const AddEmployees = () => {
                               </label>
                               <select
                                 name="companyAssests"
-                                className="form-select  rounded-1"
+                                className="form-select   rounded-1"
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -465,7 +466,7 @@ export const AddEmployees = () => {
                               </select>
                             </div>
 
-                            <>
+                          
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
                                   Laptop Assets
@@ -473,7 +474,7 @@ export const AddEmployees = () => {
                                 </label>
                                 <select
                                   name="laptopName"
-                                  className="form-select  rounded-1"
+                                  className="form-select   rounded-1"
                                   style={{
                                     backgroundColor: "#fff",
 
@@ -486,7 +487,7 @@ export const AddEmployees = () => {
                                 </select>
                               </div>
 
-                              <div className="row g-3">
+                             
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
                                     Brand Name
@@ -573,7 +574,7 @@ export const AddEmployees = () => {
                                     name="loginPassword"
                                   />
                                 </div>
-                              </div>
+                             
 
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
@@ -582,7 +583,7 @@ export const AddEmployees = () => {
                                 </label>
                                 <select
                                   name="mobileName"
-                                  className="form-select  rounded-1"
+                                  className="form-select   rounded-1"
                                   style={{
                                     backgroundColor: "#fff",
 
@@ -597,7 +598,7 @@ export const AddEmployees = () => {
                                 </select>
                               </div>
 
-                              <div className="row g-3">
+                            
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
                                     Brand Name
@@ -649,11 +650,11 @@ export const AddEmployees = () => {
                                     name="phoneNumber"
                                   />
                                 </div>
-                              </div>
-                            </>
+                              
+                           
 
-                            <div className="row g-2">
-                              <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
+                            
+                              <div className="text-end">
                                 <Link
                                   to="/SAListEmployees"
                                   style={{
@@ -676,7 +677,7 @@ export const AddEmployees = () => {
                                 >
                                   Submit
                                 </button>
-                              </div>
+                              
                             </div>
                           </div>
                         </div>

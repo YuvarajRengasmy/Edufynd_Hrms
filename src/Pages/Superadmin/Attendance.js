@@ -105,8 +105,7 @@ export const Attendance = () => {
                           to={{
                             pathname: "/ViewAttendance",
                           }}
-                          data-bs-toggle="modal"
-                          data-bs-target="#AttendanceModalView"
+                         
                         >
                           <i className="far fa-eye  me-1"></i>
                         </Link>
