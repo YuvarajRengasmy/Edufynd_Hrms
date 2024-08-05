@@ -1,12 +1,105 @@
-import React from "react";
-import Navbar from "../../Components/Navbar";
-import SuperadminSidebar from "../../Components/SuperadminSidebar";
-import Profile from "../../Assests/Images/Profile.jpg";
-import { FaCameraRotate } from "react-icons/fa6";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useEffect, useState, useRef } from "react";
+import Sortable from 'sortablejs';
+import {getallStaff,deleteStaff} from "../../Api/SuperAdmin/Employees";
 import { Link } from "react-router-dom";
-import Select from "react-select";
-export const Payroll = () => {
+import SuperAdminSidebar from "../../Components/SuperadminSidebar";
+import Navbar from "../../Components/Navbar";
+// import { formatDate } from "../../../Utils/DateFormat";
+import { FaFilter } from "react-icons/fa";
+import { toast } from "react-toastify";
+
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
+
+export const ListEmployees = () => {
+
+
+
+
+
+  
+  const [staff, setStaff] = useState();
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+  const pageSize = 10;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: 0
+  });
+
+  useEffect(() => {
+    getAllStaffDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllStaffDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+
+    getallStaff(data)
+      .then((res) => {
+       
+        setStaff(res?.data?.result);
+        setPagination({ ...pagination, count: res?.data?.result?.staffCount });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
+  const deleteStaffData = () => {
+    deleteStaff (deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getAllStaffDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const table = tableRef.current;
+
+    // Apply SortableJS to the table headers
+    const sortable = new Sortable(table.querySelector('thead tr'), {
+      animation: 150,
+      swapThreshold: 0.5,
+      handle: '.sortable-handle',
+      onEnd: (evt) => {
+        const oldIndex = evt.oldIndex;
+        const newIndex = evt.newIndex;
+
+        // Move the columns in the tbody
+        table.querySelectorAll('tbody tr').forEach((row) => {
+          const cells = Array.from(row.children);
+          row.insertBefore(cells[oldIndex], cells[newIndex]);
+        });
+      }
+    });
+
+    return () => {
+      sortable.destroy();
+    };
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -14,959 +107,155 @@ export const Payroll = () => {
       <br />
       <br />
       <br />
-      <div className="container-fluid" style={{ fontSize: "14px" }}>
+
+      <div className="container-fluid">
         <div className="row">
           <div className="col-lg-3">
-            <SuperadminSidebar />
+            <SuperAdminSidebar />
           </div>
           <div className="col-lg-9">
-            <div className="container-fluid">
-              <div className="row">
-                <div className="col-md-5">
-                  <div className="card mb-4 border-0">
-                    <div className="card-body p-4">
-                      <div className="card border-0 mb-0">
-                        <div className="row g-0">
-                          <div className="col-md-3">
-                            <div className="position-relative">
-                              <img
-                                src={Profile}
-                                className="img-fluid rounded-circle"
-                                style={{ width: "5rem", height: "5rem" }}
-                                alt="profile_image"
-                              />
-                              <div className="position-absolute bottom-0 end-0">
-                                <FaCameraRotate />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-8">
-                            <div className="card-body ms-4">
-                              <h5 className="card-title mb-0">John Doe</h5>
-                              <p className="card-text mb-1">Developer</p>
-                              <p className="text-bg-success d-inline px-3 py-1 text-capitalize fw-semibold rounded-1">
-                                <small>Active</small>
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="list-group list-group-flush" id="myTab" role="tablist">
-                        <div className="list-group-item list-group-item-action">
-                          <div className="row">
-                            <div className="col-6 fw-bold">Manager</div>
-                            <div className="col-6">Amirtha</div>
-                          </div>
-                        </div>
-                        <div className="list-group-item list-group-item-action">
-                          <div className="row">
-                            <div className="col-6 fw-bold">Email</div>
-                            <div className="col-6">John123@gmail.com</div>
-                          </div>
-                        </div>
-                        <div
-                          className="list-group-item list-group-item-action "
-                          id="Employees"
-                          data-bs-toggle="tab"
-                          href="#EmployeesTab"
-                          role="tab"
-                          aria-controls="EmployeesTab"
-                          aria-selected="true"
-                        >
-                          <div className="row">
-                            <div className="col-6 fw-bold">Employee Information</div>
-                            <div className="col-6">&#129033;</div>
-                          </div>
-                        </div>
-                        <div
-                          className="list-group-item list-group-item-action active"
-                          id="Payroll"
-                          data-bs-toggle="tab"
-                          href="#PayrollTab"
-                          role="tab"
-                          aria-controls="PayrollTab"
-                          aria-selected="false"
-                        >
-                          <div className="row">
-                            <div className="col-6 fw-bold">Payroll</div>
-                            <div className="col-6">&#129033;</div>
-                          </div>
-                        </div>
-                        <div
-                          className="list-group-item list-group-item-action"
-                          id="Documents"
-                          data-bs-toggle="tab"
-                          href="#DocumentsTab"
-                          role="tab"
-                          aria-controls="DocumentsTab"
-                          aria-selected="false"
-                        >
-                          <div className="row">
-                            <div className="col-6 fw-bold">Documents</div>
-                            <div className="col-6">&#129033;</div>
-                          </div>
-                        </div>
-                        <div
-                          className="list-group-item list-group-item-action"
-                          id="Password"
-                          data-bs-toggle="tab"
-                          href="#PasswordTab"
-                          role="tab"
-                          aria-controls="PasswordTab"
-                          aria-selected="false"
-                        >
-                          <div className="row">
-                            <div className="col-6 fw-bold">Change Password</div>
-                            <div className="col-6">&#129033;</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-7">
-                  <div className="tab-content mt-3" id="myTabContent">
-                    <div
-                      className="tab-pane fade"
-                      id="EmployeesTab"
-                      role="tabpanel"
-                      aria-labelledby="Employees"
+            <section className="d-flex justify-content-between align-items-center mb-4">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <Link
+                      to="/SADashboard"
+                      className="text-dark text-decoration-none"
                     >
-                      <div className="card border-0 mb-3">
-                        <div className="card-header bg-white">
-                          <h6 className="h6 fw-semibold text-capitalize float-start">
-                            Employee Details
-                          </h6>
-                        </div>
-                        <div className="card-body p-4">
-                        <form>
-                  <div className="row">
-                    <div className="col-xl-12 ">
-                     
-                       
-
-                        
-                          <div className="row gy-3 gx-5 ">
-                           
-
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Full Name<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control rounded-1  "
-                                placeholder="Example John Doe "
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                name="empName"
-                              />
-                            </div>
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                DOB<span className="text-danger">*</span>
-                              </label>
-
-                              <input
-                                type="date"
-                                className="form-control rounded-1 text-uppercase "
-                                placeholder="Enter  DOB "
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "11px",
-                                }}
-                                name="dob"
-                              />
-                            </div>
-
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Role/Designation
-                                <span className="text-danger">*</span>
-                              </label>
-
-                              <input
-                                type="text"
-                                className="form-control rounded-1  "
-                                placeholder="Example Student Counsellor "
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                name="designation"
-                              />
-                            </div>
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                DOJ <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="date"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "11px",
-                                }}
-                                className="form-control text-uppercase rounded-1"
-                                placeholder="Enter  DOJ "
-                                name="doj"
-                              />
-                            </div>
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12 ">
-                              <label style={{ color: "#231F20" }}>
-                                Reporting Manager
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control rounded-1 "
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example Jane Doe"
-                                name="reportingManager"
-                              />
-                            </div>
-
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Shift Timing
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                className="form-control rounded-1"
-                                placeholder="Example 10.00 AM - 07.00 PM"
-                                name="shiftTiming"
-                              />
-                            </div>
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Probation Duration
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                className="form-control rounded-1"
-                                placeholder="Example 6 Months"
-                                name="probationDuration"
-                              />
-                            </div>
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Official Mail
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control rounded-1 "
-                                placeholder="Example jay.j@afynd.com "
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                name="email"
-                              />
-                            </div>
-
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Team <span className="text-danger">*</span>
-                              </label>
-                              <select
-                                name="team"
-                                className="form-select  text-muted  rounded-1"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                              >
-                                <option value={""}> Select Team</option>
-                                <option value="team">Yes</option>
-                                <option value="no">No</option>
-                              </select>
-                            </div>
-
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Staff List
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Select
-                                isMulti
-                                placeholder="Select Staff"
-                                name="staffList"
-                                
-                                styles={{
-                                  fontSize: "10px",
-                                }}
-                              ></Select>
-                            </div>
-
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }} className="">
-                                Personal Mail ID
-                              </label>
-                              <input
-                                type="text"
-                                name="personalMail"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                className="form-control rounded-1"
-                                placeholder="Example johndoe123@gmail.com"
-                              />
-                            </div>
-
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Personal Contact No
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="number"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                className="form-control rounded-1"
-                                placeholder="Example 123-456-789"
-                                name="mobileNumber"
-                              />
-                            </div>
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }} className="">
-                                Emergency Contact
-                              </label>
-                              <input
-                                type="number"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                className="form-control rounded-1"
-                                placeholder="Example 123-456-789"
-                                name="emergencyContactNo"
-                              />
-                            </div>
-
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Address 1 <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                className="form-control rounded-1"
-                                placeholder="Example 17/3A2, Gandhi St,"
-                                name="address"
-                              />
-                            </div>
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Address 2 <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                className="form-control rounded-1"
-                                placeholder="Example Alwartirunagar, Chennai"
-                                name="address2"
-                              />
-                            </div>
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Pincode <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                className="form-control rounded-1"
-                                placeholder="Example 632001"
-                                name="pin"
-                              />
-                            </div>
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Country <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                className="form-control rounded-1"
-                                placeholder="Example India"
-                                name="country"
-                              />
-                            </div>
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                State <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                className="form-control rounded-1"
-                                placeholder="Example Tamil Nadu"
-                                name="state"
-                              />
-                            </div>
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                City <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                className="form-control rounded-1"
-                                placeholder="Example Chennai"
-                                name="city"
-                              />
-                            </div>
-
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                ID Card <span className="text-danger">*</span>
-                              </label>
-                              <select
-                                className="form-select   rounded-1"
-                                name="idCard"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                              >
-                                <option value="">Select Id Apporval</option>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                              </select>
-                            </div>
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Status <span className="text-danger">*</span>
-                              </label>
-                              <select
-                                className="form-select   rounded-1"
-                                name="status"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                              >
-                                <option value="">Select Status Type</option>
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
-                              </select>
-                            </div>
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Privileges/Rights
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control rounded-1"
-                                placeholder="Example Employment..."
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                                name="privileges"
-                              />
-                            </div>
-
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Company Assets
-                                <span className="text-danger">*</span>
-                              </label>
-                              <select
-                                name="companyAssests"
-                                className="form-select   rounded-1"
-                                style={{
-                                  backgroundColor: "#fff",
-
-                                  fontSize: "12px",
-                                }}
-                              >
-                                <option>Select Company Assets</option>
-                                <option value="companyAssests">Yes</option>
-                                <option value="no">No</option>
-                              </select>
-                            </div>
-
-                          
-                              <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Laptop Assets
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  name="laptopName"
-                                  className="form-select   rounded-1"
-                                  style={{
-                                    backgroundColor: "#fff",
-
-                                    fontSize: "12px",
-                                  }}
-                                >
-                                  <option>Select Laptop Assets</option>
-                                  <option value="labtopAssets">Yes</option>
-                                  <option value="no">No</option>
-                                </select>
-                              </div>
-
-                             
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Brand Name
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control rounded-1"
-                                    placeholder="Example Apple"
-                                    style={{
-                                      backgroundColor: "#fff",
-
-                                      fontSize: "12px",
-                                    }}
-                                    name="brand"
-                                  />
-                                </div>
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Model
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control rounded-1"
-                                    placeholder="Example MacBook Air"
-                                    style={{
-                                      backgroundColor: "#fff",
-
-                                      fontSize: "12px",
-                                    }}
-                                    name="modelName"
-                                  />
-                                </div>
-
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    IP Address
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control rounded-1"
-                                    placeholder="Example IPv4 192.168.1.1 "
-                                    style={{
-                                      backgroundColor: "#fff",
-
-                                      fontSize: "12px",
-                                    }}
-                                    name="ipAddress"
-                                  />
-                                </div>
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    UserName
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control rounded-1"
-                                    placeholder="Example Afynd01"
-                                    style={{
-                                      backgroundColor: "#fff",
-
-                                      fontSize: "12px",
-                                    }}
-                                    name="userName"
-                                  />
-                                </div>
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Password
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control rounded-1"
-                                    placeholder="Example G7$kL!8mQz@1wXp^"
-                                    style={{
-                                      backgroundColor: "#fff",
-
-                                      fontSize: "12px",
-                                    }}
-                                    name="loginPassword"
-                                  />
-                                </div>
-                             
-
-                              <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Mobile Assets
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  name="mobileName"
-                                  className="form-select   rounded-1"
-                                  style={{
-                                    backgroundColor: "#fff",
-
-                                    fontSize: "12px",
-                                  }}
-                                >
-                                  <option value={""}>
-                                    Select Mobile Assets
-                                  </option>
-                                  <option value="mobileName">Yes</option>
-                                  <option value="no">No</option>
-                                </select>
-                              </div>
-
-                            
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Brand Name
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control rounded-1"
-                                    placeholder="Example  Samsung"
-                                    style={{
-                                      backgroundColor: "#fff",
-
-                                      fontSize: "12px",
-                                    }}
-                                    name="brandName"
-                                  />
-                                </div>
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    IMEI
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control rounded-1"
-                                    placeholder="Example 356938035643209"
-                                    style={{
-                                      backgroundColor: "#fff",
-
-                                      fontSize: "12px",
-                                    }}
-                                    name="imei"
-                                  />
-                                </div>
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Phone Number
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <input
-                                    type="number"
-                                    className="form-control rounded-1"
-                                    placeholder="Example 123-456-789"
-                                    style={{
-                                      backgroundColor: "#fff",
-
-                                      fontSize: "12px",
-                                    }}
-                                    name="phoneNumber"
-                                  />
-                                </div>
-                              
-                           
-
-                            
-                              <div className="text-end">
-                                <Link
-                                  to="/SAListEmployees"
-                                  style={{
-                                    backgroundColor: "#231F20",
-
-                                    fontSize: "12px",
-                                  }}
-                                  className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-                                >
-                                  Cancel
-                                </Link>
-                                <button
-                                  style={{
-                                    backgroundColor: "#7267ef",
-
-                                    fontSize: "12px",
-                                  }}
-                                  type="submit"
-                                  className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
-                                >
-                                  Update
-                                </button>
-                              
-                            </div>
-                          </div>
-                        
-                     
-                    </div>
-                  </div>
-                </form>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="tab-pane fade show active"
-                      id="PayrollTab"
-                      role="tabpanel"
-                      aria-labelledby="Payroll"
-                    >
-                      <div className="card border-0 mb-3">
-                        <div className="card-header bg-white">
-                          <h6 className="h6 fw-semibold text-capitalize float-start">
-                            Allowances
-                          </h6>
-                        </div>
-                        <div className="card-body p-4">
-                          <form>
-                            <div className="mb-3">
-                              <label className="form-label">House Rent Allowances</label>
-                              <input
-                                type="text"
-                                className="form-control rounded-1"
-                                placeholder="Example 2500"
-                                style={{ fontSize: "12px" }}
-                              />
-                            </div>
-                            <div className="mb-3">
-                              <label className="form-label">Conveyance</label>
-                              <input
-                                type="text"
-                                className="form-control rounded-1"
-                                placeholder="Example 2500"
-                                style={{ fontSize: "12px" }}
-                              />
-                            </div>
-                            <div className="mb-3">
-                              <label className="form-label">Other Allowances</label>
-                              <input
-                                type="text"
-                                className="form-control rounded-1"
-                                placeholder="Example 2500"
-                                style={{ fontSize: "12px" }}
-                              />
-                            </div>
-                            <button
-                              className="btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1"
-                              style={{ backgroundColor: "#7267ef" }}
-                            >
-                              <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
-                            </button>
-                          </form>
-                        </div>
-                      </div>
-                      <div className="card border-0 mb-3">
-                        <div className="card-header bg-white">
-                          <h6 className="h6 fw-semibold text-capitalize float-start">
-                            Deductions
-                          </h6>
-                        </div>
-                        <div className="card-body p-4">
-                          <form>
-                            <div className="mb-3">
-                              <label className="form-label">Provident Fund</label>
-                              <input
-                                type="text"
-                                className="form-control rounded-1"
-                                placeholder="Example 2500"
-                                style={{ fontSize: "12px" }}
-                              />
-                            </div>
-                            <div className="mb-3">
-                              <label className="form-label">Tax Deductions</label>
-                              <input
-                                type="text"
-                                className="form-control rounded-1"
-                                placeholder="Example 2500"
-                                style={{ fontSize: "12px" }}
-                              />
-                            </div>
-                            <button
-                              className="btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1"
-                              style={{ backgroundColor: "#7267ef" }}
-                            >
-                              <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
-                            </button>
-                          </form>
-                        </div>
-                      </div>
-                      <div className="card border-0 mb-3">
-                        <div className="card-header bg-white">
-                          <h6 className="h6 fw-semibold text-capitalize float-start">
-                            Total Salary Details
-                          </h6>
-                        </div>
-                        <div className="card-body p-4">
-                          <form>
-                            <div className="row mb-3">
-                              <div className="col-6 fw-bold">
-                                <i className="fas fa-id-badge"></i> Gross Salary:
-                              </div>
-                              <div className="col-6">18,000</div>
-                            </div>
-                            <div className="row mb-3">
-                              <div className="col-6 fw-bold">
-                                <i className="fas fa-id-badge"></i> Total Deductions:
-                              </div>
-                              <div className="col-6">500</div>
-                            </div>
-                            <div className="row mb-3">
-                              <div className="col-6 fw-bold">
-                                <i className="fas fa-id-badge"></i> Net Salary:
-                              </div>
-                              <div className="col-6">17,500</div>
-                            </div>
-                            <button
-                              className="btn btn-sm text-capitalize fw-semibold px-3 py-1 float-end ms-3"
-                              style={{ backgroundColor: "#7267ef", color: "#fff" }}
-                            >
-                              Update
-                            </button>
-                            <button
-                              className="btn btn-sm text-capitalize fw-semibold px-3 py-1 float-end"
-                              style={{ backgroundColor: "#231f20", color: "#fff" }}
-                            >
-                              Cancel
-                            </button>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="tab-pane fade"
-                      id="DocumentsTab"
-                      role="tabpanel"
-                      aria-labelledby="Documents"
-                    >
-                      <div className="card border-0 mb-3">
-                        <div className="card-header bg-white">
-                          <h6 className="h6 fw-semibold text-capitalize float-start">
-                            Documents
-                          </h6>
-                        </div>
-                        <div className="card-body p-4">
-                          <form>
-                            <div className="mb-3">
-                              <label className="form-label">Document</label>
-                              <input
-                                type="file"
-                                className="form-control rounded-1"
-                                style={{ fontSize: "12px" }}
-                              />
-                            </div>
-                            <button
-                              className="btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1"
-                              style={{ backgroundColor: "#7267ef" }}
-                            >
-                              <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
-                            </button>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="tab-pane fade"
-                      id="PasswordTab"
-                      role="tabpanel"
-                      aria-labelledby="Password"
-                    >
-                      <div className="card border-0 mb-3">
-                        <div className="card-header bg-white">
-                          <h6 className="h6 fw-semibold text-capitalize float-start">
-                            Change Password
-                          </h6>
-                        </div>
-                        <div className="card-body p-4">
-                          <form>
-                            <div className="mb-3">
-                              <label className="form-label">Enter Email</label>
-                              <input
-                                type="text"
-                                className="form-control rounded-1"
-                                placeholder="Example john123@gmail.com"
-                                style={{ fontSize: "12px" }}
-                              />
-                            </div>
-                            <button
-                              className="btn btn-sm fw-semibold text-capitalize text-white float-end px-3 py-1"
-                              style={{ backgroundColor: "#7267ef" }}
-                            >
-                              Reset Password
-                            </button>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                      Home
+                    </Link>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Employees
+                  </li>
+                </ol>
+              </nav>
+              <Link
+                to="/"
+                className="btn"
+                style={{ backgroundColor: "#7267ef", color: "#fff" }}
+              >
+                Log Out
+              </Link>
+            </section>
+            <div className="card border-0 p-2">
+              <div className="card-header border-0 bg-white">
+                <h6 className="h6 fw-semibold float-start">PayRoll Report</h6>
+                
               </div>
+              <div className="content-body">
+            <div className="container">
+            <div className="row">
+          <div className="col-xl-12">
+          <div className="col-md-12">
+            <div className="card rounded-0 mt-2 border-0">
+              <div className="card-body">
+                <div className="card-table">
+                  <div className="table-responsive">
+                    <table className=" table table-hover card-table dataTable table-responsive-sm text-center"   style={{ color: '#9265cc', fontSize: '13px' }}
+              ref={tableRef}>
+                      <thead className="table-light">
+                        <tr style={{fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+                          <th className="text-capitalize text-start sortable-handle"> S.No.</th>
+                          <th className="text-capitalize text-start sortable-handle">Emp_ID </th>
+                          <th className="text-capitalize text-start sortable-handle"> DOJ </th>
+                          <th className="text-capitalize text-start sortable-handle"> Name </th>
+                          <th className="text-capitalize text-start sortable-handle"> Designation</th>
+                          <th className="text-capitalize text-start sortable-handle"> Reporting_Manager </th>
+                          <th className="text-capitalize text-start sortable-handle"> Contact No </th>
+                          
+                          <th className="text-capitalize text-start sortable-handle"> Status </th>
+                          <th className="text-capitalize text-start sortable-handle"> Action </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {staff?.map((data, index) => (
+                        <tr key={index} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }} >
+                           <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                          <td className="text-capitalize text-start">{data?.employeeID}</td>
+                          <td className="text-capitalize text-start">{data?.doj}</td>
+                          <td className="text-capitalize text-start">{data?.empName}</td>
+                          <td className="text-capitalize text-start">{data?.designation}</td>
+                          <td className="text-capitalize text-start">{data?.reportingManager}</td>
+                          <td className="text-capitalize text-start">{data?.mobileNumber}</td>
+                          
+                          <td className="text-capitalize text-start">{data?.status}</td>
+                          
+                          <td>
+                          <div className="d-flex">
+                               
+                            <i className="fa fa-credit-card" style={{fontSize: 24, color: 'red'}} />
+
+                             
+                               
+                              </div>
+                             
+                                </td>
+                        </tr>
+                      
+                      
+                    ))}
+                    {staff?.length === 0 ? (
+                     <tr>
+                       <td className="form-text text-danger" colSpan="9">
+                         No data In Staff
+                       </td>
+                     </tr>
+                    ) : null}
+                     
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+               
+              </div>
+              <div className="float-right my-2">
+                        <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
+                          variant="outlined"
+                          shape="rounded"
+                          color="primary"
+                        />
+                      </div>
+            </div>
+          </div>
+          </div>
+        </div>
+            </div>
+          </div>
+              
             </div>
           </div>
         </div>
       </div>
+      <Dialog open={open}>
+        <DialogContent>
+          <div className="text-center m-4">
+            <h5 className="mb-4 text-capitalize">
+              Are you sure you want to Delete <br /> the selected Staff?
+            </h5>
+            <button
+              type="button"
+              className="btn btn-save btn-danger fw-semibold text-uppercase rounded-pill px-4 py-2 mx-3"
+              onClick={deleteStaffData}
+              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className="btn btn-cancel btn-success fw-semibold text-uppercase rounded-pill px-4 py-2 "
+              onClick={closePopup}
+              style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+            >
+              No
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+                
     </>
   );
 };
-
-export default Payroll;
+export default ListEmployees;

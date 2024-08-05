@@ -185,7 +185,7 @@ export const ListEmployees = () => {
                           <td className="text-capitalize text-start">{data?.reportingManager}</td>
                           <td className="text-capitalize text-start">{data?.mobileNumber}</td>
                           
-                          <td className="text-capitalize text-start">{data?.activeInactive}</td>
+                          <td className="text-capitalize text-start">{data?.status}</td>
                           
                           <td>
                           <div className="d-flex">
