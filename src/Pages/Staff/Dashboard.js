@@ -93,7 +93,7 @@ export const Dashboard = () => {
                 className="btn"
                 style={{ backgroundColor: "#7267ef", color: "#fff" }}
               >
-                Log Out
+               Switch to 
               </Link>
             </section>
             <section>
