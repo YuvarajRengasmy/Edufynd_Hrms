@@ -52,9 +52,9 @@ export const Navbar = () => {
                 </Link>
               </li>
               <li className="nav-item px-2 dropdown">
-                <Link
+                <a
                   className="nav-link "
-                  to="#"
+                  href="#"
                   id="navbarDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
@@ -63,7 +63,7 @@ export const Navbar = () => {
                   data-tooltip-content="Apps"
                 >
                   Apps
-                </Link>
+                </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
                     <Link className="dropdown-item" to="#app1">
@@ -109,10 +109,14 @@ export const Navbar = () => {
                   <FontAwesomeIcon icon={faList} />
                 </Link>
               </li>
-              <li className="nav-item px-2">
-                <Link
-                  className="nav-link d-flex align-items-center"
-                  to="#profile"
+              <li className="nav-item px-2 dropdown">
+                <a
+                  className="nav-link d-flex align-items-center "
+                  href="#"
+                  id="profileDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
                 >
                   <img
                     src="https://via.placeholder.com/30"
@@ -122,7 +126,19 @@ export const Navbar = () => {
                     alt="Profile"
                   />
                   <span>Profile Name</span>
-                </Link>
+                </a>
+                <ul className="dropdown-menu" aria-labelledby="profileDropdown">
+                  <li>
+                    <Link className="dropdown-item" to="/StaffProfile">
+                      Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/">
+                      Log Out
+                    </Link>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>
