@@ -105,15 +105,16 @@ export const Attendance = () => {
                           to={{
                             pathname: "/ViewAttendance",
                           }}
+                          target="_blank"
                          
                         >
-                          <i className="far fa-eye  me-1"></i>
+                          <i className="far fa-eye text-primary me-1"></i>
                         </Link>
                         <Link
                           data-bs-toggle="modal"
                           data-bs-target="#AttendanceModaldelete"
                         >
-                          <i className="far fa-trash-alt text-danger me-1"></i>
+                          <i className="far fa-edit text-warning me-1"></i>
                         </Link>
                       </td>
                     </tr>
@@ -157,12 +158,13 @@ export const Attendance = () => {
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
+        style={{fontSize:'14px'}}
       >
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-md">
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-6  " id="exampleModalLabel">
-                Are you sure you want to delete this record?
+                Are you sure you want to edit this record?
               </h1>
               <button
                 type="button"
@@ -172,9 +174,52 @@ export const Attendance = () => {
               ></button>
             </div>
             <div class="modal-body">
-              <div className="alert alert-danger fw-semibold">
-                You won't be able to revert this!
-              </div>
+              
+               <form>
+                <div className="row gy-3 ">
+                  <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <label>Employee Name</label>
+                    <select class="form-select rounded-1 text-muted"  style={{fontSize:'12px'}}>
+  <option selected>Select Employee Name</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</select>
+                   
+                  </div>
+                  <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <label>Date</label>
+                    <input name="date" type="date" className='form-control text-uppercase rounded-1 text-muted' placeholder="Example John Doe" style={{fontSize:'12px'}}/>
+                  </div>
+                  <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <label>Status</label>
+                    <select class="form-select rounded-1 text-muted"  style={{fontSize:'12px'}}>
+  <option >Select Status</option>
+  <option value="Present" selected>Present</option>
+  <option value="Absent">Absent</option>
+ 
+</select>
+                   
+                  </div>
+                  <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <label>Clock In</label>
+                    <input name="clockIn" type="datetime-local" className='form-control text-uppercase text-muted rounded-1' placeholder="Example John Doe" style={{fontSize:'12px'}}/>
+                  </div>
+                  <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <label>Clock Out</label>
+                    <input name="clockOut" type="datetime-local" className='form-control text-uppercase text-muted rounded-1' placeholder="Example John Doe" style={{fontSize:'12px'}}/>
+                  </div>
+                  <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <label>Late</label>
+                    <input name="late" type="datetime-local" className='form-control text-uppercase rounded-1 text-muted' placeholder="Example John Doe" style={{fontSize:'12px'}}/>
+                  </div>
+                  <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <label>Early Leaving</label>
+                    <input name="earlyLeaving" type="datetime-local" className='form-control text-uppercase rounded-1 text-muted' placeholder="Example John Doe" style={{fontSize:'12px'}}/>
+                  </div>
+                </div>
+               </form>
+              
             </div>
             <div class="modal-footer">
               <button

@@ -74,16 +74,7 @@ export const Navbar = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto">
-              <li className="nav-item px-2">
-                <Link
-                  className="nav-link"
-                  to="#accounts"
-                  data-tooltip-id="tooltip-accounts"
-                  data-tooltip-content="Accounts Settings"
-                >
-                  <FontAwesomeIcon icon={faUser} />
-                </Link>
-              </li>
+             
               <li className="nav-item px-2 dropdown">
                 <a
                   className="nav-link "
@@ -113,7 +104,7 @@ export const Navbar = () => {
               <li className="nav-item px-2">
                 <Link
                   className="nav-link"
-                  to="#calendar"
+                  to="/SACalendar"
                   data-tooltip-id="tooltip-calendar"
                   data-tooltip-content="System Calendar"
                 >
@@ -122,26 +113,7 @@ export const Navbar = () => {
               </li>
             </ul>
             <ul className="navbar-nav align-items-center">
-              <li className="nav-item px-2">
-                <Link
-                  className="nav-link"
-                  to="#language"
-                  data-tooltip-id="tooltip-language"
-                  data-tooltip-content="Language"
-                >
-                  <FontAwesomeIcon icon={faLanguage} />
-                </Link>
-              </li>
-              <li className="nav-item px-2">
-                <Link
-                  className="nav-link"
-                  to="#todolist"
-                  data-tooltip-id="tooltip-todolist"
-                  data-tooltip-content="Todo List"
-                >
-                  <FontAwesomeIcon icon={faList} />
-                </Link>
-              </li>
+             
               <li className="nav-item px-2 dropdown">
                 <a
                   className="nav-link d-flex align-items-center "
@@ -158,9 +130,7 @@ export const Navbar = () => {
                     className="img-fluid rounded-pill me-2"
                     alt="Profile"
                   />
-                  <span>{staff?.empName}</span>
-                </a>
-                <ul className="dropdown-menu" aria-labelledby="profileDropdown">
+                   <ul className="dropdown-menu" aria-labelledby="profileDropdown">
                   <li>
                     <Link className="dropdown-item" to="/StaffProfile">
                       Profile
@@ -173,7 +143,11 @@ export const Navbar = () => {
                     </Link>
                   </li>
                 </ul>
+                  
+                </a>
+               
               </li>
+              <li className="nav-item px-2 dropdown text-white"><span>{staff?.empName}</span></li>
             </ul>
           </div>
         </div>

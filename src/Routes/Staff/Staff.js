@@ -4,6 +4,7 @@ import StaffDashboard from "../../Pages/Staff/Dashboard";
 import Attendance from "../../Pages/Staff/Attendance";
 import Demo from "../../Pages/index";
 import Profile from "../../Pages/Staff/Profile";
+import StaffCalendar from "../../Pages/Staff/StaffCalendar";
 export const Staff = () => {
   return (
     <div>
@@ -12,6 +13,7 @@ export const Staff = () => {
         <Route path="/Demo" element={<Demo />} />
         <Route path="/StaffAttendance" element={<Attendance />} />
         <Route path="/StaffProfile" element={<Profile />} />
+        <Route path="/StaffCalendar" element={<StaffCalendar />} />
       </Routes>
     </div>
   );
