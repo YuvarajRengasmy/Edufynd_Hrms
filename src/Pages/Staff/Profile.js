@@ -1,11 +1,55 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
 import  Navbar  from '../../Components/Navbar'
 import  Sidebar  from '../../Components/Sidebar'
+import { toast } from 'react-toastify';
+import { getSingleStaff } from "../../Api/Staff/Dashboard";
+import { getStaffId } from "../../Utils/storage";
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom'
 import Profile_image from "../../Assests/Images/Profile.jpg";
 import { FaCameraRotate } from "react-icons/fa6";
 import Select from "react-select";
 export const Profile = () => {
+
+  const navigate = useNavigate();
+  const [staff, setStaff] = useState([]);
+
+  useEffect(() => {
+    getStaffDetails();
+  }, []);
+
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log(res);
+        setStaff(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // const staffOption = staff.map((data) => ({
+  //   value: data.empName,
+  //   label: data.empName,
+  // }));
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      border: "1.4783px solid rgba(11, 70, 84, 0.25)",
+      borderRadius: "4.91319px",
+      fontSize: "11px",
+    }),
+    dropdownIndicator: (provided, state) => ({
+      ...provided,
+      color: state.isFocused ? "#3B0051" : "#F2CCFF",
+      ":hover": {
+        color: "black",
+      },
+    }),
+  };
+
   return (
     <>
       <Navbar />
@@ -29,9 +73,9 @@ export const Profile = () => {
                           <div className="col-md-3">
                             <div className="position-relative">
                               <img
-                                src={Profile_image}
+                                src={staff?.photo?staff?.photo:"https://via.placeholder.com/30"}
                                 className="img-fluid rounded-circle"
-                                style={{ width: "5rem", height: "5rem" }}
+                                style={{ width: "4rem", height: "4rem" }}
                                 alt="profile_image"
                               />
                               <div className="position-absolute bottom-0 end-0">
@@ -41,10 +85,10 @@ export const Profile = () => {
                           </div>
                           <div className="col-md-8">
                             <div className="card-body ms-4">
-                              <h5 className="card-title mb-0">Gopinath</h5>
-                              <p className="card-text mb-1">Full Stack Devloper </p>
+                              <h5 className="card-title mb-0">{staff?.empName}</h5>
+                              <p className="card-text mb-1">{staff?.designation}</p>
                               <p className="text-bg-success d-inline px-3 py-1 text-capitalize fw-semibold rounded-1">
-                                <small>Active</small>
+                                <small>{staff?.status}</small>
                               </p>
                             </div>
                           </div>
@@ -58,17 +102,26 @@ export const Profile = () => {
                           Manager
                         
                           </div>
-                          <div className="col-6">Amirtha</div>
+                          <div className="col-6">{staff?.reportingManager}</div>
+                          
                         </div>
+                        
+                        </div>
+                        <div className='list-group-item list-group-item-action'>
+                        <div className="row ">
+                          <div className="col-4 fw-bold">
+                         
+                          Email
+                        
+                          </div>
+                          <div className="col-8" style={{ fontSize: "11px" }}>{staff?.email}</div>
+                          
+                        </div>
+                        
                         </div>
                      
                        
-                        <Link
-                          to="#"
-                          className="list-group-item list-group-item-action"
-                        >
-                          Email
-                        </Link>
+                       
                         <Link
                           to="#"
                           className="list-group-item list-group-item-action  active"
@@ -120,6 +173,7 @@ export const Profile = () => {
                                 type="text"
                                 className="form-control rounded-1  "
                                 placeholder="Example John Doe "
+                                value={staff?.empName}
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -137,6 +191,7 @@ export const Profile = () => {
                                 type="date"
                                 className="form-control rounded-1 text-uppercase "
                                 placeholder="Enter  DOB "
+                                value={staff?.dob}
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -154,6 +209,7 @@ export const Profile = () => {
 
                               <input
                                 type="text"
+                                value={staff?.designation}
                                 className="form-control rounded-1  "
                                 placeholder="Example Student Counsellor "
                                 style={{
@@ -170,6 +226,7 @@ export const Profile = () => {
                               </label>
                               <input
                                 type="date"
+                                value={staff?.doj}
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -187,6 +244,7 @@ export const Profile = () => {
                               </label>
                               <input
                                 type="text"
+                                value={staff?.reportingManager}
                                 className="form-control rounded-1 "
                                 style={{
                                   backgroundColor: "#fff",
@@ -205,6 +263,7 @@ export const Profile = () => {
                               </label>
                               <input
                                 type="text"
+                                value={staff?.shiftTiming}
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -222,6 +281,7 @@ export const Profile = () => {
                               </label>
                               <input
                                 type="text"
+                                value={staff?.probationDuration}
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -239,6 +299,7 @@ export const Profile = () => {
                               </label>
                               <input
                                 type="text"
+                                value={staff?.email}
                                 className="form-control rounded-1 "
                                 placeholder="Example jay.j@afynd.com "
                                 style={{
@@ -256,6 +317,7 @@ export const Profile = () => {
                               </label>
                               <select
                                 name="team"
+                                value={staff?.team}
                                 className="form-select  text-muted  rounded-1"
                                 style={{
                                   backgroundColor: "#fff",
@@ -269,21 +331,29 @@ export const Profile = () => {
                               </select>
                             </div>
 
-                            <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Staff List
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Select
-                                isMulti
-                                placeholder="Select Staff"
-                                name="staffList"
-                                
-                                styles={{
-                                  fontSize: "10px",
-                                }}
-                              ></Select>
-                            </div>
+                            {staff.team === "team" && (
+                              <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  Staff List{" "}
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <Select
+                                  isMulti
+                                  placeholder="Select Staff"
+                                  name="staffList"
+                                  value={
+                                    staff?.staffList
+                                      ? staff?.staffList.map((staffList) => ({
+                                          value: staffList,
+                                          label: staffList,
+                                        }))
+                                      : null
+                                  }
+                                  styles={customStyles}
+                                 
+                                ></Select>
+                              </div>
+                            )}
 
                             <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
                               <label style={{ color: "#231F20" }} className="">
@@ -292,6 +362,7 @@ export const Profile = () => {
                               <input
                                 type="text"
                                 name="personalMail"
+                                value={staff?.personalMail}
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -309,6 +380,7 @@ export const Profile = () => {
                               </label>
                               <input
                                 type="number"
+                                value={staff?.mobileNumber}
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -325,6 +397,7 @@ export const Profile = () => {
                               </label>
                               <input
                                 type="number"
+                               value={staff?.emergencyContact} 
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -342,6 +415,7 @@ export const Profile = () => {
                               </label>
                               <input
                                 type="text"
+                                value={staff?.address}
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -358,6 +432,7 @@ export const Profile = () => {
                               </label>
                               <input
                                 type="text"
+                                value={staff?.address2}
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -374,6 +449,7 @@ export const Profile = () => {
                               </label>
                               <input
                                 type="text"
+                                value={staff?.pin}
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -390,6 +466,7 @@ export const Profile = () => {
                               </label>
                               <input
                                 type="text"
+                                value={staff?.country}
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -406,6 +483,7 @@ export const Profile = () => {
                               </label>
                               <input
                                 type="text"
+                                value={staff?.state}
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -422,6 +500,7 @@ export const Profile = () => {
                               </label>
                               <input
                                 type="text"
+                                value={staff?.city}
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -445,6 +524,7 @@ export const Profile = () => {
 
                                   fontSize: "12px",
                                 }}
+                                value={staff?.idCard}
                               >
                                 <option value="">Select Id Apporval</option>
                                 <option value="Yes">Yes</option>
@@ -458,6 +538,7 @@ export const Profile = () => {
                               <select
                                 className="form-select   rounded-1"
                                 name="status"
+                                value={staff?.status}
                                 style={{
                                   backgroundColor: "#fff",
 
@@ -476,6 +557,7 @@ export const Profile = () => {
                               </label>
                               <input
                                 type="text"
+                                value={staff?.privileges}
                                 className="form-control rounded-1"
                                 placeholder="Example Employment..."
                                 style={{
@@ -500,6 +582,7 @@ export const Profile = () => {
 
                                   fontSize: "12px",
                                 }}
+                                value={staff?.companyAssests}
                               >
                                 <option>Select Company Assets</option>
                                 <option value="companyAssests">Yes</option>
@@ -508,218 +591,224 @@ export const Profile = () => {
                             </div>
 
                           
-                              <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Laptop Assets
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  name="laptopName"
-                                  className="form-select   rounded-1"
-                                  style={{
-                                    backgroundColor: "#fff",
-
-                                    fontSize: "12px",
-                                  }}
-                                >
-                                  <option>Select Laptop Assets</option>
-                                  <option value="labtopAssets">Yes</option>
-                                  <option value="no">No</option>
-                                </select>
-                              </div>
-
-                             
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                            {staff.companyAssests === "companyAssests" && (
+                              <>
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
-                                    Brand Name
+                                    Laptop Assets{" "}
                                     <span className="text-danger">*</span>
                                   </label>
-                                  <input
-                                    type="text"
-                                    className="form-control rounded-1"
-                                    placeholder="Example Apple"
+                                  <select
+                                    name="laptopName"
+                                    value={staff?.laptopName}
+                                   
+                                    className="form-select form-select-lg rounded-2"
                                     style={{
                                       backgroundColor: "#fff",
-
+                                      fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
                                     }}
-                                    name="brand"
-                                  />
+                                  >
+                                    <option value={""}>
+                                      {" "}
+                                      Select Laptop Assets
+                                    </option>
+                                    <option value="labtopAssessts">Yes</option>
+                                    <option value="no">No</option>
+                                  </select>
                                 </div>
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                                {staff.laptopName === "labtopAssessts" && (
+                                  <div className="row g-3">
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        Brand Name
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        value={staff?.brand}
+                                        className="form-control rounded-2"
+                                        placeholder="Example Apple"
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="brand"
+                                       
+                                      />
+                                    </div>
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        Model
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control rounded-2"
+                                        placeholder="Example MacBook Air"
+                                        value={staff?.modelName}
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="modelName"
+                                       
+                                      />
+                                    </div>
+
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        IP Address
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control rounded-2"
+                                        placeholder="Example IPv4 192.168.1.1"
+                                        value={staff?.ipAddress}
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="ipAddress"
+                                       
+                                      />
+                                    </div>
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        UserName
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control rounded-2"
+                                        value={staff?.userName}
+                                        placeholder="Example Afynd01"
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="userName"
+                                        
+                                      />
+                                    </div>
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        Password
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        className="form-control rounded-2"
+                                        value={staff?.loginPassword}
+                                        placeholder="Example G7$kL!8mQz@1wXp^"
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="loginPassword"
+                                       
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
-                                    Model
+                                    Mobile Assets
                                     <span className="text-danger">*</span>
                                   </label>
-                                  <input
-                                    type="text"
-                                    className="form-control rounded-1"
-                                    placeholder="Example MacBook Air"
+                                  <select
+                                    name="mobileName"
+                                   
+                                    value={staff?.mobileName}
+                                    className="form-select form-select-lg rounded-2"
                                     style={{
                                       backgroundColor: "#fff",
-
+                                      fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
                                     }}
-                                    name="modelName"
-                                  />
+                                  >
+                                    <option value={""}>
+                                   
+                                      Select Mobile Assets
+                                    </option>
+                                    <option value="mobileName">Yes</option>
+                                    <option value="no">No</option>
+                                  </select>
                                 </div>
-
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    IP Address
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control rounded-1"
-                                    placeholder="Example IPv4 192.168.1.1 "
-                                    style={{
-                                      backgroundColor: "#fff",
-
-                                      fontSize: "12px",
-                                    }}
-                                    name="ipAddress"
-                                  />
-                                </div>
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    UserName
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control rounded-1"
-                                    placeholder="Example Afynd01"
-                                    style={{
-                                      backgroundColor: "#fff",
-
-                                      fontSize: "12px",
-                                    }}
-                                    name="userName"
-                                  />
-                                </div>
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Password
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control rounded-1"
-                                    placeholder="Example G7$kL!8mQz@1wXp^"
-                                    style={{
-                                      backgroundColor: "#fff",
-
-                                      fontSize: "12px",
-                                    }}
-                                    name="loginPassword"
-                                  />
-                                </div>
-                             
-
-                              <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Mobile Assets
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  name="mobileName"
-                                  className="form-select   rounded-1"
-                                  style={{
-                                    backgroundColor: "#fff",
-
-                                    fontSize: "12px",
-                                  }}
-                                >
-                                  <option value={""}>
-                                    Select Mobile Assets
-                                  </option>
-                                  <option value="mobileName">Yes</option>
-                                  <option value="no">No</option>
-                                </select>
-                              </div>
-
-                            
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Brand Name
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control rounded-1"
-                                    placeholder="Example  Samsung"
-                                    style={{
-                                      backgroundColor: "#fff",
-
-                                      fontSize: "12px",
-                                    }}
-                                    name="brandName"
-                                  />
-                                </div>
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    IMEI
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control rounded-1"
-                                    placeholder="Example 356938035643209"
-                                    style={{
-                                      backgroundColor: "#fff",
-
-                                      fontSize: "12px",
-                                    }}
-                                    name="imei"
-                                  />
-                                </div>
-                                <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Phone Number
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <input
-                                    type="number"
-                                    className="form-control rounded-1"
-                                    placeholder="Example 123-456-789"
-                                    style={{
-                                      backgroundColor: "#fff",
-
-                                      fontSize: "12px",
-                                    }}
-                                    name="phoneNumber"
-                                  />
-                                </div>
-                              
+                                {staff.mobileName === "mobileName" && (
+                                  <div className="row g-3">
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        Brand Name
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        value={staff?.brandName}
+                                        className="form-control rounded-2"
+                                        placeholder="Example  Samsung"
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="brandName"
+                                       
+                                      />
+                                    </div>
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        IMEI
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="text"
+                                        value={staff?.imei}
+                                        className="form-control rounded-2"
+                                        placeholder="Example 356938035643209"
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="imei"
+                                       
+                                      />
+                                    </div>
+                                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                      <label style={{ color: "#231F20" }}>
+                                        Phone Number
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <input
+                                        type="number"
+                                        value={staff?.phoneNumber}
+                                        className="form-control rounded-2"
+                                        placeholder="Example 123-456-789"
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          fontFamily: "Plus Jakarta Sans",
+                                          fontSize: "12px",
+                                        }}
+                                        name="phoneNumber"
+                                       
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+                              </>
+                            )}
                            
 
                             
-                              <div className="text-end">
-                                <Link
-                                  to="/SAListEmployees"
-                                  style={{
-                                    backgroundColor: "#231F20",
-
-                                    fontSize: "12px",
-                                  }}
-                                  className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-                                >
-                                  Cancel
-                                </Link>
-                                <button
-                                  style={{
-                                    backgroundColor: "#7267ef",
-
-                                    fontSize: "12px",
-                                  }}
-                                  type="submit"
-                                  className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
-                                >
-                                  Update
-                                </button>
-                              
-                            </div>
+                             
                           </div>
                         
                      
