@@ -57,6 +57,8 @@ export const Dashboard = () => {
 
   const COLORS = ["#7267ef", "#00C49F", "#FFBB28", "#FF8042"]; // Updated colors
 
+ 
+
   return (
     <>
       <Header />
@@ -71,7 +73,7 @@ export const Dashboard = () => {
           <div className="col-lg-3 ">
             <Sidebar />
           </div>
-          <div className="col-lg-9 ">
+          <div className="col-lg-9">
             <section className="d-flex justify-content-between align-items-center mb-4">
               <div className="profile-details d-flex align-items-center">
                 <img
@@ -126,6 +128,7 @@ export const Dashboard = () => {
                           </button>
                         </div>
                       </div>
+                     
                     </div>
                     <Link
                       to="/StaffAttendance"
@@ -196,7 +199,7 @@ export const Dashboard = () => {
                   </div>
                   <div className="d-flex justify-content-around align-items-center">
                     <div className="col-5 my-3">
-                      <div className="card card-body border-0 ">
+                      <div className="card card-body border-0">
                         <h6 className="card-title mb-2 fw-normal">My Awards</h6>
                         <div className="d-flex justify-content-between align-items-center">
                           <h3 className="card-title mb-0">0</h3>
