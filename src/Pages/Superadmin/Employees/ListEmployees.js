@@ -9,6 +9,7 @@ import { FaFilter } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
+import Switchto from "../../../Components/Switchto";
 
 export const ListEmployees = () => {
 
@@ -110,12 +111,13 @@ export const ListEmployees = () => {
 
       <div className="container-fluid">
         <div className="row">
-          <div className="col-lg-3">
+          <div className="col-lg-2">
             <SuperAdminSidebar />
           </div>
-          <div className="col-lg-9">
-            <section className="d-flex justify-content-between align-items-center mb-4">
-              <nav aria-label="breadcrumb">
+          <div className="col-lg-10">
+            <div className="container"> 
+            <section className="mb-4 ">
+              <nav aria-label="breadcrumb ">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item">
                     <Link
@@ -130,13 +132,7 @@ export const ListEmployees = () => {
                   </li>
                 </ol>
               </nav>
-              <Link
-                to="/"
-                className="btn"
-                style={{ backgroundColor: "#7267ef", color: "#fff" }}
-              >
-                Log Out
-              </Link>
+             <Switchto/>
             </section>
             <div className="card border-0 p-2">
               <div className="card-header border-0 bg-white">
@@ -256,6 +252,7 @@ export const ListEmployees = () => {
           </div>
               
             </div>
+          </div>
           </div>
         </div>
       </div>

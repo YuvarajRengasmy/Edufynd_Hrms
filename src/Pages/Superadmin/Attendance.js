@@ -13,10 +13,10 @@ export const Attendance = () => {
 
       <div className="container-fluid">
         <div className="row">
-          <div className="col-lg-3">
+          <div className="col-lg-2">
             <SuperAdminSidebar />
           </div>
-          <div className="col-lg-9">
+          <div className="col-lg-10">
             <section className="d-flex justify-content-between align-items-center mb-4">
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">

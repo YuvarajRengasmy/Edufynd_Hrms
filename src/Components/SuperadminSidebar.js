@@ -1,10 +1,10 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import "./Sidebar.css";
 
 const SuperadminSidebar = () => {
   return (
-    <div className="sidebar d-flex flex-column align-items-start justify-content-start vh-100 p-4 bg-white text-dark position-fixed">
+    <div className="sidebar d-flex flex-column align-items-start justify-content-start vh-100 p-1 bg-white text-dark position-fixed overflow-auto">
+      
       <ul className="nav flex-column mb-auto">
         <li className="nav-item">
           <Link to="/SADashboard" className="nav-link">

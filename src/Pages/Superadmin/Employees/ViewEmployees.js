@@ -32,23 +32,123 @@ export const ViewStaff = () => {
       <br />
       <br />
       <br />
-      <div className="row">
-        <div  className="col-lg-3"
+      <div className="container-fluid">
+      <div className="row ">
+        <div  className="col-lg-2"
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }} >
          
             <Sidebar />
           </div>
 
           <div
-            className="col-lg-9"
+            className="col-lg-10"
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
           >
           <div className="content-header">
             <div className="container-fluid ">
             <h2 className="mb-4 text-center">Staff Details</h2>
               <div className="row">
-                <div className="col-12 col-md-4 mb-3">
-                  <div className="card border-0">
+              <div className='col-md-6'>
+                                    <div className='card border-0  mb-3'>
+                                        <div className='card-header bg-white'>
+                                            <h6 className='h6 fw-semibold text-capitalize float-start'>Allowances</h6>
+                                        </div>
+                                        <div className='card-body p-4'>
+                                            <form>
+                                                <div className="mb-3">
+                                                    <label className="form-label">House Rent Allowances</label>
+                                                    <input type="text" className="form-control rounded-1" placeholder="Example 2500" style={{ fontSize: '12px' }} />
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label">Conveyance</label>
+                                                    <input type="text" className="form-control rounded-1" placeholder="Example 2500" style={{ fontSize: '12px' }} />
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label">Other Allowances</label>
+                                                    <input type="text" className="form-control rounded-1" placeholder="Example 2500" style={{ fontSize: '12px' }} />
+                                                </div>
+                                                <button className='btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1' style={{ backgroundColor: '#7267ef' }}><i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div className='col-md-6'>
+                                    <div className='card border-0   mb-3'>
+                                        <div className='card-header bg-white'>
+                                            <h6 className='h6 fw-semibold text-capitalize float-start'>Deductions</h6>
+                                        </div>
+                                        <div className='card-body p-4'>
+                                            <form>
+                                                <div className="mb-3">
+                                                    <label className="form-label">Provident Fund</label>
+                                                    <input type="text" className="form-control rounded-1" placeholder="Example 2500" style={{ fontSize: '12px' }} />
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label">Tax Deductions</label>
+                                                    <input type="text" className="form-control rounded-1" placeholder="Example 2500" style={{ fontSize: '12px' }} />
+                                                </div>
+                                                <button className='btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1' style={{ backgroundColor: '#7267ef' }}><i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <button className="btn btn-sm text-uppercase px-4 py-2 border-0 fw-semibold float-end text-white"style={{backgroundColor:'#231f20'}}>Submit</button>
+                                </div>
+                                <div className="col-md-6 mb-3">
+                  <div className="card border-0 mb-3">
+                    <div className="card-header bg-white">
+                      <h6 className="h6 fw-semibold text-capitalize float-start">
+                        Total Salary Details
+                      </h6>
+                    </div>
+                    <div className="card-body p-4">
+                      <form>
+                        <div className="row mb-3">
+                          <div className="col-6 fw-bold">
+                            <i className="fas fa-id-badge"></i> Gross Salary:
+                          </div>
+                          <div className="col-6">18,000</div>
+                        </div>
+                        <div className="row mb-3">
+                          <div className="col-6 fw-bold">
+                            <i className="fas fa-id-badge"></i> Total
+                            Deductions:
+                          </div>
+                          <div className="col-6">500</div>
+                </div>
+                <div className="row mb-3">
+                          <div className="col-6 fw-bold">
+                            <i className="fas fa-id-badge"></i> Net Salary:
+                          </div>
+                          <div className="col-6">17,500</div>
+                        </div>
+               
+                </form>
+                </div>
+                </div>
+                </div>
+                <div className="col-md-6 mb-3">
+                  <div className="card border-0 mb-3">
+                    <div className="card-header bg-white">
+                      <h6 className="h6 fw-semibold text-capitalize float-start">
+                       Documents
+                      </h6>
+                    </div>
+                    <div className="card-body p-4">
+                      <form>
+                      <div className="mb-3">
+  <label  className="form-label">Upload Documents</label>
+  <input type="file" className="form-control rounded-1"  placeholder="Example file.jpg" style={{fontSize:'12px'}}/>
+  <div className="my-3"></div>
+  <button className="btn btn-sm text-uppercase px-4 py-2 border-0 fw-semibold float-end text-white"style={{backgroundColor:'#231f20'}}>Submit</button>
+</div>
+                        
+               
+                </form>
+                </div>
+                </div>
+                </div>
+                                <div className='col-md-6'>
+                  <div className="card border-0  mb-3">
                     <div className="card-body text-center">
                       <img
                         src={
@@ -72,10 +172,12 @@ export const ViewStaff = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                  </div>
+                
+                
 
-                <div className="col-12 col-md-8 mb-3">
-                  <div className="card border-0 mb-3">
+                <div className="col-md-6 mb-3">
+                  <div className="card border-0  mb-3">
                     <div className="card-header bg-primary text-white">
                       <h5 className="mb-0">Personal Information</h5>
                     </div>
@@ -137,7 +239,12 @@ export const ViewStaff = () => {
                     </div>
                   </div>
 
-                  <div className="card border-0">
+                 
+                </div>
+
+                
+                <div className="col-md-6 mb-3">
+                <div className="card mb-3 border-0">
                     <div className="card-header bg-primary text-white">
                       <h5 className="mb-0">Professional Information</h5>
                     </div>
@@ -186,12 +293,16 @@ export const ViewStaff = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                  </div>
+                
               </div>
             </div>
           </div>
         </div>
       </div>
+      </div>
+
+      
     </>
   );
 };
