@@ -104,10 +104,9 @@ export const Attendance = () => {
                       <td className=" text-center d-flex gap-3 justify-content-center">
                         <Link
                           to={{
-                            pathname: "/ViewAttendance",
+                            pathname: "/ViewSAttendance",
                           }}
-                          data-bs-toggle="modal"
-                          data-bs-target="#AttendanceModalView"
+                         
                         >
                           <i className="far fa-eye  me-1"></i>
                         </Link>
