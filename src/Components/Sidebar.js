@@ -1,8 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faClipboardList, faProjectDiagram, faQuestionCircle, faUsers, faGavel } from '@fortawesome/free-solid-svg-icons';
-import './Sidebar.css'
+import React from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHome,
+  faClipboardList,
+  faProjectDiagram,
+  faQuestionCircle,
+  faUsers,
+  faGavel,
+} from "@fortawesome/free-solid-svg-icons";
+import "./Sidebar.css";
 const Sidebar = () => {
   return (
     <div className="sidebar d-flex flex-column align-items-start justify-content-start vh-100 p-4 bg-white text-dark position-fixed">
@@ -14,7 +21,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link to="/attendance" className="nav-link">
+          <Link to="/StaffAttendance" className="nav-link">
             <FontAwesomeIcon icon={faClipboardList} className="me-2" />
             Attendance
           </Link>
@@ -32,7 +39,14 @@ const Sidebar = () => {
           </Link>
         </li>
         <li className="nav-item">
-          <div className="nav-link" data-bs-toggle="collapse" href="#coreHrCollapse" role="button" aria-expanded="false" aria-controls="coreHrCollapse">
+          <div
+            className="nav-link"
+            data-bs-toggle="collapse"
+            href="#coreHrCollapse"
+            role="button"
+            aria-expanded="false"
+            aria-controls="coreHrCollapse"
+          >
             <FontAwesomeIcon icon={faUsers} className="me-2" />
             Core HR
           </div>
