@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -6,6 +7,11 @@ import {
   faLanguage,
   faList,
 } from "@fortawesome/free-solid-svg-icons";
+import { toast } from 'react-toastify';
+import { getSingleStaff } from "../Api/Staff/Dashboard";
+import { getStaffId } from "../Utils/storage";
+import { useNavigate } from 'react-router-dom';
+import { clearStorage } from "../Utils/storage";
 import { Tooltip } from "react-tooltip";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -13,6 +19,33 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./Navbar.css"; // Custom CSS file for additional styles
 
 export const Navbar = () => {
+
+
+  const navigate = useNavigate();
+  const [staff, setStaff] = useState([]);
+
+  useEffect(() => {
+    getStaffDetails();
+  }, []);
+
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log(res);
+        setStaff(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+  const logout = () => {
+    clearStorage(); // Assuming clearStorage is defined elsewhere
+    toast.success("You have been logged out successfully.");
+    navigate("/");
+  };
   return (
     <>
       <nav
@@ -119,13 +152,13 @@ export const Navbar = () => {
                   aria-expanded="false"
                 >
                   <img
-                    src="https://via.placeholder.com/30"
-                    width="50"
-                    height="50"
-                    className="img-fluid rounded-circle me-2"
+                    src={staff?.photo?staff?.photo:"https://via.placeholder.com/30"}
+                    
+                    style={{ objectFit: "cover",width: "3rem", height: "3rem", borderRadius: "50%" }}
+                    className="img-fluid rounded-pill me-2"
                     alt="Profile"
                   />
-                  <span>Profile Name</span>
+                  <span>{staff?.empName}</span>
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="profileDropdown">
                   <li>
@@ -134,7 +167,8 @@ export const Navbar = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="/">
+                    <Link className="dropdown-item" to="/"
+                    onClick={logout}>
                       Log Out
                     </Link>
                   </li>

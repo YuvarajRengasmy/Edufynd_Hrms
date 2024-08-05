@@ -1,10 +1,37 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
 import  Navbar  from '../../Components/Navbar'
 import  Sidebar  from '../../Components/Sidebar'
+import { toast } from 'react-toastify';
+import { getSingleStaff } from "../../Api/Staff/Dashboard";
+import { getStaffId } from "../../Utils/storage";
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom'
 import Profile_image from "../../Assests/Images/Profile.jpg";
 import { FaCameraRotate } from "react-icons/fa6";
 export const Profile = () => {
+
+  const navigate = useNavigate();
+  const [staff, setStaff] = useState([]);
+
+  useEffect(() => {
+    getStaffDetails();
+  }, []);
+
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log(res);
+        setStaff(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+
+
   return (
     <>
       <Navbar />
@@ -28,9 +55,9 @@ export const Profile = () => {
                           <div className="col-md-3">
                             <div className="position-relative">
                               <img
-                                src={Profile_image}
+                                src={staff?.photo?staff?.photo:"https://via.placeholder.com/30"}
                                 className="img-fluid rounded-circle"
-                                style={{ width: "5rem", height: "5rem" }}
+                                style={{ width: "4rem", height: "4rem" }}
                                 alt="profile_image"
                               />
                               <div className="position-absolute bottom-0 end-0">
@@ -40,10 +67,10 @@ export const Profile = () => {
                           </div>
                           <div className="col-md-8">
                             <div className="card-body ms-4">
-                              <h5 className="card-title mb-0">Gopinath</h5>
-                              <p className="card-text mb-1">Full Stack Devloper </p>
+                              <h5 className="card-title mb-0">{staff?.empName}</h5>
+                              <p className="card-text mb-1">{staff?.designation}</p>
                               <p className="text-bg-success d-inline px-3 py-1 text-capitalize fw-semibold rounded-1">
-                                <small>Active</small>
+                                <small>{staff?.status}</small>
                               </p>
                             </div>
                           </div>

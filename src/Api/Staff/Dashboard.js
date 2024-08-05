@@ -1,5 +1,5 @@
-import API from "../Api/Api"
-import { Staff } from "./endpoints"
+import API from "../Api"
+import { Staff } from "../Endpoint"
 
 
 export const StaffCheckin= (data)=>{
@@ -7,4 +7,8 @@ export const StaffCheckin= (data)=>{
 }
 export const StaffCheckOut= (data)=>{
     return API.post(`${Staff}/checkOut`,data)
+}
+
+export const getSingleStaff = (data) => {
+    return API.get(`${Staff}/getSingleStaff`, { params: { _id: data } })
 }
