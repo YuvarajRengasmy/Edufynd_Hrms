@@ -265,7 +265,7 @@ export const AddStaff = () => {
       updateStaff(staff)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListStaff");
+          navigate("/SAListEmployees");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -293,7 +293,7 @@ export const AddStaff = () => {
           </div>
 
           <div
-            className="content-wrapper"
+            className="col-lg-9"
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
           >
             <div className="content-header ">

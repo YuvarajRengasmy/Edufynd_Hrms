@@ -250,7 +250,7 @@ export const AddStaff = () => {
       saveStaff(staff)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/ListStaff");
+          navigate("/SAListEmployees");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);

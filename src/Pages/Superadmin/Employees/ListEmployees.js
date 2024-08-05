@@ -1,8 +1,105 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
+import Sortable from 'sortablejs';
+import {getallStaff,deleteStaff} from "../../../Api/SuperAdmin/Employees";
 import { Link } from "react-router-dom";
 import SuperAdminSidebar from "../../../Components/SuperadminSidebar";
 import Navbar from "../../../Components/Navbar";
+import { formatDate } from "../../../Utils/DateFormat";
+import { FaFilter } from "react-icons/fa";
+import { toast } from "react-toastify";
+
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
+
 export const ListEmployees = () => {
+
+
+
+
+
+  
+  const [staff, setStaff] = useState();
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+  const pageSize = 5;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
+
+  useEffect(() => {
+    getAllStaffDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllStaffDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+
+    getallStaff(data)
+      .then((res) => {
+       
+        setStaff(res?.data?.result);
+        setPagination({ ...pagination, count: res?.data?.result?.staffCount });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const openPopup = (data) => {
+    setOpen(true);
+    setDeleteId(data);
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
+  const deleteStaffData = () => {
+    deleteStaff (deleteId)
+      .then((res) => {
+        toast.success(res?.data?.message);
+        closePopup();
+        getAllStaffDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const table = tableRef.current;
+
+    // Apply SortableJS to the table headers
+    const sortable = new Sortable(table.querySelector('thead tr'), {
+      animation: 150,
+      swapThreshold: 0.5,
+      handle: '.sortable-handle',
+      onEnd: (evt) => {
+        const oldIndex = evt.oldIndex;
+        const newIndex = evt.newIndex;
+
+        // Move the columns in the tbody
+        table.querySelectorAll('tbody tr').forEach((row) => {
+          const cells = Array.from(row.children);
+          row.insertBefore(cells[oldIndex], cells[newIndex]);
+        });
+      }
+    });
+
+    return () => {
+      sortable.destroy();
+    };
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -52,163 +149,142 @@ export const ListEmployees = () => {
                   Add Employees
                 </Link>
               </div>
+              <div className="content-body">
+            <div className="container">
+            <div className="row">
+          <div className="col-xl-12">
+          <div className="col-md-12">
+            <div className="card rounded-0 mt-2 border-0">
               <div className="card-body">
-                <div className="d-flex justify-content-between mb-3">
-                  <p>
-                    Show
-                    <select
-                      className="form-select form-select-sm rounded-1 d-inline mx-2"
-                      aria-label="Default select example"
-                      style={{
-                        width: "auto",
-                        display: "inline-block",
-                        fontSize: "12px",
-                      }}
-                    >
-                      <option selected>Show Entries</option>
-                      <option value="10">10</option>
-                      <option value="20">20</option>
-                      <option value="50">50</option>
-                    </select>{" "}
-                    Entries
-                  </p>
-                  <div className="mb-3">
-                    <input
-                      type="text"
-                      className="form-control form-control-sm rounded-1"
-                      placeholder="Search...."
-                      style={{ fontSize: "12px" }}
-                    />
+                <div className="card-table">
+                  <div className="table-responsive">
+                    <table className=" table table-hover card-table dataTable table-responsive-sm text-center"   style={{ color: '#9265cc', fontSize: '13px' }}
+              ref={tableRef}>
+                      <thead className="table-light">
+                        <tr style={{fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
+                          <th className="text-capitalize text-start sortable-handle"> S.No.</th>
+                          <th className="text-capitalize text-start sortable-handle">Emp_ID </th>
+                          <th className="text-capitalize text-start sortable-handle"> DOJ </th>
+                          <th className="text-capitalize text-start sortable-handle"> Name </th>
+                          <th className="text-capitalize text-start sortable-handle"> Designation</th>
+                          <th className="text-capitalize text-start sortable-handle"> Reporting_Manager </th>
+                          <th className="text-capitalize text-start sortable-handle"> Contact No </th>
+                          
+                          <th className="text-capitalize text-start sortable-handle"> Status </th>
+                          <th className="text-capitalize text-start sortable-handle"> Action </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {staff?.map((data, index) => (
+                        <tr key={index} style={{ fontFamily: "Plus Jakarta Sans", fontSize: "11px" }} >
+                           <td className="text-capitalize text-start">{pagination.from + index + 1}</td>
+                          <td className="text-capitalize text-start">{data?.employeeID}</td>
+                          <td className="text-capitalize text-start">{data?.doj}</td>
+                          <td className="text-capitalize text-start">{data?.empName}</td>
+                          <td className="text-capitalize text-start">{data?.designation}</td>
+                          <td className="text-capitalize text-start">{data?.reportingManager}</td>
+                          <td className="text-capitalize text-start">{data?.mobileNumber}</td>
+                          
+                          <td className="text-capitalize text-start">{data?.activeInactive}</td>
+                          
+                          <td>
+                          <div className="d-flex">
+                                <Link
+                                  className="dropdown-item"
+                                  to={{
+                                    pathname: "/SAViewEmployees",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                >
+                                  <i className="far fa-eye text-primary me-1"></i>
+
+                                </Link>
+                                <Link
+                                  className="dropdown-item"
+                                  to={{
+                                    pathname: "/SAEditEmployees",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                >
+                                  <i className="far fa-edit text-warning me-1"></i>
+
+                                </Link>
+                                <Link
+                                  className="dropdown-item"
+                                  onClick={() => {
+                                    openPopup(data?._id);
+                                  }}
+                                >
+                                  <i className="far fa-trash-alt text-danger me-1"></i>
+
+                                </Link>
+                              </div>
+                             
+                                </td>
+                        </tr>
+                      
+                      
+                    ))}
+                    {staff?.length === 0 ? (
+                     <tr>
+                       <td className="form-text text-danger" colSpan="9">
+                         No data In Staff
+                       </td>
+                     </tr>
+                    ) : null}
+                     
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-
-                <table className="table table-responsive-sm table-hover">
-                  <thead
-                    className="table-light text-uppercase"
-                    style={{ fontSize: "13px" }}
-                  >
-                    <tr>
-                      <th>S.No</th>
-                      <th>Staff ID</th>
-                      <th>Staff Name</th>
-                      <th>Designation</th>
-                      <th>Reporting Manager</th>
-                      <th>Status</th>
-
-                      <th className="text-center">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody style={{ fontSize: "11px" }}>
-                    <tr>
-                      <td>1</td>
-                      <td>Afynd12</td>
-                      <td>Gopinath</td>
-                      <td>Full Stack Developer</td>
-                      <td>Amirtha</td>
-                      <td>Active</td>
-
-                      <td className=" d-flex  justify-content-between">
-                        
-                         
-                            <Link to="/SAViewEmployees">
-                              <i className="far fa-eye  me-1"></i>
-                            </Link>
-                            <Link to="/SAEditEmployees">
-                              <i className="far fa-edit text-warning me-1"></i>
-                            </Link>
-                            <Link
-                              data-bs-toggle="modal"
-                              data-bs-target="#employeesModaldelete"
-                            >
-                              <i className="far fa-trash-alt text-danger me-1"></i>
-                            </Link>
-                         
-                       
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+               
               </div>
-              <div className="card-footer bg-white border-0 d-flex justify-content-between">
-                <p>Showing 1 to 10 of 12 entries</p>
-                <nav>
-                  <ul className="pagination pagination-sm">
-                    <li className="page-item">
-                      <Link to="#" className="page-link">
-                        Previous
-                      </Link>
-                    </li>
-                    <li className="page-item">
-                      <Link to="#" className="page-link">
-                        1
-                      </Link>
-                    </li>
-                    <li className="page-item">
-                      <Link to="#" className="page-link">
-                        2
-                      </Link>
-                    </li>
-                    <li className="page-item">
-                      <Link to="#" className="page-link">
-                        Next
-                      </Link>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
+              <div className="float-right my-2">
+                        <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
+                          variant="outlined"
+                          shape="rounded"
+                          color="primary"
+                        />
+                      </div>
+            </div>
+          </div>
+          </div>
+        </div>
+            </div>
+          </div>
+              
             </div>
           </div>
         </div>
       </div>
-      <div
-        class="modal fade"
-        id="employeesModaldelete"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-6  " id="exampleModalLabel">
-                Are you sure you want to delete this record?
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div className="alert alert-danger fw-semibold">
-                You won't be able to revert this!
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-light  border-0 rounded-1"
-                data-bs-dismiss="modal"
-                style={{ fontSize: "13px" }}
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                class="btn border-0 rounded-1 "
-                style={{
-                  backgroundColor: "#7267ef",
-                  color: "#fff",
-                  fontSize: "13px",
-                }}
-              >
-                Confirm
-              </button>
-            </div>
+      <Dialog open={open}>
+        <DialogContent>
+          <div className="text-center m-4">
+            <h5 className="mb-4 text-capitalize">
+              Are you sure you want to Delete <br /> the selected Staff?
+            </h5>
+            <button
+              type="button"
+              className="btn btn-save btn-danger fw-semibold text-uppercase rounded-pill px-4 py-2 mx-3"
+              onClick={deleteStaffData}
+              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className="btn btn-cancel btn-success fw-semibold text-uppercase rounded-pill px-4 py-2 "
+              onClick={closePopup}
+              style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+            >
+              No
+            </button>
           </div>
-        </div>
-      </div>
+        </DialogContent>
+      </Dialog>
+                
     </>
   );
 };
