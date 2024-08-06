@@ -179,7 +179,7 @@ export const Attendance = () => {
                         <td className=" text-center d-flex gap-3 justify-content-center">
                           <Link
                             to={{
-                              pathname: "/ViewSAttendance",
+                              pathname: "/ViewStaffAttendance",
                             }}
                            
                           >
