@@ -189,7 +189,7 @@ export const Dashboard = () => {
           style={{
             backgroundColor: '#007bff', // Blue color for check-out
           }}
-          onClick={handleCheckOut}
+          onClick={handleCheckout}
           disabled={!hasCheckedIn} // Disable button if not checked in
         >
           Clock OUT
