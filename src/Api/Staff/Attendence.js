@@ -6,7 +6,7 @@ export const Checkin= (data)=>{
     return API.post(`${Attendence}/clockIn`,data)
 }
 export const CheckOut= (data)=>{
-    return API.put(`${Attendence}/clockOut`,data)
+    return API.put(`${Attendence}/clockOut`, { params: { _id: data } })
 }
 
 export const getallAttendence = () => {

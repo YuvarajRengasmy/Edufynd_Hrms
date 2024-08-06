@@ -180,6 +180,7 @@ export const Attendance = () => {
                           <Link
                             to={{
                               pathname: "/ViewStaffAttendance",
+                              search: `?id=${data?._id}`,
                             }}
                            
                           >
