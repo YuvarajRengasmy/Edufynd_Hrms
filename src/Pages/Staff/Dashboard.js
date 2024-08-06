@@ -23,20 +23,22 @@ import {
   Cell,
 } from "recharts";
 import { getSingleStaff } from "../../Api/Staff/Dashboard";
-import { Checkin,CheckOut } from "../../Api/Staff/Attendence";
+import { Checkin,CheckOut, getSingleAttendence } from "../../Api/Staff/Attendence";
 import { getStaffId } from "../../Utils/storage";
 import { useNavigate } from 'react-router-dom';
 
 
 export const Dashboard = () => {
   const [checkedInId, setCheckedInId] = useState(null);
-
+  const [staffId, setStaffId] = useState('');
   const navigate = useNavigate();
   const [staff, setStaff] = useState([]);
+  const [att, setAtt] = useState([]);
   const [hasCheckedIn, setHasCheckedIn] = useState(false);
 
   useEffect(() => {
     getStaffDetails();
+   
   }, []);
 
   const getStaffDetails = () => {
@@ -50,42 +52,71 @@ export const Dashboard = () => {
         console.log(err);
       });
   };
+  
 
-  const handleCheckin = () => {
-    const data = {
-          id:getStaffId(),
-    }
-    Checkin(data).then((res) => {
-      console.log(res);
-      setHasCheckedIn(true);
-      setCheckedInId(data.id);
-      toast.success(res?.data?.message);
-    }).catch((err) => {
-      console.log(err);
-    });
+
+  const handleCheckin = (data) => {
+    const checkinData = {
+      staffId: data.id,
+      timestamp: new Date(),
+      employeeId: staff?._id,
+    };
+  
+    // Check if the staff ID and timestamp combination is unique
+    Checkin(checkinData)
+      .then((res) => {
+        console.log(res);
+        setHasCheckedIn(true); // Optionally, you can keep track of check-in status
+        setCheckedInId(checkinData.id);
+        toast.success('Check-in successful.');
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error('Check-in failed.');
+      });
   };
 
   const handleCheckOut = () => {
-    if (!checkedInId) {
-      toast.error('You must check in first');
-      return;
-    }
-  
-    const data = {
-      id: checkedInId ,
-       // Use the saved check-in ID
+    const checkinData = {
+      id: staffId,
+      timestamp: new Date(), 
     };
   
-    CheckOut(data).then((res) => {
-      console.log(res);
-      setHasCheckedIn(false);
-      setCheckedInId(null); // Clear the ID after checkout
-      toast.success(res?.data?.message || 'Checked out successfully');
-    }).catch((err) => {
-      console.error(err);
-      toast.error('Error checking out');
-    });
+    // Check if the staff ID and timestamp combination is unique
+    CheckOut(checkinData)
+      .then((res) => {
+        console.log(res);
+        setHasCheckedIn(false); // Optionally, you can keep track of check-in status
+        setCheckedInId(null);
+        toast.success('Check-Out successful.');
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error('Check-in failed.');
+      });
   };
+  
+  // const handleCheckOut = () => {
+  //   if (!staffId) {
+  //     toast.error('You must check in first');
+  //     return;
+  //   }
+  
+  //   const data = {
+  //     id: staffId ,
+  //      // Use the saved check-in ID
+  //   };
+  
+  //   CheckOut(data).then((res) => {
+  //     console.log(res);
+  //     setHasCheckedIn(false);
+  //     setCheckedInId(null); // Clear the ID after checkout
+  //     toast.success(res?.data?.message || 'Checked out successfully');
+  //   }).catch((err) => {
+  //     console.error(err);
+  //     toast.error('Error checking out');
+  //   });
+  // };
   
   
 
