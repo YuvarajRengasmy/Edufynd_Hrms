@@ -90,12 +90,12 @@ export const Navbar = () => {
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
-                    <Link className="dropdown-item" to="#app1">
+                    <Link className="dropdown-item" to="/StaffComplaints">
                       Complaints
                     </Link>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="#app2">
+                    <Link className="dropdown-item" to="/StaffResignations">
                       Resignations
                     </Link>
                   </li>

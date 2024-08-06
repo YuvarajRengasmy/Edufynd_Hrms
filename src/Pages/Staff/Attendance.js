@@ -14,10 +14,10 @@ export const Attendance = () => {
 
       <div className="container-fluid">
         <div className="row">
-          <div className="col-lg-3">
+          <div className="col-lg-3 ">
             <Sidebar />
           </div>
-          <div className="col-lg-9">
+          <div className="col-lg-9 ">
             <section className="d-flex justify-content-between align-items-center mb-4">
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -104,9 +104,9 @@ export const Attendance = () => {
                       <td className=" text-center d-flex gap-3 justify-content-center">
                         <Link
                           to={{
-                            pathname: "/ViewSAttendance",
+                            pathname: "/ViewStaffAttendance",
                           }}
-                         
+                         target="_blank"
                         >
                           <i className="far fa-eye  me-1"></i>
                         </Link>
