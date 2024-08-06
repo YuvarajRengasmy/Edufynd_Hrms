@@ -1,9 +1,83 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
+import Sortable from 'sortablejs';
+import {getallAttendence} from "../../Api/Staff/Attendence";
+import { Link } from "react-router-dom";
 import Header from "../../Components/Navbar";
 import Sidebar from "../../Components/Sidebar";
-import { Link } from "react-router-dom";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
+import {formatDated, formatYears  } from "../../Utils/DateFormat";
+import { toast } from "react-toastify";
+
 
 export const Attendance = () => {
+ 
+  const [staff, setStaff] = useState();
+  const [open, setOpen] = useState(false);
+
+  const pageSize = 5;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
+
+  useEffect(() => {
+    getAllStaffDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllStaffDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+
+    getallAttendence(data)
+      .then((res) => {
+       
+        setStaff(res?.data?.result);
+        setPagination({ ...pagination, count: res?.data?.result?.staffCount });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
+  
+
+  // const tableRef = useRef(null);
+
+  // useEffect(() => {
+  //   const table = tableRef.current;
+
+  //   // Apply SortableJS to the table headers
+  //   const sortable = new Sortable(table.querySelector('thead tr'), {
+  //     animation: 150,
+  //     swapThreshold: 0.5,
+  //     handle: '.sortable-handle',
+  //     onEnd: (evt) => {
+  //       const oldIndex = evt.oldIndex;
+  //       const newIndex = evt.newIndex;
+
+  //       // Move the columns in the tbody
+  //       table.querySelectorAll('tbody tr').forEach((row) => {
+  //         const cells = Array.from(row.children);
+  //         row.insertBefore(cells[oldIndex], cells[newIndex]);
+  //       });
+  //     }
+  //   });
+
+  //   return () => {
+  //     sortable.destroy();
+  //   };
+  // }, []);
+
+
   return (
     <>
       <Header />
@@ -14,10 +88,10 @@ export const Attendance = () => {
 
       <div className="container-fluid">
         <div className="row">
-          <div className="col-lg-3 ">
+          <div className="col-lg-3">
             <Sidebar />
           </div>
-          <div className="col-lg-9 ">
+          <div className="col-lg-9">
             <section className="d-flex justify-content-between align-items-center mb-4">
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -93,114 +167,46 @@ export const Attendance = () => {
                     </tr>
                   </thead>
                   <tbody style={{ fontSize: "11px" }}>
-                    <tr>
-                      <td>Gopinath</td>
-                      <td>03-08-2024</td>
-                      <td>Present</td>
-                      <td>10.00AM</td>
-                      <td>07.00PM</td>
-                      <td>Nil</td>
-                      <td>Nil</td>
-                      <td className=" text-center d-flex gap-3 justify-content-center">
-                        <Link
-                          to={{
-                            pathname: "/ViewStaffAttendance",
-                          }}
-                         target="_blank"
-                        >
-                          <i className="far fa-eye  me-1"></i>
-                        </Link>
-                        <Link
-                          data-bs-toggle="modal"
-                          data-bs-target="#AttendanceModaldelete"
-                        >
-                          <i className="far fa-trash-alt text-danger me-1"></i>
-                        </Link>
-                      </td>
-                    </tr>
+                    {staff?.map((data) => (
+                      <tr>
+                        <td>{data?.empName}</td>
+                        <td>{formatYears (data?.clockIn)}</td>
+                        <td>{data?.status}</td>
+                        <td>{formatDated (data?.clockIn)}</td> 
+                        <td>{formatDated (data?.clockOut)}</td>
+                        <td>{data?.late}</td>
+                        <td>{data?.earlyLeaving}</td>
+                        <td className=" text-center d-flex gap-3 justify-content-center">
+                          <Link
+                            to={{
+                              pathname: "/ViewSAttendance",
+                            }}
+                           
+                          >
+                            <i className="far fa-eye  me-1"></i>
+                          </Link>
+                          
+                        </td>
+                      </tr>
+                    ))}
+                   
                   </tbody>
                 </table>
               </div>
-              <div className="card-footer bg-white border-0 d-flex justify-content-between">
-                <p>Showing 1 to 10 of 12 entries</p>
-                <nav>
-                  <ul className="pagination pagination-sm">
-                    <li className="page-item">
-                      <Link to="#" className="page-link">
-                        Previous
-                      </Link>
-                    </li>
-                    <li className="page-item">
-                      <Link to="#" className="page-link">
-                        1
-                      </Link>
-                    </li>
-                    <li className="page-item">
-                      <Link to="#" className="page-link">
-                        2
-                      </Link>
-                    </li>
-                    <li className="page-item">
-                      <Link to="#" className="page-link">
-                        Next
-                      </Link>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
+              <div className="float-right my-2">
+                        <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
+                          variant="outlined"
+                          shape="rounded"
+                          color="primary"
+                        />
+                      </div>
             </div>
           </div>
         </div>
       </div>
-      <div
-        class="modal fade"
-        id="AttendanceModaldelete"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-6  " id="exampleModalLabel">
-                Are you sure you want to delete this record?
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div className="alert alert-danger fw-semibold">
-                You won't be able to revert this!
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-light  border-0 rounded-1"
-                data-bs-dismiss="modal"
-                style={{ fontSize: "13px" }}
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                class="btn border-0 rounded-1 "
-                style={{
-                  backgroundColor: "#7267ef",
-                  color: "#fff",
-                  fontSize: "13px",
-                }}
-              >
-                Confirm
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      
     </>
   );
 };
