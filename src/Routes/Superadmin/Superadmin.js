@@ -10,6 +10,7 @@ import AddEmployees from "../../Pages/Superadmin/Employees/AddEmployees";
 import EditEmployees from "../../Pages/Superadmin/Employees/EditEmployees";
 import ViewEmployees from "../../Pages/Superadmin/Employees/ViewEmployees";
 import Payroll from "../../Pages/Superadmin/Payroll";
+import SACalendar from "../../Pages/Superadmin/SACalendar";
 export const Superadmin = () => {
   return (
     <div>
@@ -26,6 +27,8 @@ export const Superadmin = () => {
         <Route path="/SAViewEmployees" element={<ViewEmployees />} />
 
         <Route path="/SAPayroll" element={<Payroll />} />
+
+        <Route path="/SACalendar" element={<SACalendar />} />
       </Routes>
     </div>
   );

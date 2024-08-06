@@ -269,15 +269,16 @@ export const AddStaff = () => {
       <br />
       <br />
       <br />
+      <div className="container-fluid">
       <div className="row">
-        <div  className="col-lg-3"
+        <div  className="col-lg-2"
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }} >
          
             <Sidebar />
           </div>
 
           <div
-            className="col-lg-9"
+            className="col-lg-10"
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
           >
             <div className="content-header ">
@@ -288,16 +289,16 @@ export const AddStaff = () => {
                       <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
                         <div
                           className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
-                          style={{ background: "#fe5722", color: "#fff" }}
+                          style={{ background: "#7267ef", color: "#fff" }}
                         >
                           <h5 className="text-center text-capitalize p-1">
                             {" "}
-                            Add Staff Details
+                            Add Employee Details
                           </h5>
                         </div>
 
                         <div className="card-body mt-2 ">
-                          <div className="row g-3 ">
+                          <div className="row  g-3 ">
                             <div className="position-relative d-inline-block">
                               <img
                                 className="img-fluid rounded-circle img-thumbnail mx-auto d-block"
@@ -316,7 +317,7 @@ export const AddStaff = () => {
                                   cursor: "pointer",
                                   bottom: "5%",
                                   left: "53.5%",
-                                  transform: "translate(25%, 25%)",
+                                  transform: "translate(-15%, -15%)",
                                   color: "#0f2239",
                                 }}
                               >
@@ -344,7 +345,7 @@ export const AddStaff = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control rounded-2  "
+                                className="form-control rounded-1  "
                                 placeholder="Example John Doe "
                                 style={{
                                   backgroundColor: "#fff",
@@ -371,12 +372,12 @@ export const AddStaff = () => {
 
                               <input
                                 type="date"
-                                className="form-control text-uppercase "
+                                className="form-control text-uppercase rounded-1"
                                 placeholder="Enter  DOB "
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
+                                  fontSize: "12px",
                                 }}
                                 name="dob"
                                 onChange={handleInputs}
@@ -400,7 +401,7 @@ export const AddStaff = () => {
 
                               <input
                                 type="text"
-                                className="form-control rounded-2  "
+                                className="form-control rounded-1  "
                                 placeholder="Example Student Counsellor "
                                 style={{
                                   backgroundColor: "#fff",
@@ -425,9 +426,9 @@ export const AddStaff = () => {
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
+                                  fontSize: "12px",
                                 }}
-                                className="form-control text-uppercase rounded-2"
+                                className="form-control text-uppercase rounded-1"
                                 placeholder="Enter  DOJ "
                                 name="doj"
                                 onChange={handleInputs}
@@ -446,7 +447,7 @@ export const AddStaff = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control rounded-2 "
+                                className="form-control rounded-1 "
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
@@ -475,7 +476,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className="form-control rounded-1"
                                 placeholder="Example 10.00 AM - 07.00 PM"
                                 name="shiftTiming"
                                 onChange={handleInputs}
@@ -498,7 +499,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className="form-control rounded-1"
                                 placeholder="Example 6 Months"
                                 name="probationDuration"
                                 onChange={handleInputs}
@@ -517,7 +518,7 @@ export const AddStaff = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control rounded-2 "
+                                className="form-control rounded-1 "
                                 placeholder="Example jay.j@afynd.com "
                                 style={{
                                   backgroundColor: "#fff",
@@ -545,7 +546,7 @@ export const AddStaff = () => {
                               <select
                                 name="team"
                                 onChange={handleInputs}
-                                className="form-select form-select-lg rounded-2"
+                                className="form-select text-muted  rounded-1"
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
@@ -598,7 +599,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className="form-control rounded-1"
                                 placeholder="Example johndoe123@gmail.com"
                                 onChange={handleInputs}
                               />
@@ -625,7 +626,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className="form-control rounded-1"
                                 placeholder="Example 123-456-789"
                                 name="mobileNumber"
                                 onChange={handleInputs}
@@ -651,7 +652,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className="form-control rounded-1"
                                 placeholder="Example 123-456-789"
                                 name="emergencyContactNo"
                                 onChange={handleInputs}
@@ -678,7 +679,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className="form-control rounded-1"
                                 placeholder="Example 17/3A2, Gandhi St,"
                                 name="address"
                                 onChange={handleInputs}
@@ -700,7 +701,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className="form-control rounded-1"
                                 placeholder="Example Alwartirunagar, Chennai"
                                 name="address2"
                                 onChange={handleInputs}
@@ -717,7 +718,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className="form-control rounded-1"
                                 placeholder="Example 632001"
                                 name="pin"
                                 onChange={handleInputs}
@@ -734,7 +735,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className="form-control rounded-1"
                                 placeholder="Example India"
                                 name="country"
                                 onChange={handleInputs}
@@ -751,7 +752,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className="form-control rounded-1"
                                 placeholder="Example Tamil Nadu"
                                 name="state"
                                 onChange={handleInputs}
@@ -768,7 +769,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className="form-control rounded-2"
+                                className="form-control rounded-1"
                                 placeholder="Example Chennai"
                                 name="city"
                                 onChange={handleInputs}
@@ -780,7 +781,7 @@ export const AddStaff = () => {
                                 ID Card <span className="text-danger">*</span>
                               </label>
                               <select
-                                className="form-select form-select-lg rounded-2"
+                                className="form-select text-muted  rounded-1"
                                 onChange={handleInputs}
                                 name="idCard"
                                 style={{
@@ -804,7 +805,7 @@ export const AddStaff = () => {
                                 Status <span className="text-danger">*</span>
                               </label>
                               <select
-                                className="form-select form-select-lg rounded-2"
+                                className="form-select text-muted  rounded-1"
                                 onChange={handleInputs}
                                 name="status"
                                 style={{
@@ -830,7 +831,7 @@ export const AddStaff = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control rounded-2"
+                                className="form-control rounded-1"
                                 placeholder="Example Employment..."
                                 style={{
                                   backgroundColor: "#fff",
@@ -855,7 +856,7 @@ export const AddStaff = () => {
                               <select
                                 name="companyAssests"
                                 onChange={handleInputs}
-                                className="form-select form-select-lg rounded-2"
+                                className="form-select text-muted  rounded-1"
                                 style={{
                                   backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
@@ -885,7 +886,7 @@ export const AddStaff = () => {
                                   <select
                                     name="laptopName"
                                     onChange={handleInputs}
-                                    className="form-select form-select-lg rounded-2"
+                                    className="form-select text-muted  rounded-1"
                                     style={{
                                       backgroundColor: "#fff",
                                       fontFamily: "Plus Jakarta Sans",
@@ -901,7 +902,7 @@ export const AddStaff = () => {
                                   </select>
                                 </div>
                                 {staff.laptopName === "labtopAssets" && (
-                                  <div className="row g-3">
+                                  <div className="row gy-3 gx-5">
                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                       <label style={{ color: "#231F20" }}>
                                         Brand Name
@@ -909,7 +910,7 @@ export const AddStaff = () => {
                                       </label>
                                       <input
                                         type="text"
-                                        className="form-control rounded-2"
+                                        className="form-control rounded-1"
                                         placeholder="Example Apple"
                                         style={{
                                           backgroundColor: "#fff",
@@ -927,7 +928,7 @@ export const AddStaff = () => {
                                       </label>
                                       <input
                                         type="text"
-                                        className="form-control rounded-2"
+                                        className="form-control rounded-1"
                                         placeholder="Example MacBook Air"
                                         style={{
                                           backgroundColor: "#fff",
@@ -946,7 +947,7 @@ export const AddStaff = () => {
                                       </label>
                                       <input
                                         type="text"
-                                        className="form-control rounded-2"
+                                        className="form-control rounded-1"
                                         placeholder="Example IPv4 192.168.1.1 "
                                         style={{
                                           backgroundColor: "#fff",
@@ -964,7 +965,7 @@ export const AddStaff = () => {
                                       </label>
                                       <input
                                         type="text"
-                                        className="form-control rounded-2"
+                                        className="form-control rounded-1"
                                         placeholder="Example Afynd01"
                                         style={{
                                           backgroundColor: "#fff",
@@ -982,7 +983,7 @@ export const AddStaff = () => {
                                       </label>
                                       <input
                                         type="text"
-                                        className="form-control rounded-2"
+                                        className="form-control rounded-1"
                                         placeholder="Example G7$kL!8mQz@1wXp^"
                                         style={{
                                           backgroundColor: "#fff",
@@ -1004,7 +1005,7 @@ export const AddStaff = () => {
                                   <select
                                     name="mobileName"
                                     onChange={handleInputs}
-                                    className="form-select form-select-lg rounded-2"
+                                    className="form-select text-muted  rounded-1"
                                     style={{
                                       backgroundColor: "#fff",
                                       fontFamily: "Plus Jakarta Sans",
@@ -1020,7 +1021,7 @@ export const AddStaff = () => {
                                   </select>
                                 </div>
                                 {staff.mobileName === "mobileName" && (
-                                  <div className="row g-3">
+                                  <div className="row gy-3 gx-4">
                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                       <label style={{ color: "#231F20" }}>
                                         Brand Name
@@ -1028,7 +1029,7 @@ export const AddStaff = () => {
                                       </label>
                                       <input
                                         type="text"
-                                        className="form-control rounded-2"
+                                        className="form-control rounded-1"
                                         placeholder="Example  Samsung"
                                         style={{
                                           backgroundColor: "#fff",
@@ -1046,7 +1047,7 @@ export const AddStaff = () => {
                                       </label>
                                       <input
                                         type="text"
-                                        className="form-control rounded-2"
+                                        className="form-control rounded-1"
                                         placeholder="Example 356938035643209"
                                         style={{
                                           backgroundColor: "#fff",
@@ -1064,7 +1065,7 @@ export const AddStaff = () => {
                                       </label>
                                       <input
                                         type="number"
-                                        className="form-control rounded-2"
+                                        className="form-control rounded-1"
                                         placeholder="Example 123-456-789"
                                         style={{
                                           backgroundColor: "#fff",
@@ -1082,7 +1083,7 @@ export const AddStaff = () => {
                             <div className="row g-2">
                               <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                                 <Link
-                                  to=""
+                                  to="/SAListEmployees"
                                   style={{
                                     backgroundColor: "#231F20",
                                     fontFamily: "Plus Jakarta Sans",
@@ -1094,7 +1095,7 @@ export const AddStaff = () => {
                                 </Link>
                                 <button
                                   style={{
-                                    backgroundColor: "#FE5722",
+                                    backgroundColor: "#7267ef",
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
@@ -1115,6 +1116,8 @@ export const AddStaff = () => {
             </div>
           </div>
         </div>
+      </div>
+     
       
     </>
   );
