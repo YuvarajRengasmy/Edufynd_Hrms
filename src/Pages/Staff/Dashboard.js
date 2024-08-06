@@ -29,8 +29,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 export const Dashboard = () => {
-
-  const [attendanceId, setAttendanceId] = useState(null); // State to store attendance ID
+  const [checkedInId, setCheckedInId] = useState(null);
 
   const navigate = useNavigate();
   const [staff, setStaff] = useState([]);
@@ -52,44 +51,45 @@ export const Dashboard = () => {
       });
   };
 
-
   const handleCheckin = () => {
-    const id = getStaffId();
-    if (id) {
-        Checkin(id)
-            .then(res => {
-                toast.success(res?.data?.message);
-                setHasCheckedIn(true);
-                getStaffDetails();
-            })
-            .catch(err => {
-                console.log(err);
-                toast.error('Failed to check in. Please try again.');
-            });
-    } else {
-        toast.error('No staff ID found. Please log in again.');
+    const data = {
+          id:getStaffId(),
     }
-};
-
-
-
-  const handleCheckout = () => {
-    const id = getStaffId();
-    if (id) {
-        CheckOut(id)
-            .then(res => {
-                toast.success(res?.data?.message);
-                setHasCheckedIn(false);
-                getStaffDetails();
-            })
-            .catch(err => {
-                console.log(err);
-                toast.error('Failed to check out. Please try again.');
-            });
-    } else {
-        toast.error('No staff ID found. Please log in again.');
-    }
+    Checkin(data).then((res) => {
+      console.log(res);
+      setHasCheckedIn(true);
+      setCheckedInId(data.id);
+      toast.success(res?.data?.message);
+    }).catch((err) => {
+      console.log(err);
+    });
   };
+
+  const handleCheckOut = () => {
+    if (!checkedInId) {
+      toast.error('You must check in first');
+      return;
+    }
+  
+    const data = {
+      id: checkedInId ,
+       // Use the saved check-in ID
+    };
+  
+    CheckOut(data).then((res) => {
+      console.log(res);
+      setHasCheckedIn(false);
+      setCheckedInId(null); // Clear the ID after checkout
+      toast.success(res?.data?.message || 'Checked out successfully');
+    }).catch((err) => {
+      console.error(err);
+      toast.error('Error checking out');
+    });
+  };
+  
+  
+
+  
  
   const salesData = [
     { month: "Jan", sales: 4000 },
@@ -170,6 +170,7 @@ export const Dashboard = () => {
                         My Shift:{staff?.shiftTiming} 
                       </h6>
                       <div className="row text-center my-3">
+
       <div className="col">
         <button
           className={`btn btn-sm rounded-1 ${hasCheckedIn ? 'btn-dark' : 'text-white'}`}

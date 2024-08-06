@@ -47,6 +47,9 @@ export const localDate = (data) => {
     if (hours > 0) {
       diff = diff + hours + " hours ";
     }
+    if (minutes > 0) {
+      diff = diff + minutes + " minutes ";
+    }
   
     if (hours === 0 && seconds > 0) {
       diff = diff + seconds + " sec ";
@@ -91,7 +94,13 @@ export const localDate = (data) => {
   };
   
   // Example usage:
-  const milliseconds = 148233;
-  console.log(workingHours(milliseconds)); // Output: "0 hours 2 minutes"
   
-  
+  export const formatYears = (data) => {
+    const date = new Date(data);
+    return date.toLocaleDateString([], { year: 'numeric', month: '2-digit', day: '2-digit' });
+  };
+
+export const formatDated = (data) => {
+  const date = new Date(data);
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+};
