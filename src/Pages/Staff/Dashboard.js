@@ -72,7 +72,8 @@ export const Dashboard = () => {
     }
   
     const data = {
-      id: checkedInId,
+      id: checkedInId ,
+       // Use the saved check-in ID
     };
   
     CheckOut(data).then((res) => {
@@ -85,6 +86,7 @@ export const Dashboard = () => {
       toast.error('Error checking out');
     });
   };
+  
   
 
   
@@ -168,6 +170,7 @@ export const Dashboard = () => {
                         My Shift:{staff?.shiftTiming} 
                       </h6>
                       <div className="row text-center my-3">
+
       <div className="col">
         <button
           className={`btn btn-sm rounded-1 ${hasCheckedIn ? 'btn-dark' : 'text-white'}`}
