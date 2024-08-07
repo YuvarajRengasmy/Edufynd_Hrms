@@ -57,7 +57,8 @@ export const Dashboard = () => {
 
   const handleCheckin = (data) => {
     const checkinData = {
-      staffId: data.id,
+      staffId: getStaffId(),
+      empName: staff.empName,
       timestamp: new Date(),
       employeeId: staff?._id,
     };
@@ -65,6 +66,7 @@ export const Dashboard = () => {
     // Check if the staff ID and timestamp combination is unique
     Checkin(checkinData)
       .then((res) => {
+        console.log("yui",res);
         console.log(res);
         setHasCheckedIn(true); // Optionally, you can keep track of check-in status
         setCheckedInId(checkinData.id);
