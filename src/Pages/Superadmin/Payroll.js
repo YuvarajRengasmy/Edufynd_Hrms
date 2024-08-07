@@ -115,30 +115,7 @@ export const ListEmployees = () => {
             <SuperAdminSidebar />
           </div>
           <div className="col-lg-9">
-            <section className="d-flex justify-content-between align-items-center mb-4">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <Link
-                      to="/SADashboard"
-                      className="text-dark text-decoration-none"
-                    >
-                      Home
-                    </Link>
-                  </li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Employees
-                  </li>
-                </ol>
-              </nav>
-              <Link
-                to="/"
-                className="btn"
-                style={{ backgroundColor: "#7267ef", color: "#fff" }}
-              >
-                Log Out
-              </Link>
-            </section>
+           
             <div className="card border-0 p-2">
               <div className="card-header border-0 bg-white">
                 <h6 className="h6 fw-semibold float-start">PayRoll Report</h6>
@@ -366,8 +343,7 @@ export const ListEmployees = () => {
                                 </table>
                               </div>
                             </div>
-                          </div>
-                          <div className="float-right my-2">
+                            <div className="float-end my-2">
                             <Pagination
                               count={Math.ceil(pagination.count / pageSize)}
                               onChange={handlePageChange}
@@ -376,6 +352,9 @@ export const ListEmployees = () => {
                               color="primary"
                             />
                           </div>
+                          </div>
+                          
+                        
                         </div>
                       </div>
                     </div>
