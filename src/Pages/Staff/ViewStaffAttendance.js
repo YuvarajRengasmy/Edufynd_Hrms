@@ -1,12 +1,13 @@
-
-import LOGO from '../../Assests/Images/logo.png';
-import Profile from '../../Assests/Images/Profile.jpg';
-import { Link,useLocation } from 'react-router-dom';
 import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { getSingleStaff } from "../../Api/Staff/Dashboard";
 import { getSingleAttendence } from "../../Api/Staff/Attendence";
 import { getStaffId } from "../../Utils/storage";
- import {formatDated, formatYears  } from "../../Utils/DateFormat";
+import { formatDated, formatYears } from "../../Utils/DateFormat";
+import LOGO from '../../Assests/Images/logo.png';
+import Profile from '../../Assests/Images/Profile.jpg';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export const ViewStaffAttendance = () => {
   const location = useLocation();
@@ -18,11 +19,10 @@ export const ViewStaffAttendance = () => {
   useEffect(() => {
     getStaffDetails();
     getSingleAttendenc();
-   
   }, [id]);
 
   const getStaffDetails = () => {
-   const id = getStaffId();
+    const id = getStaffId();
     getSingleStaff(id)
       .then((res) => {
         console.log(res);
@@ -34,7 +34,6 @@ export const ViewStaffAttendance = () => {
   };
 
   const getSingleAttendenc = () => {
-   
     getSingleAttendence(id)
       .then((res) => {
         console.log(res);
@@ -45,6 +44,22 @@ export const ViewStaffAttendance = () => {
       });
   };
 
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleDownloadPDF = () => {
+    const input = document.getElementById('contentToPrint');
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      const imgWidth = 210;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      pdf.save('Staff_Attendance.pdf');
+    });
+  };
+
   return (
     <div className='container-fluid mt-4' style={{ fontSize: '14px' }}>
       <div className='row justify-content-center'>
@@ -53,11 +68,11 @@ export const ViewStaffAttendance = () => {
             <div className='card-header bg-white'>
               <img src={LOGO} alt='company_logo' className='img-fluid' style={{ width: '30%', height: '40px' }} />
             </div>
-            <div className='card-body'>
+            <div className='card-body' id='contentToPrint'>
               <div className="profile">
                 <div className="row g-0">
                   <div className="col-md-2">
-                    <img src={staff?.photo?staff?.photo:Profile} className="img-fluid rounded-circle" style={{ width: '5rem', height: '5rem' }} alt="..." />
+                    <img src={staff?.photo ? staff?.photo : Profile} className="img-fluid rounded-circle" style={{ width: '5rem', height: '5rem' }} alt="..." />
                   </div>
                   <div className="col-md-10">
                     <div className="card-body">
@@ -80,7 +95,7 @@ export const ViewStaffAttendance = () => {
                 </div></li>
                 <li className="list-group-item"><div className='d-flex justify-content-between'>
                   <p className='mb-0 fw-bold'>Attendance Date :</p>
-                  <p className='mb-0'>{formatYears (att?.clockIn)}</p>
+                  <p className='mb-0'>{formatYears(att?.clockIn)}</p>
                 </div></li>
               </ul>
 
@@ -94,8 +109,8 @@ export const ViewStaffAttendance = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{formatDated (att?.clockIn)}</td>
-                    <td>{formatDated (att?.clockOut)}</td>
+                    <td>{formatDated(att?.clockIn)}</td>
+                    <td>{formatDated(att?.clockOut)}</td>
                     <td>{att?.totalWork}</td>
                   </tr>
                 </tbody>
@@ -106,7 +121,8 @@ export const ViewStaffAttendance = () => {
               </div>
 
               <div className='d-flex justify-content-center align-items-center gap-3'>
-                <button className='btn btn-sm text-capitalize fw-semibold px-4 py-2 border-0' style={{ backgroundColor: '#28A745', color: '#FFFFFF' }}>Print</button>
+                <button onClick={handlePrint} className='btn btn-sm text-capitalize fw-semibold px-4 py-2 border-0' style={{ backgroundColor: '#28A745', color: '#FFFFFF' }}>Print</button>
+                <button onClick={handleDownloadPDF} className='btn btn-sm text-capitalize fw-semibold px-4 py-2 border-0' style={{ backgroundColor: '#FFC107', color: '#FFFFFF' }}>Download PDF</button>
                 <Link to='/StaffAttendance' className='btn btn-sm text-capitalize fw-semibold border-0 px-4 py-2' style={{ backgroundColor: '#007BFF', color: '#FFFFFF' }}>View Attendance</Link>
               </div>
             </div>
