@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
 import {getallAttendence} from "../../Api/Staff/Attendence";
 import { Link } from "react-router-dom";
-import Header from "../../Components/Navbar";
+import Header from "../../Components/StaffNavbar";
 import Sidebar from "../../Components/Sidebar";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
 import {formatDated, formatYears  } from "../../Utils/DateFormat";

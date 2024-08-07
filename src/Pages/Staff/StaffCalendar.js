@@ -7,7 +7,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 // import '../../../node_modules/react-calendar/@fullcalendar/daygrid/main.css'; // Updated path
 // import '../../../node_modules/react-calendar/@fullcalendar/timegrid/main.css'; // Updated path
 import SuperadminSidebar from '../../Components/SuperadminSidebar';
-import Navbar from '../../Components/Navbar'
+import Navbar from '../../Components/StaffNavbar'
 export const StaffCalendar = () => {
 
 

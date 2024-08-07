@@ -107,8 +107,8 @@ const SACalendar = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Event Details</h5>
-              <button type="button" className="close" onClick={handleClose} aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+              <button type="button" className="btn-close" onClick={handleClose} aria-label="Close">
+                
               </button>
             </div>
             <div className="modal-body">
@@ -147,8 +147,8 @@ const SACalendar = () => {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" onClick={handleClose}>Close</button>
-              <button type="button" className="btn btn-primary" onClick={handleModalSave}>Save changes</button>
+              <button type="button" className="btn btn-light border-0 px-4 py-2 fw-semibold text-capitalize" onClick={handleClose}>Close</button>
+              <button type="button" className="btn btn-primary" onClick={handleModalSave}>Save</button>
             </div>
           </div>
         </div>
