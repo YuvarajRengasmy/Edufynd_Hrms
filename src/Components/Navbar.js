@@ -53,7 +53,7 @@ export const Navbar = () => {
         style={{ backgroundColor: "#161c25" }}
       >
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
+          <Link className="navbar-brand" to="/SADashboard">
             <img
               src="https://hrms.afynd.com/public/uploads/logo/Afynd_Tlogo.png"
               className="d-inline-block align-top img-fluid"
@@ -90,12 +90,12 @@ export const Navbar = () => {
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
-                    <Link className="dropdown-item" to="/StaffComplaints">
+                    <Link className="dropdown-item" to="/SAComplaints">
                       Complaints
                     </Link>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="/StaffResignations">
+                    <Link className="dropdown-item" to="/SAResignations">
                       Resignations
                     </Link>
                   </li>

@@ -53,7 +53,7 @@ export const StaffNavbar = () => {
         style={{ backgroundColor: "#161c25" }}
       >
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
+          <Link className="navbar-brand" to="/StaffDashboard">
             <img
               src="https://hrms.afynd.com/public/uploads/logo/Afynd_Tlogo.png"
               className="d-inline-block align-top img-fluid"
@@ -104,7 +104,7 @@ export const StaffNavbar = () => {
               <li className="nav-item px-2">
                 <Link
                   className="nav-link"
-                  to="/SACalendar"
+                  to="/StaffCalendar"
                   data-tooltip-id="tooltip-calendar"
                   data-tooltip-content="System Calendar"
                 >
