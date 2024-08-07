@@ -63,6 +63,11 @@ export const Dashboard = () => {
       empName: staff.empName,
       timestamp: new Date(),
       employeeId: staff?._id,
+      shiftTiming: staff?.shiftTiming,
+      photo: staff?.photo,
+      email:staff?.email,
+      designation:staff?.designation,
+
     };
   
     // Check if the staff ID and timestamp combination is unique
