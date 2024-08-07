@@ -1,52 +1,19 @@
-/* Sidebar Styles */
-.sidebar {
-  background-color: #ffffff; /* White background */
-  color: #231f20; /* Black color for text */
-}
-
-.sidebar .nav-link {
-  color: #231f20; /* Black color for text */
-  padding: 0.75rem 1.25rem;
-  transition: background-color 0.3s, color 0.3s;
-  font-size: 14px !important;
-}
-
-.nav-link:hover {
-  background-color: #ebebeb; /* Black background on hover/active */
-  color: #7267ef; /* White color for text */
-}
-
-.nav-link.active {
-  background-color: #ebebeb !important; /* Black background on hover/active */
-  color: #7267ef; /* White color for text */
-}
-
-.nav-icon {
-  font-size: 12px !important;
-  margin-right: 5px !important;
-}
-/* Responsive Styles */
-@media (max-width: 992px) {
-  .sidebar {
-    position: relative;
-    width: 100%;
-    height: auto;
+/* Sidebar.css */
+.nav-link {
+    font-size: 13px !important; /* Adjust as needed */
+    color: #231f20 !important;
+    font-weight: 600 !important;
   }
-
-  .sidebar .nav-link {
-    padding: 0.5rem 1rem;
+  
+  .nav-link:hover, .nav-link:focus {
+    color: #7627ef !important;
+    background-color: #ebebeb !important;
+    border-radius: 10px !important;
   }
-}
-
-/* Additional styles for collapsible menu */
-.nav-link[data-bs-toggle="collapse"] {
-  cursor: pointer;
-}
-
-.btn-toggle-nav {
-  margin-top: 0.5rem;
-}
-
-.btn-toggle-nav .nav-link {
-  padding-left: 2rem;
-}
+  
+  .nav-link.active {
+    color: #7627ef !important;
+    background-color: #ebebeb !important;
+    border-radius: 10px !important;
+  }
+  

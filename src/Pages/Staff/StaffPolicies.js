@@ -14,10 +14,10 @@ export const StaffPolicies = () => {
 
       <div className="container-fluid">
         <div className="row">
-          <div className="col-lg-2">
+          <div className="col-lg-3">
             <Sidebar />
           </div>
-          <div className="col-lg-10">
+          <div className="col-lg-9">
             <div className="container">
               <div className="card border-0 p-2">
                 <div className="card-header border-0 bg-white d-flex justify-content-between">

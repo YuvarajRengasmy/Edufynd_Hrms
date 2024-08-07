@@ -15,10 +15,10 @@ export const StaffDisciplinary = () => {
 
 <div className='container-fluid' style={{fontSize:"13px"}}>
   <div className='row'>
-    <div className='col-lg-2'>
+    <div className='col-lg-3'>
       <Sidebar/>
     </div>
-    <div className='col-lg-10'>
+    <div className='col-lg-9'>
     <div className='container'>
 
 <div className="container">

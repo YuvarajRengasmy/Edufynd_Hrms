@@ -12,10 +12,10 @@ export const StaffResignations = () => {
     <br />
     <div className="container-fluid" style={{ fontSize: "12px" }}>
       <div className="row">
-        <div className="col-lg-2">
+        <div className="col-lg-3">
           <Sidebar />
         </div>
-        <div className="col-lg-10">
+        <div className="col-lg-9">
           <div className="container">
             <div className="collapse" id="addResignationCollapse">
               <div className="card border-0 p-2 mb-4">

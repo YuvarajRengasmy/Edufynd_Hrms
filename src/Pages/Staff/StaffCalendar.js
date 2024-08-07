@@ -6,7 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 // import '../../../node_modules/react-calendar/@fullcalendar/common/main.css'; // Updated path
 // import '../../../node_modules/react-calendar/@fullcalendar/daygrid/main.css'; // Updated path
 // import '../../../node_modules/react-calendar/@fullcalendar/timegrid/main.css'; // Updated path
-import SuperadminSidebar from '../../Components/SuperadminSidebar';
+import Sidebar from '../../Components/Sidebar';
 import Navbar from '../../Components/StaffNavbar'
 export const StaffCalendar = () => {
 
@@ -32,10 +32,10 @@ export const StaffCalendar = () => {
 
      <div className='container-fluid'>
       <div className='row'>
-        <div className='col-lg-2'>
-          <SuperadminSidebar/>
+        <div className='col-lg-3'>
+          <Sidebar/>
           </div> 
-          <div className='col-lg-10'>
+          <div className='col-lg-9'>
           
     <div className='container-fluid p-4'>
     <FullCalendar
