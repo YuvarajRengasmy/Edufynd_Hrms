@@ -1,17 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
-import {getallAttendence} from "../../Api/Staff/Attendence";
+import {getallAttendence,getFilterAttendence} from "../../Api/Staff/Attendence";
 import { Link } from "react-router-dom";
 import Header from "../../Components/StaffNavbar";
 import Sidebar from "../../Components/Sidebar";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
 import {formatDated, formatYears  } from "../../Utils/DateFormat";
 import { toast } from "react-toastify";
+import { getStaffId } from "../../Utils/storage";
 
 
 export const Attendance = () => {
  
-  const [staff, setStaff] = useState();
+  const [staff, setStaff] = useState([]);
   const [open, setOpen] = useState(false);
 
   const pageSize = 5;
@@ -29,13 +30,15 @@ export const Attendance = () => {
     const data = {
       limit: 10,
       page: pagination.from,
+      employeeId:getStaffId()
     };
 
-    getallAttendence(data)
+    getFilterAttendence(data)
       .then((res) => {
+        console.log("Target",res);
        
-        setStaff(res?.data?.result);
-        setPagination({ ...pagination, count: res?.data?.result?.staffCount });
+        setStaff(res?.data?.result?.attendencetList || []);
+        setPagination({ ...pagination, count: res?.data?.result?.attendencetCount });
       })
       .catch((err) => {
         console.log(err);
