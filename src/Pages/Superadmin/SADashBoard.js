@@ -106,15 +106,14 @@ const [sa, setSa] = useState({})
                 <section className=" mb-4">
                   <div className="profile-details d-flex align-items-center">
                     <img
-                      src="https://via.placeholder.com/50"
+                      src={sa?.photo?sa?.photo:"https://via.placeholder.com/50"}
+                      style={{ height: "4rem", width: "4rem" }}
                       className="img-fluid rounded-circle me-3"
                       alt="profile"
                     />
                     <div>
-                      <h6 className="fw-semibold text-capitalize mb-0">
-                        Profile Name
-                      </h6>
-                      <p className="mb-0">@profile</p>
+                     
+                      <p className="mb-0">{sa?.name}</p>
                     </div>
                   </div>
                  <Switchto/>

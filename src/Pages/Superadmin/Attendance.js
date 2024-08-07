@@ -1,8 +1,82 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
+import Sortable from 'sortablejs';
+import {getallAttendence} from "../../Api/Staff/Attendence";
 import { Link } from "react-router-dom";
 import SuperAdminSidebar from "../../Components/SuperadminSidebar";
 import Navbar from "../../Components/Navbar";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
+import {formatDated, formatYears  } from "../../Utils/DateFormat";
+
 export const Attendance = () => {
+  const [staff, setStaff] = useState();
+
+
+  const pageSize = 5;
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
+
+  useEffect(() => {
+    getAllStaffDetails();
+  }, [pagination.from, pagination.to]);
+
+  const getAllStaffDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+
+    getallAttendence(data)
+      .then((res) => {
+       
+        setStaff(res?.data?.result);
+        setPagination({ ...pagination, count: res?.data?.result?.staffCount });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
+  
+
+  // const tableRef = useRef(null);
+
+  // useEffect(() => {
+  //   const table = tableRef.current;
+
+  //   // Apply SortableJS to the table headers
+  //   const sortable = new Sortable(table.querySelector('thead tr'), {
+  //     animation: 150,
+  //     swapThreshold: 0.5,
+  //     handle: '.sortable-handle',
+  //     onEnd: (evt) => {
+  //       const oldIndex = evt.oldIndex;
+  //       const newIndex = evt.newIndex;
+
+  //       // Move the columns in the tbody
+  //       table.querySelectorAll('tbody tr').forEach((row) => {
+  //         const cells = Array.from(row.children);
+  //         row.insertBefore(cells[oldIndex], cells[newIndex]);
+  //       });
+  //     }
+  //   });
+
+  //   return () => {
+  //     sortable.destroy();
+  //   };
+  // }, []);
+
+
+
+
   return (
     <>
       <Navbar />
@@ -92,62 +166,50 @@ export const Attendance = () => {
                     </tr>
                   </thead>
                   <tbody style={{ fontSize: "11px" }}>
-                    <tr>
-                      <td>Gopinath</td>
-                      <td>03-08-2024</td>
-                      <td>Present</td>
-                      <td>10.00AM</td>
-                      <td>07.00PM</td>
-                      <td>Nil</td>
-                      <td>Nil</td>
-                      <td className=" text-center d-flex gap-3 justify-content-center">
-                        <Link
-                          to={{
-                            pathname: "/ViewAttendance",
-                          }}
-                          target="_blank"
-                         
-                        >
-                          <i className="far fa-eye text-primary me-1"></i>
-                        </Link>
-                        <Link
-                          data-bs-toggle="modal"
-                          data-bs-target="#AttendanceModaldelete"
-                        >
-                          <i className="far fa-edit text-warning me-1"></i>
-                        </Link>
-                      </td>
-                    </tr>
+                  {staff?.map((data) => (
+                      <tr>
+                        <td>{data?.empName}</td>
+                        <td>{formatYears (data?.clockIn)}</td>
+                        <td>{data?.status}</td>
+                        <td>{formatDated (data?.clockIn)}</td> 
+                        <td>{formatDated (data?.clockOut)}</td>
+                        <td>{data?.late}</td>
+                        <td>{data?.earlyLeaving}</td>
+                        <td className=" text-center d-flex gap-3 justify-content-center">
+                          <Link
+                            to={{
+                              pathname: "/ViewSAAttendance",
+                              search: `?id=${data?._id}`,
+                            }}
+                           
+                          >
+                            <i className="far fa-eye  me-1"></i>
+                          </Link>
+                          <Link
+                            to={{
+                              pathname: "/EditSAAttendance",
+                              search: `?id=${data?._id}`,
+                            }}
+                           
+                          >
+                            <i className="fas fa-edit me-1"></i>
+                          </Link>
+                          
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
-              <div className="card-footer bg-white border-0 d-flex justify-content-between">
-                <p>Showing 1 to 10 of 12 entries</p>
-                <nav>
-                  <ul className="pagination pagination-sm">
-                    <li className="page-item">
-                      <Link to="#" className="page-link">
-                        Previous
-                      </Link>
-                    </li>
-                    <li className="page-item">
-                      <Link to="#" className="page-link">
-                        1
-                      </Link>
-                    </li>
-                    <li className="page-item">
-                      <Link to="#" className="page-link">
-                        2
-                      </Link>
-                    </li>
-                    <li className="page-item">
-                      <Link to="#" className="page-link">
-                        Next
-                      </Link>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
+              <div className="float-right my-2">
+                        <Pagination
+                          count={Math.ceil(pagination.count / pageSize)}
+                          onChange={handlePageChange}
+                          variant="outlined"
+                          shape="rounded"
+                          color="primary"
+                        />
+                      </div>
             </div>
           </div>
         </div>
