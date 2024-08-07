@@ -8,8 +8,7 @@ import {
   faList,
 } from "@fortawesome/free-solid-svg-icons";
 import { toast } from 'react-toastify';
-import { getSingleStaff } from "../Api/Staff/Dashboard";
-import { getStaffId } from "../Utils/storage";
+
 import { useNavigate } from 'react-router-dom';
 import { clearStorage } from "../Utils/storage";
 import { Tooltip } from "react-tooltip";
@@ -22,24 +21,7 @@ export const Navbar = () => {
 
 
   const navigate = useNavigate();
-  const [staff, setStaff] = useState([]);
-
-  useEffect(() => {
-    getStaffDetails();
-  }, []);
-
-  const getStaffDetails = () => {
-    const id = getStaffId();
-    getSingleStaff(id)
-      .then((res) => {
-        console.log(res);
-        setStaff(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
+  
 
   const logout = () => {
     clearStorage(); // Assuming clearStorage is defined elsewhere
@@ -124,7 +106,7 @@ export const Navbar = () => {
                   aria-expanded="false"
                 >
                   <img
-                    src={staff?.photo?staff?.photo:"https://via.placeholder.com/30"}
+                    src={"https://via.placeholder.com/30"}
                     
                     style={{ objectFit: "cover",width: "3rem", height: "3rem", borderRadius: "50%" }}
                     className="img-fluid rounded-pill me-2"
@@ -147,7 +129,7 @@ export const Navbar = () => {
                 </a>
                
               </li>
-              <li className="nav-item px-2 dropdown text-white"><span>{staff?.empName}</span></li>
+              <li className="nav-item px-2 dropdown text-white"><span></span></li>
             </ul>
           </div>
         </div>
