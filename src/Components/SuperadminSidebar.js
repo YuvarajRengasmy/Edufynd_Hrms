@@ -297,6 +297,12 @@ const SuperadminSidebar = () => {
               </ul>
             </div>
           </li>
+          <li>
+                  <Link to="/SASettings" className="nav-link d-flex align-items-center">
+                    <i className="fas fa-cog fa-spin me-2"></i>
+                   Settings
+                  </Link>
+                </li>
         </ul>
         </div>
       </div>

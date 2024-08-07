@@ -92,223 +92,197 @@ export const Attendance = () => {
           </div>
           <div className="col-lg-9">
           <div className="collapse" id="SAAttendanceCollapse">
-                <div className="card border-0 p-2 mb-4">
-                  <div className="card-header bg-white d-flex justify-content-between">
-                    <h6 className="h6 fw-semibold">Edit Attendace</h6>
-                    <button
-                      className="btn btn-sm text-capitalize fw-semibold"
-                      style={{ backgroundColor: "#7267ef", color: "#fff" }}
-                      data-bs-toggle="collapse"
-                      href="#SAAttendanceCollapse"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="SAAttendanceCollapse"
-                    >
-                      Hide
-                    </button>
-                  </div>
-                  <form>
-                    <div className="card-body">
-                      <div className="row gy-3 gx-4">
-                        <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
-                          <label className="form-label">Employee Name</label>
-                          <input
-                            type="text"
-                            className="form-control rounded-1 text-muted"
-                            placeholder="Example John Doe"
-                            style={{ fontSize: "12px" }}
-                          />
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
-                          <label className="form-label">Date</label>
-                          <input
-                            type="Date"
-                            className="form-control rounded-1 text-uppercase text-muted"
-                            placeholder="Example John Doe"
-                            style={{ fontSize: "12px" }}
-                          />
-                        
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
-                          <label className="form-label">Status</label>
-                          <select class="form-select rounded-1 text-muted" style={{ fontSize: "12px" }}>
-  <option >Select Status</option>
-  <option value="Active" selected>Active</option>
-  <option value="InActive">InActive</option>
- 
-</select>
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
-                          <label className="form-label">ClockIn</label>
-                          <input
-                            type="datetime-local"
-                            className="form-control rounded-1 text-uppercase text-muted"
-                            placeholder="Example John Doe"
-                            style={{ fontSize: "12px" }}
-                          />
-                        
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
-                          <label className="form-label">ClockIn</label>
-                          <input
-                            type="datetime-local"
-                            className="form-control rounded-1 text-uppercase text-muted"
-                            placeholder="Example John Doe"
-                            style={{ fontSize: "12px" }}
-                          />
-                        
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
-                          <label className="form-label">Late</label>
-                          <input
-                            type="datetime-local"
-                            className="form-control rounded-1 text-uppercase text-muted"
-                            placeholder="Example John Doe"
-                            style={{ fontSize: "12px" }}
-                          />
-                        
-                        </div>
-                        <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
-                          <label className="form-label">Early Leaving</label>
-                          <input
-                            type="datetime-local"
-                            className="form-control rounded-1 text-uppercase text-muted"
-                            placeholder="Example John Doe"
-                            style={{ fontSize: "12px" }}
-                          />
-                        
-                        </div>
-                      
-                       
-                      </div>
-                    </div>
-                    <div className="card-footer bg-white p-4">
-                      <div className="d-flex justify-content-end gap-3">
-                        <buton
-                          className="btn text-capitalize fw-semibold px-3 py-2 rounded-1 btn-light border-0 "
-                          style={{ fontSize: "12px" }}
-                        >
-                         Cancel
-                        </buton>
-                        <buton
-                          className="btn text-capitalize fw-semibold px-3 py-2 rounded-1 text-white border-0 "
-                          style={{
-                            fontSize: "12px",
-                            backgroundColor: "#7267ef",
-                          }}
-                        >
-                          Save
-                        </buton>
-                      </div>
-                    </div>
-                  </form>
-                </div>
+      <div className="card border-0 p-2 mb-4">
+        <div className="card-header bg-white d-flex justify-content-between">
+          <h6 className="h6 fw-semibold">Edit Attendance</h6>
+          <button
+            className="btn btn-sm text-capitalize fw-semibold"
+            style={{ backgroundColor: "#7267ef", color: "#fff" }}
+            data-bs-toggle="collapse"
+            href="#SAAttendanceCollapse"
+            role="button"
+            aria-expanded="false"
+            aria-controls="SAAttendanceCollapse"
+          >
+            Hide
+          </button>
+        </div>
+        <form>
+          <div className="card-body">
+            <div className="row gy-3 gx-4">
+              <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+                <label className="form-label" htmlFor="employeeName">Employee Name</label>
+                <input
+                  type="text"
+                  id="employeeName"
+                  className="form-control rounded-1 text-muted"
+                  placeholder="Example John Doe"
+                  style={{ fontSize: "12px" }}
+                />
               </div>
-              
-          
-            <div className="card border-0 p-2">
-              
-              <div className="card-header border-0 bg-white d-flex justify-content-between">
-                <h6 className="h6 fw-semibold">Daily Attendace Report</h6>
-               
+              <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+                <label className="form-label" htmlFor="date">Date</label>
+                <input
+                  type="date"
+                  id="date"
+                  className="form-control rounded-1 text-uppercase text-muted"
+                  style={{ fontSize: "12px" }}
+                />
               </div>
-              <div className="card-body">
-                <div className="d-flex justify-content-between mb-3">
-                  <p>
-                    Show
-                    <select
-                      className="form-select form-select-sm rounded-1 d-inline mx-2"
-                      aria-label="Default select example"
-                      style={{
-                        width: "auto",
-                        display: "inline-block",
-                        fontSize: "12px",
-                      }}
-                    >
-                      <option selected>Show Entries</option>
-                      <option value="10">10</option>
-                      <option value="20">20</option>
-                      <option value="50">50</option>
-                    </select>{" "}
-                    Entries
-                  </p>
-                  <div className="mb-3">
-                    <input
-                      type="text"
-                      className="form-control form-control-sm rounded-1"
-                      placeholder="Search...."
-                      style={{ fontSize: "12px" }}
-                    />
-                  </div>
-                </div>
-
-                <table className="table table-responsive-sm table-hover">
-                  <thead
-                    className="table-light text-uppercase"
-                    style={{ fontSize: "13px" }}
-                  >
-                    <tr>
-                      <th>Employee</th>
-                      <th>Date</th>
-                      <th>Status</th>
-                      <th>Clock In</th>
-                      <th>Clock Out</th>
-                      <th>Late</th>
-                      <th>Early Leaving</th>
-                      <th className="text-center">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody style={{ fontSize: "11px" }}>
-                  {staff?.map((data) => (
-                      <tr>
-                        <td>{data?.empName}</td>
-                        <td>{formatYears (data?.clockIn)}</td>
-                        <td>{data?.status}</td>
-                        <td>{formatDated (data?.clockIn)}</td> 
-                        <td>{formatDated (data?.clockOut)}</td>
-                        <td>{data?.late}</td>
-                        <td>{data?.earlyLeaving}</td>
-                        <td className=" text-center d-flex gap-3 justify-content-center">
-                          <Link
-                            to={{
-                              pathname: "/SAViewAttendance",
-                              search: `?id=${data?._id}`,
-                            }}
-                           
-                          >
-                            <i className="far fa-eye  me-1"></i>
-                          </Link>
-                          <button
-                          className="btn border-0 p-0"
-                            data-bs-toggle="collapse"
-                            href="#SAAttendanceCollapse"
-                            role="button"
-                            aria-expanded="false"
-                            aria-controls="SAAttendanceCollapse"
-                            style={{fontSize:'12px'}}
-                           
-                          >
-                            <i className="fas fa-edit text-success me-1"></i>
-                          </button>
-                          
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-
-                <div className="float-end my-2">
-                        <Pagination
-                          count={Math.ceil(pagination.count / pageSize)}
-                          onChange={handlePageChange}
-                          variant="outlined"
-                          shape="rounded"
-                          color="primary"
-                        />
-                      </div>
+              <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+                <label className="form-label" htmlFor="status">Status</label>
+                <select className="form-select rounded-1 text-muted" id="status" style={{ fontSize: "12px" }}>
+                  <option>Select Status</option>
+                  <option value="Active" selected>Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
               </div>
-              
+              <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+                <label className="form-label" htmlFor="clockIn">Clock In</label>
+                <input
+                  type="datetime-local"
+                  id="clockIn"
+                  className="form-control rounded-1 text-uppercase text-muted"
+                  style={{ fontSize: "12px" }}
+                />
+              </div>
+              <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+                <label className="form-label" htmlFor="clockOut">Clock Out</label>
+                <input
+                  type="datetime-local"
+                  id="clockOut"
+                  className="form-control rounded-1 text-uppercase text-muted"
+                  style={{ fontSize: "12px" }}
+                />
+              </div>
+              <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+                <label className="form-label" htmlFor="late">Late</label>
+                <input
+                  type="datetime-local"
+                  id="late"
+                  className="form-control rounded-1 text-uppercase text-muted"
+                  style={{ fontSize: "12px" }}
+                />
+              </div>
+              <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+                <label className="form-label" htmlFor="earlyLeaving">Early Leaving</label>
+                <input
+                  type="datetime-local"
+                  id="earlyLeaving"
+                  className="form-control rounded-1 text-uppercase text-muted"
+                  style={{ fontSize: "12px" }}
+                />
+              </div>
             </div>
+          </div>
+          <div className="card-footer bg-white p-4">
+            <div className="d-flex justify-content-end gap-3">
+              <button
+                type="button"
+                className="btn text-capitalize fw-semibold px-3 py-2 rounded-1 btn-light border-0"
+                style={{ fontSize: "12px" }}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="btn text-capitalize fw-semibold px-3 py-2 rounded-1 text-white border-0"
+                style={{ fontSize: "12px", backgroundColor: "#7267ef" }}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div className="card border-0 p-2">
+      <div className="card-header border-0 bg-white d-flex justify-content-between">
+        <h6 className="h6 fw-semibold">Daily Attendance Report</h6>
+      </div>
+      <div className="card-body">
+        <div className="d-flex justify-content-between mb-3">
+          <p>
+            Show
+            <select
+              className="form-select form-select-sm rounded-1 d-inline mx-2"
+              aria-label="Default select example"
+              style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            >
+              <option selected>Show Entries</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>{" "}
+            Entries
+          </p>
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control form-control-sm rounded-1"
+              placeholder="Search..."
+              style={{ fontSize: "12px" }}
+            />
+          </div>
+        </div>
+
+        <table className="table table-responsive-sm table-hover">
+          <thead className="table-light text-uppercase" style={{ fontSize: "13px" }}>
+            <tr>
+              <th>Employee</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Clock In</th>
+              <th>Clock Out</th>
+              <th>Late</th>
+              <th>Early Leaving</th>
+              <th className="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody style={{ fontSize: "11px" }}>
+            {staff?.map((data) => (
+              <tr key={data._id}>
+                <td>{data?.empName}</td>
+                <td>{formatYears(data?.clockIn)}</td>
+                <td>{data?.status}</td>
+                <td>{formatDated(data?.clockIn)}</td>
+                <td>{formatDated(data?.clockOut)}</td>
+                <td>{data?.late}</td>
+                <td>{data?.earlyLeaving}</td>
+                <td className="text-center d-flex gap-3 justify-content-center">
+                  <Link to={{ pathname: "/SAViewAttendance", search: `?id=${data?._id}` }}>
+                    <i className="far fa-eye me-1"></i>
+                  </Link>
+                  <button
+                    className="btn border-0 p-0"
+                    data-bs-toggle="collapse"
+                    href="#SAAttendanceCollapse"
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="SAAttendanceCollapse"
+                    style={{ fontSize: '12px' }}
+                  >
+                    <i className="fas fa-edit text-success me-1"></i>
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <div className="float-end my-2">
+          <Pagination
+            count={Math.ceil(pagination.count / pageSize)}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+          />
+        </div>
+      </div>
+    </div>
+  
             
           </div>
         </div>
