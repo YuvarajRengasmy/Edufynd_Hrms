@@ -287,14 +287,14 @@ export const AddStaff = () => {
       <br />
       <div className=" container-fluid">
       <div className="row">
-        <div  className="col-lg-2"
+        <div  className="col-lg-3"
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }} >
          
             <Sidebar />
           </div>
 
           <div
-            className="col-lg-10"
+            className="col-lg-9"
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
           >
             <div className="content-header ">

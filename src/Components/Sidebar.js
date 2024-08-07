@@ -79,7 +79,7 @@ const Sidebar = () => {
       </div>
 
       {/* Fixed Sidebar for larger screens */}
-      <div className="d-none d-md-block position-fixed h-100 bg-white" style={{ width: '240px' }}>
+      <div className="d-none d-md-block position-fixed h-100 bg-white" style={{ width: '250px' }}>
         <div className="d-flex flex-column h-100">
           <ul className="nav flex-column flex-grow-1 p-3">
             <li className="nav-item mb-2">

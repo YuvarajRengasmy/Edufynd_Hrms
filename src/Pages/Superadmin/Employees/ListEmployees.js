@@ -110,39 +110,22 @@ export const ListEmployees = () => {
       <br />
 
       <div className="container-fluid">
-        <div className="row">
-          <div className="col-lg-2">
+        <div className="row ">
+          <div className="col-lg-3">
             <SuperAdminSidebar />
           </div>
-          <div className="col-lg-10">
+          <div className="col-lg-9">
             <div className="container"> 
-            <section className="mb-4 ">
-              <nav aria-label="breadcrumb ">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <Link
-                      to="/SADashboard"
-                      className="text-dark text-decoration-none"
-                    >
-                      Home
-                    </Link>
-                  </li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Employees
-                  </li>
-                </ol>
-              </nav>
-             <Switchto/>
-            </section>
+          
             <div className="card border-0 p-2">
-              <div className="card-header border-0 bg-white">
+              <div className="card-header  bg-white">
                 <h6 className="h6 fw-semibold float-start">Employees Report</h6>
                 <Link
                   to="/SAAddEmployees"
                   className="btn btn-sm text-white text-capitalize  float-end fw-semibold"
                   style={{ backgroundColor: "#7267ef" }}
                 >
-                  Add Employees
+                 <i className="fa fa-plus-circle me-1"></i>  Add Employees
                 </Link>
               </div>
               <div className="content-body">
