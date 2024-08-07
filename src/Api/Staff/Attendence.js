@@ -23,6 +23,6 @@ export const getSingleAttendence = (data) => {
     return API.get(`${Attendence}/getSingleAttendence`, { params: { _id: data } })
 }
 
-export const getFilterStaff = (data) => {
-    return API.put(`${Attendence}/getFilterStaffSuperAdmin`, data);
+export const getFilterAttendence = (data) => {
+    return API.put(`${Attendence}/getFilterAttendence`, data);
   };

@@ -88,7 +88,7 @@ export const Dashboard = () => {
     CheckOut(checkinData)
       .then((res) => {
         console.log(res);
-        setHasCheckedIn(false); // Optionally, you can keep track of check-in status
+        // setHasCheckedIn(false); // Optionally, you can keep track of check-in status
         setCheckedInId(null);
         toast.success('Check-Out successful.');
       })
@@ -224,7 +224,7 @@ export const Dashboard = () => {
             backgroundColor: '#007bff', // Blue color for check-out
           }}
           onClick={handleCheckOut}
-          disabled={!hasCheckedIn} // Disable button if not checked in
+          // disabled={!hasCheckedIn} // Disable button if not checked in
         >
           Clock OUT
         </button>
