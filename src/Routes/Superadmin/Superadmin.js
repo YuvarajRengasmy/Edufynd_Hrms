@@ -13,6 +13,7 @@ import ViewEmployees from "../../Pages/Superadmin/Employees/ViewEmployees";
 import Payroll from "../../Pages/Superadmin/Payroll";
 import SACalendar from "../../Pages/Superadmin/SACalendar";
 import PrivateRoute from '../../Pages/Login/PrivateRoute';
+import DepartmentHead from "../../Pages/Superadmin/departmentHead";
 export const Superadmin = () => {
   return (
     <div>
@@ -27,6 +28,7 @@ export const Superadmin = () => {
         <Route path="/SAAddEmployees" element={<PrivateRoute><AddEmployees /></PrivateRoute>} />
         <Route path="/SAEditEmployees" element={<PrivateRoute><EditEmployees /></PrivateRoute>} />
         <Route path="/SAViewEmployees" element={<PrivateRoute><ViewEmployees /></PrivateRoute>} />
+        <Route path="/SADepartmentHead" element={<PrivateRoute><DepartmentHead /></PrivateRoute>} />
 
         <Route path="/SAPayroll" element={<Payroll />} />
 
