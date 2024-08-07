@@ -70,7 +70,7 @@ export const Login = () => {
                 };
                 saveToken(data);
                 if (isAuthenticated()) {
-                    navigate("/SADashboard");
+                    navigate("/SADepartment");
                     window.location.reload(); // Refresh the page
                 }
             }
@@ -96,7 +96,7 @@ export const Login = () => {
 
   if (isAuthenticated()) {
     const type = getLoginType();
-     if (type === 'superAdmin') { return <Navigate to="/SADashboard" /> }
+     if (type === 'superAdmin') { return <Navigate to="/SADepartment" /> }
     else if (type === 'staff') { return <Navigate to="/StaffDashboard" /> }
     else  { return <Navigate to="/" /> }
   }
