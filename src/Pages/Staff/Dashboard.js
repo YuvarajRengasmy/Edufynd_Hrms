@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../../Components/Sidebar";
-import Header from "../../Components/Navbar";
+import Header from "../../Components/StaffNavbar";
 import { Link } from "react-router-dom";
 import { workingHours } from "../../Utils/DateFormat";
 

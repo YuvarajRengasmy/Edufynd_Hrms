@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import Header from "../../Components/Navbar";
+import Header from "../../Components/StaffNavbar";
 import Sidebar from "../../Components/Sidebar";
 import { Link } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
