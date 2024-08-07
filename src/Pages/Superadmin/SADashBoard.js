@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../../Components/SuperadminSidebar";
 import Header from "../../Components/Navbar";
 import { Link } from "react-router-dom";
@@ -16,8 +16,32 @@ import {
   Cell,
 } from "recharts";
 import Switchto from "../../Components/Switchto";
+import { getSuperAdminId } from "../../Utils/storage";
+
+import {getSingleSuperAdmin } from "../../Api/SuperAdmin/Dashboard";
 
 export const SADashboard = () => {
+
+const [sa, setSa] = useState({})
+
+
+
+  useEffect(() => {
+    getStaffDetails();
+   
+  }, []);
+
+  const getStaffDetails = () => {
+    const id = getSuperAdminId();
+    getSingleSuperAdmin(id)
+      .then((res) => {
+        console.log(res);
+        setSa(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const invoicePaymentData = [
     { Check: "Paid", Amount: 11800.0 },
     { Check: "Unpaid", Amount: 0.0 },
