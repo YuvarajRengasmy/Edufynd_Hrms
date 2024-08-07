@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "../../Pages/Login/Login";
 import Department from "../../Pages/Superadmin/Department";
+import ViewStaffAttendance from "../../Pages/Superadmin/ViewAttendance";
 import SADashBoard from "../../Pages/Superadmin/SADashBoard";
 import Policies from "../../Pages/Superadmin/Policies";
 import Attendance from "../../Pages/Superadmin/Attendance";
@@ -21,7 +22,7 @@ export const Superadmin = () => {
         <Route path="/SADepartment" element={<PrivateRoute><Department /></PrivateRoute>} />
         <Route path="/SAPolicies" element={<PrivateRoute><Policies /></PrivateRoute>} />
         <Route path="/SAAttendance" element={<PrivateRoute><Attendance /></PrivateRoute>} />
-
+        <Route path="/SAViewAttendance" element={<PrivateRoute><ViewStaffAttendance /></PrivateRoute>} />
         <Route path="/SAListEmployees" element={<PrivateRoute><ListEmployees /></PrivateRoute>} />
         <Route path="/SAAddEmployees" element={<PrivateRoute><AddEmployees /></PrivateRoute>} />
         <Route path="/SAEditEmployees" element={<PrivateRoute><EditEmployees /></PrivateRoute>} />
