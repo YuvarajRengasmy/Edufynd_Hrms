@@ -73,23 +73,20 @@ export const Dashboard = () => {
 
 
 
-  const handleCheckout = () => {
-    const id = getStaffId();
-    if (id) {
-        CheckOut(id)
-            .then(res => {
-                toast.success(res?.data?.message);
-                setHasCheckedIn(false);
-                getStaffDetails();
-            })
-            .catch(err => {
-                console.log(err);
-                toast.error('Failed to check out. Please try again.');
-            });
-    } else {
-        toast.error('No staff ID found. Please log in again.');
-    }
-  };
+ const handleCheckOut = () => {
+  const data = {
+     
+      _id: getStaffId(), // Ensure attendanceId is set from previous check-in
+  }
+  CheckOut(data).then(res => {
+      toast.success(res?.data?.message)
+      // setStaffId();
+  
+      setHasCheckedIn(false);
+      getStaffDetails();
+     
+  }).catch(err => { console.log(err) })
+}
  
   const salesData = [
     { month: "Jan", sales: 4000 },
