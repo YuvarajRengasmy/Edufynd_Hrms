@@ -167,10 +167,10 @@ const SuperadminSidebar = () => {
       </button>
 
       {/* Fixed Sidebar for larger screens */}
-      <div className="d-none d-md-block position-fixed h-100 bg-white" style={{width:'250px'}}>
+      <div className="d-none d-md-block position-fixed h-100 bg-white overflow-auto  p-3 " style={{width:'250px'}}>
 
-      <div className="d-flex flex-column h-100">
-        <ul className="nav flex-column flex-grow-1 p-3">
+      <div className="d-flex flex-column align-items-center  " >
+        <ul className="nav flex-column flex-grow-1 ">
           <li className="nav-item mb-2">
             <Link to="/SADashboard" className="nav-link d-flex align-items-center">
               <i className="fas fa-home me-2"></i>
