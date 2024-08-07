@@ -18,7 +18,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./Navbar.css"; // Custom CSS file for additional styles
 
-export const Navbar = () => {
+export const StaffNavbar = () => {
 
 
   const navigate = useNavigate();
@@ -161,4 +161,4 @@ export const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default StaffNavbar;

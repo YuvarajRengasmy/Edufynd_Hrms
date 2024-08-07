@@ -15,6 +15,7 @@ import {
   Pie,
   Cell,
 } from "recharts";
+import Switchto from "../../Components/Switchto";
 
 export const SADashboard = () => {
   const invoicePaymentData = [
@@ -78,7 +79,7 @@ export const SADashboard = () => {
           <div className="col-lg-9 ">
             <div className="container-fluid">
               <div className="row">
-                <section className="d-flex justify-content-between align-items-center mb-4">
+                <section className=" mb-4">
                   <div className="profile-details d-flex align-items-center">
                     <img
                       src="https://via.placeholder.com/50"
@@ -92,13 +93,7 @@ export const SADashboard = () => {
                       <p className="mb-0">@profile</p>
                     </div>
                   </div>
-                  <Link
-                    to="/"
-                    className="btn"
-                    style={{ backgroundColor: "#7267ef", color: "#fff" }}
-                  >
-                    Log Out
-                  </Link>
+                 <Switchto/>
                 </section>
                 <div className="container-fluid my-4">
                   <div className="row">
