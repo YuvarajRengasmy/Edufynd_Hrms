@@ -1,4 +1,6 @@
-/* Navbar.css */
+.bg-custom {
+  background-color: #161c25;
+}
 
 .navbar-nav .nav-link {
   color: #ffffff;
@@ -6,14 +8,7 @@
 }
 
 .navbar-nav .nav-link:hover {
-  color: #161c25;
- 
-  /* Highlight color */
-}
-
-.nav-icon {
-  font-size: 1.2rem;
-  /* Adjust icon size */
+  color: #17c666; /* Highlight color */
 }
 
 .dropdown-menu {
@@ -25,7 +20,43 @@
 }
 
 .dropdown-item:hover {
-  background-color: #17c666;
-  /* Highlight color */
+  background-color: #17c666; /* Highlight color */
   color: #ffffff;
+}
+
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-brand img {
+  width: auto;
+  height: 50px;
+}
+
+.navbar-nav .dropdown-menu {
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.navbar-nav .dropdown-item {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-item .img-fluid {
+  border-radius: 50%;
+}
+
+@media (max-width: 767px) {
+  .navbar-nav {
+    text-align: center;
+  }
+
+  .navbar-nav .nav-item {
+    margin: 0.5rem 0;
+  }
+
+  .navbar-nav .dropdown-menu {
+    position: static;
+    float: none;
+  }
 }
