@@ -11,20 +11,21 @@ import EditEmployees from "../../Pages/Superadmin/Employees/EditEmployees";
 import ViewEmployees from "../../Pages/Superadmin/Employees/ViewEmployees";
 import Payroll from "../../Pages/Superadmin/Payroll";
 import SACalendar from "../../Pages/Superadmin/SACalendar";
+import PrivateRoute from '../../Pages/Login/PrivateRoute';
 export const Superadmin = () => {
   return (
     <div>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/SADashboard" element={<SADashBoard />} />
-        <Route path="/SADepartment" element={<Department />} />
-        <Route path="/SAPolicies" element={<Policies />} />
-        <Route path="/SAAttendance" element={<Attendance />} />
+        <Route path="/SADashboard" element={<PrivateRoute><SADashBoard /></PrivateRoute>} />
+        <Route path="/SADepartment" element={<PrivateRoute><Department /></PrivateRoute>} />
+        <Route path="/SAPolicies" element={<PrivateRoute><Policies /></PrivateRoute>} />
+        <Route path="/SAAttendance" element={<PrivateRoute><Attendance /></PrivateRoute>} />
 
-        <Route path="/SAListEmployees" element={<ListEmployees />} />
-        <Route path="/SAAddEmployees" element={<AddEmployees />} />
-        <Route path="/SAEditEmployees" element={<EditEmployees />} />
-        <Route path="/SAViewEmployees" element={<ViewEmployees />} />
+        <Route path="/SAListEmployees" element={<PrivateRoute><ListEmployees /></PrivateRoute>} />
+        <Route path="/SAAddEmployees" element={<PrivateRoute><AddEmployees /></PrivateRoute>} />
+        <Route path="/SAEditEmployees" element={<PrivateRoute><EditEmployees /></PrivateRoute>} />
+        <Route path="/SAViewEmployees" element={<PrivateRoute><ViewEmployees /></PrivateRoute>} />
 
         <Route path="/SAPayroll" element={<Payroll />} />
 
