@@ -1,9 +1,50 @@
-import React from 'react';
+
 import LOGO from '../../Assests/Images/logo.png';
 import Profile from '../../Assests/Images/Profile.jpg';
-import { Link } from 'react-router-dom';
+import { Link,useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { getSingleStaff } from "../../Api/Staff/Dashboard";
+import { getSingleAttendence } from "../../Api/Staff/Attendence";
+import { getStaffId } from "../../Utils/storage";
+ import {formatDated, formatYears  } from "../../Utils/DateFormat";
 
 export const ViewStaffAttendance = () => {
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+
+  const [staff, setStaff] = useState([]);
+  const [att, setAtt] = useState([]);
+
+  useEffect(() => {
+    getStaffDetails();
+    getSingleAttendenc();
+   
+  }, [id]);
+
+  const getStaffDetails = () => {
+   const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log(res);
+        setStaff(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getSingleAttendenc = () => {
+   
+    getSingleAttendence(id)
+      .then((res) => {
+        console.log(res);
+        setAtt(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className='container-fluid mt-4' style={{ fontSize: '14px' }}>
       <div className='row justify-content-center'>
@@ -16,12 +57,12 @@ export const ViewStaffAttendance = () => {
               <div className="profile">
                 <div className="row g-0">
                   <div className="col-md-2">
-                    <img src={Profile} className="img-fluid rounded-circle" style={{ width: '5rem', height: '5rem' }} alt="..." />
+                    <img src={staff?.photo?staff?.photo:Profile} className="img-fluid rounded-circle" style={{ width: '5rem', height: '5rem' }} alt="..." />
                   </div>
                   <div className="col-md-10">
                     <div className="card-body">
-                      <p className="card-title mb-0">Gopinath Velmurugan</p>
-                      <p className="card-text"><small className="text-body-secondary">Web Designer</small></p>
+                      <p className="card-title mb-0">{staff?.empName}</p>
+                      <p className="card-text"><small className="text-body-secondary">{staff?.designation}</small></p>
                     </div>
                   </div>
                 </div>
@@ -31,15 +72,15 @@ export const ViewStaffAttendance = () => {
                 <li className="list-group-item"><div className='mb-0' style={{ color: '#007BFF' }}><p className='mb-0'>Employee Information</p></div></li>
                 <li className="list-group-item"><div className='d-flex justify-content-between'>
                   <p className='mb-0 fw-bold'>Office Shift :</p>
-                  <p className='mb-0'>General Shift</p>
+                  <p className='mb-0'>{staff?.shiftTiming}</p>
                 </div></li>
                 <li className="list-group-item"><div className='d-flex justify-content-between'>
                   <p className='mb-0 fw-bold'>Account Email :</p>
-                  <p className='mb-0'>gopinath.v@afynd.com</p>
+                  <p className='mb-0'>{staff?.email}</p>
                 </div></li>
                 <li className="list-group-item"><div className='d-flex justify-content-between'>
                   <p className='mb-0 fw-bold'>Attendance Date :</p>
-                  <p className='mb-0'>06-08-2024</p>
+                  <p className='mb-0'>{formatYears (att?.clockIn)}</p>
                 </div></li>
               </ul>
 
@@ -53,15 +94,15 @@ export const ViewStaffAttendance = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>09:38 am</td>
-                    <td>05:30 pm</td>
-                    <td>00:00</td>
+                    <td>{formatDated (att?.clockIn)}</td>
+                    <td>{formatDated (att?.clockOut)}</td>
+                    <td>{att?.totalWork}</td>
                   </tr>
                 </tbody>
               </table>
               <div className='d-flex flex-column justify-content-end align-items-end mb-0'>
-                <p className='mb-1'>Total Work : 00:00</p>
-                <p>Late : 0h 8m</p>
+                <p className='mb-1'>Total Work : {att?.totalWork}</p>
+                <p>Late : {att?.late}</p>
               </div>
 
               <div className='d-flex justify-content-center align-items-center gap-3'>
