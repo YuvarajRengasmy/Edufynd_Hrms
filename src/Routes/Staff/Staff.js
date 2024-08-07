@@ -13,6 +13,8 @@ import StaffPolicies from "../../Pages/Staff/StaffPolicies";
 import StaffDisciplinary from "../../Pages/Staff/StaffDisciplinary";
 import ViewStaffAttendance from "../../Pages/Staff/ViewStaffAttendance";
 import PrivateRoute from '../../Pages/Login/PrivateRoute';
+import StaffMonthlyReport from "../../Pages/Staff/StaffMonthlyReport";
+import ViewStaffMonthlyReports from "../../Pages/Staff/ViewStaffMonthlyReports";
 export const Staff = () => {
   return (
     <div>
@@ -22,6 +24,8 @@ export const Staff = () => {
 
         <Route path="/StaffAttendance" element={<PrivateRoute><Attendance /></PrivateRoute>} />
         <Route path="/ViewStaffAttendance" element={<PrivateRoute><ViewStaffAttendance /></PrivateRoute>} />
+        <Route path="/StaffMonthlyReports" element={<PrivateRoute><StaffMonthlyReport /></PrivateRoute>} />
+        <Route path="/ViewStaffMonthlyReports" element={<PrivateRoute><ViewStaffMonthlyReports /></PrivateRoute>} />
 
 
 
