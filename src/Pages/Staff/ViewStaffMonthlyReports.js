@@ -10,10 +10,11 @@ export const ViewStaffMonthlyReports = () => {
         <div className='card rounded-1 border-0'>
           <div className='card-header bg-white'>
             <div className='float-start'>
-            <img src={LOGO} alt='company_logo' className='img-fluid' style={{ width: '10rem', height: '3rem' }} />
+            <img src={LOGO} alt='company_logo' className='img-fluid' style={{ width: '11rem', height: '3rem' }} />
             </div>
-            <div className='float-end'>
-                <h6 className=''></h6>
+            <div className='float-end pt-2'>
+                <h6 className='fw-semibold mb-1' style={{color:'#7627ef'}}>Attendance Month</h6>
+                <p className='fw-semibold' style={{color:'#7627ef'}}>August, 2024</p>
             </div>
            
           </div>
