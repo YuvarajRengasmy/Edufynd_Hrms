@@ -240,7 +240,8 @@ export const ListEmployees = () => {
                                         <td>
                                           <div className="d-flex">
                                             <i
-                                              className="fa fa-eye"
+                                              className="fa fa-wallet"
+                                              aria-hidden="true"
                                               data-bs-toggle="modal"
                                               data-bs-target="#PayrollViewModal"
                                               style={{
