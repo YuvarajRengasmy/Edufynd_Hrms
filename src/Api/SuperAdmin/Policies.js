@@ -25,7 +25,9 @@ export const deletePolicies= (data) => {
   };
 
 
-
+  export const getPoliciesDepartment = (designation) => {
+    return API.get(`${Policies}/getPoliciesDepartment`, { params: {department: designation } });
+  };
 
 
 

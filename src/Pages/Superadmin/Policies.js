@@ -35,7 +35,7 @@ export const Policies = () => {
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
-    to: 10,
+    to: 5,
   });
   const [moduleList, setModuleList] = useState([]);
   const navigate = useNavigate();
