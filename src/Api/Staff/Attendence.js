@@ -19,8 +19,8 @@ export const deleteStaff = (data) => {
   export const updateStaff = (data) => {
     return API.put(`${Attendence}`, data)
 }
-export const getSingleStaff = (data) => {
-    return API.get(`${Attendence}/getSingleStaff`, { params: { _id: data } })
+export const getSingleAttendence = (data) => {
+    return API.get(`${Attendence}/getSingleAttendence`, { params: { _id: data } })
 }
 
 export const getFilterStaff = (data) => {

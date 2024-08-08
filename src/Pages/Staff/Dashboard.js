@@ -54,51 +54,42 @@ export const Dashboard = () => {
 
 
   const handleCheckin = () => {
-    
-    Checkin().then(res => {
-        toast.success(res?.data?.message)
-        setHasCheckedIn(true);
-        getStaffDetails();
-       
-    }).catch(err => { console.log(err) })
-}
-
-
-const handleCheckOut = () => {
-  if (!attendanceId) {
-    toast.error('No attendance ID found.');
-    return;
-  }
-
-  const data = { _id: attendanceId };
-
-  CheckOut(data)
-    .then(res => {
-      toast.success(res?.data?.message);
-      setAttendanceId(null); // Clear the attendance ID after successful check-out
-    })
-    .catch(err => {
-      console.error('Checkout error:', err);
-      toast.error('Failed to check out.');
-    });
+    const id = getStaffId();
+    if (id) {
+        Checkin(id)
+            .then(res => {
+                toast.success(res?.data?.message);
+                setHasCheckedIn(true);
+                getStaffDetails();
+            })
+            .catch(err => {
+                console.log(err);
+                toast.error('Failed to check in. Please try again.');
+            });
+    } else {
+        toast.error('No staff ID found. Please log in again.');
+    }
 };
 
 
 
-// const handleCheckOut = () => {
-//   const data = {
-     
-//       _id: staffId // Ensure attendanceId is set from previous check-in
-//   }
-//   CheckOut(data).then(res => {
-//       toast.success(res?.data?.message)
-//       // setStaffId();
-  
-//       setHasCheckedIn(false);
-//       getStaffDetails();
-     
-//   }).catch(err => { console.log(err) })
-// }
+  const handleCheckout = () => {
+    const id = getStaffId();
+    if (id) {
+        CheckOut(id)
+            .then(res => {
+                toast.success(res?.data?.message);
+                setHasCheckedIn(false);
+                getStaffDetails();
+            })
+            .catch(err => {
+                console.log(err);
+                toast.error('Failed to check out. Please try again.');
+            });
+    } else {
+        toast.error('No staff ID found. Please log in again.');
+    }
+  };
  
   const salesData = [
     { month: "Jan", sales: 4000 },
