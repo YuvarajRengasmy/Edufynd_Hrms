@@ -248,13 +248,16 @@ export default function GlobalSettings() {
       <br />
     <div>
       
-        <div className="row container-fluid">
-        <div className="col-lg-2">
+        <div className="row container-fluid" style={{fontSize:'14px'}}>
+        <div className="col-lg-3">
             <SuperAdminSidebar />
           </div>
 
-          <div className="col-lg-10">
-          <div className="card rounded-0 border-0 shadow-sm">
+          <div className="col-lg-9">
+            <div className="container">
+
+            
+          <div className="card rounded-1 border-0 shadow-sm">
             <div className="card-body">
 
               <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
@@ -378,7 +381,7 @@ export default function GlobalSettings() {
                     ) : (
                       <tr>
                         <td colSpan="4" className="text-center">
-                          No Course Types Found
+                          No Department Type Found
                         </td>
                       </tr>
                     )}
@@ -399,6 +402,7 @@ export default function GlobalSettings() {
 
 
             </div>
+          </div>
           </div>
           </div>
          

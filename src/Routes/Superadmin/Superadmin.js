@@ -28,7 +28,7 @@ export const Superadmin = () => {
         <Route path="/SAAddEmployees" element={<PrivateRoute><AddEmployees /></PrivateRoute>} />
         <Route path="/SAEditEmployees" element={<PrivateRoute><EditEmployees /></PrivateRoute>} />
         <Route path="/SAViewEmployees" element={<PrivateRoute><ViewEmployees /></PrivateRoute>} />
-        <Route path="/SADepartmentHead" element={<PrivateRoute><DepartmentHead /></PrivateRoute>} />
+        <Route path="/SASettings" element={<PrivateRoute><DepartmentHead /></PrivateRoute>} />
 
         <Route path="/SAPayroll" element={<Payroll />} />
 
