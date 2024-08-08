@@ -21,7 +21,6 @@ export const Attendance = () => {
     from: 0,
     to: pageSize,
   });
-
   useEffect(() => {
     getAllStaffDetails();
   }, [pagination.from, pagination.to]);
@@ -38,7 +37,8 @@ export const Attendance = () => {
         console.log("Target",res);
        
         setStaff(res?.data?.result?.attendencetList || []);
-        setPagination({ ...pagination, count: res?.data?.result?.attendencetCount });
+        setPagination({ ...pagination,
+           count: res?.data?.result?.attendencetCount });
       })
       .catch((err) => {
         console.log(err);
