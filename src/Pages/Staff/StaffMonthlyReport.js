@@ -1,8 +1,36 @@
-import React from 'react'
-import Navbar from '../../Components/StaffNavbar'
-import Sidebar from '../../Components/Sidebar'
+import React, { useState, useEffect } from "react";
+import  Navbar  from '../../Components/StaffNavbar'
+import  Sidebar  from '../../Components/Sidebar'
+import { toast } from 'react-toastify';
+import { getSingleStaff } from "../../Api/Staff/Dashboard";
+import { getStaffId } from "../../Utils/storage";
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom'
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+
 export const StaffMonthlyReport = () => {
+
+    const [staff, setStaff] = useState([]);
+    const [startDate, setStartDate] = useState(new Date());
+
+
+    useEffect(() => {
+      getStaffDetails();
+    }, []);
+  
+    const getStaffDetails = () => {
+      const id = getStaffId();
+      getSingleStaff(id)
+        .then((res) => {
+          console.log(res);
+          setStaff(res?.data?.result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
   return (
     <>
     <Navbar/>
@@ -26,18 +54,22 @@ export const StaffMonthlyReport = () => {
                         <form>
                         <div className='row'>
                             <div className='col-xl-4 col-lg-6 col-md-12 col-sm-12'>
-                            <label  class="form-label">Employee</label>
-                            <select class="form-select rounded-1 text-muted"  style={{fontSize:'12px'}}>
-  <option selected style={{fontSize:'12px'}}> Select Employee</option>
-  <option value="1" style={{fontSize:'12px'}}>One</option>
-  <option value="2" style={{fontSize:'12px'}}>Two</option>
-  <option value="3" style={{fontSize:'12px'}}>Three</option>
-</select>
+                           
+                            <input type="text" class="form-control rounded-1 text-uppercase text-muted mt-4" id="exampleFormControlInput1" value={staff?.empName} placeholder="Example John Doe" style={{fontSize:'12px'}}/>
                           
                             </div>
                             <div className='col-xl-4 col-lg-6 col-md-12 col-sm-12'>
                             <label  class="form-label">Date</label>
-                            <input type="date" class="form-control rounded-1 text-uppercase text-muted" id="exampleFormControlInput1" placeholder="Example 07/08/2024" style={{fontSize:'12px'}}/>
+                            <DatePicker
+                           
+        selected={startDate}
+        onChange={(date) => setStartDate(date)}
+        dateFormat="MM/yyyy"
+        showMonthYearPicker
+        className="form-control rounded-1 text-uppercase text-muted mt-4"
+        placeholderText="MM/YYYY"
+        style={{ fontSize: '12px' }}
+      />
                             </div>
                             <div className='col-xl-4 col-lg-6 col-md-12 col-sm-12'>
                            
