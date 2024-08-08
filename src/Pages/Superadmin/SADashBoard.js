@@ -96,7 +96,7 @@ const [sa, setSa] = useState({})
         className="container-fluid "
         style={{ fontFamily: "Inter sans-serif", fontSize: "14px" }}
       >
-        <div className="row ">
+        <div className="row  ">
           <div className="col-lg-3 ">
             <Sidebar />
           </div>

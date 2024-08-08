@@ -162,10 +162,10 @@ const Department = () => {
       <br />
       <div className="container-fluid" style={{ fontFamily: "Inter, sans-serif", fontSize: "14px" }}>
         <div className="row">
-          <div className="col-lg-2">
+          <div className="col-lg-3">
             <Sidebar />
           </div>
-          <div className="col-lg-10">
+          <div className="col-lg-9">
             <div className="container-fluid">
               <div className="row">
                 <div className="col-md-4">
