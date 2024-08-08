@@ -85,39 +85,132 @@ export const Attendance = () => {
       <br />
       <br />
 
-      <div className="container-fluid">
+      <div className="container-fluid" style={{fontSize:'14px'}}>
         <div className="row">
-          <div className="col-lg-2">
+          <div className="col-lg-3">
             <SuperAdminSidebar />
           </div>
-          <div className="col-lg-10">
-            <section className="d-flex justify-content-between align-items-center mb-4">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <Link
-                      to="/SADashboard"
-                      className="text-dark text-decoration-none"
+          <div className="col-lg-9">
+          <div className="collapse" id="SAAttendanceCollapse">
+                <div className="card border-0 p-2 mb-4">
+                  <div className="card-header bg-white d-flex justify-content-between">
+                    <h6 className="h6 fw-semibold">Edit Attendace</h6>
+                    <button
+                      className="btn btn-sm text-capitalize fw-semibold"
+                      style={{ backgroundColor: "#7267ef", color: "#fff" }}
+                      data-bs-toggle="collapse"
+                      href="#SAAttendanceCollapse"
+                      role="button"
+                      aria-expanded="false"
+                      aria-controls="SAAttendanceCollapse"
                     >
-                      Home
-                    </Link>
-                  </li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Attendace
-                  </li>
-                </ol>
-              </nav>
-              <Link
-                to="/"
-                className="btn"
-                style={{ backgroundColor: "#7267ef", color: "#fff" }}
-              >
-                Log Out
-              </Link>
-            </section>
+                      Hide
+                    </button>
+                  </div>
+                  <form>
+                    <div className="card-body">
+                      <div className="row gy-3 gx-4">
+                        <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+                          <label className="form-label">Employee Name</label>
+                          <input
+                            type="text"
+                            className="form-control rounded-1 text-muted"
+                            placeholder="Example John Doe"
+                            style={{ fontSize: "12px" }}
+                          />
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+                          <label className="form-label">Date</label>
+                          <input
+                            type="Date"
+                            className="form-control rounded-1 text-uppercase text-muted"
+                            placeholder="Example John Doe"
+                            style={{ fontSize: "12px" }}
+                          />
+                        
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+                          <label className="form-label">Status</label>
+                          <select class="form-select rounded-1 text-muted" style={{ fontSize: "12px" }}>
+  <option >Select Status</option>
+  <option value="Active" selected>Active</option>
+  <option value="InActive">InActive</option>
+ 
+</select>
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+                          <label className="form-label">ClockIn</label>
+                          <input
+                            type="datetime-local"
+                            className="form-control rounded-1 text-uppercase text-muted"
+                            placeholder="Example John Doe"
+                            style={{ fontSize: "12px" }}
+                          />
+                        
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+                          <label className="form-label">ClockIn</label>
+                          <input
+                            type="datetime-local"
+                            className="form-control rounded-1 text-uppercase text-muted"
+                            placeholder="Example John Doe"
+                            style={{ fontSize: "12px" }}
+                          />
+                        
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+                          <label className="form-label">Late</label>
+                          <input
+                            type="datetime-local"
+                            className="form-control rounded-1 text-uppercase text-muted"
+                            placeholder="Example John Doe"
+                            style={{ fontSize: "12px" }}
+                          />
+                        
+                        </div>
+                        <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+                          <label className="form-label">Early Leaving</label>
+                          <input
+                            type="datetime-local"
+                            className="form-control rounded-1 text-uppercase text-muted"
+                            placeholder="Example John Doe"
+                            style={{ fontSize: "12px" }}
+                          />
+                        
+                        </div>
+                      
+                       
+                      </div>
+                    </div>
+                    <div className="card-footer bg-white p-4">
+                      <div className="d-flex justify-content-end gap-3">
+                        <buton
+                          className="btn text-capitalize fw-semibold px-3 py-2 rounded-1 btn-light border-0 "
+                          style={{ fontSize: "12px" }}
+                        >
+                         Cancel
+                        </buton>
+                        <buton
+                          className="btn text-capitalize fw-semibold px-3 py-2 rounded-1 text-white border-0 "
+                          style={{
+                            fontSize: "12px",
+                            backgroundColor: "#7267ef",
+                          }}
+                        >
+                          Save
+                        </buton>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              
+          
             <div className="card border-0 p-2">
-              <div className="card-header border-0 bg-white">
+              
+              <div className="card-header border-0 bg-white d-flex justify-content-between">
                 <h6 className="h6 fw-semibold">Daily Attendace Report</h6>
+               
               </div>
               <div className="card-body">
                 <div className="d-flex justify-content-between mb-3">
@@ -178,30 +271,33 @@ export const Attendance = () => {
                         <td className=" text-center d-flex gap-3 justify-content-center">
                           <Link
                             to={{
-                              pathname: "/ViewSAAttendance",
+                              pathname: "/SAViewAttendance",
                               search: `?id=${data?._id}`,
                             }}
                            
                           >
                             <i className="far fa-eye  me-1"></i>
                           </Link>
-                          <Link
-                            to={{
-                              pathname: "/EditSAAttendance",
-                              search: `?id=${data?._id}`,
-                            }}
+                          <button
+                          className="btn border-0 p-0"
+                            data-bs-toggle="collapse"
+                            href="#SAAttendanceCollapse"
+                            role="button"
+                            aria-expanded="false"
+                            aria-controls="SAAttendanceCollapse"
+                            style={{fontSize:'12px'}}
                            
                           >
-                            <i className="fas fa-edit me-1"></i>
-                          </Link>
+                            <i className="fas fa-edit text-success me-1"></i>
+                          </button>
                           
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-              </div>
-              <div className="float-right my-2">
+
+                <div className="float-end my-2">
                         <Pagination
                           count={Math.ceil(pagination.count / pageSize)}
                           onChange={handlePageChange}
@@ -210,7 +306,10 @@ export const Attendance = () => {
                           color="primary"
                         />
                       </div>
+              </div>
+              
             </div>
+            
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getSingleStaff } from "../../Api/Staff/Dashboard";
 import { getSingleAttendence } from "../../Api/Staff/Attendence";
-
+import { getSuperAdminId } from "../../Utils/storage";
 import { formatDated, formatYears } from "../../Utils/DateFormat";
 import LOGO from '../../Assests/Images/logo.png';
 import Profile from '../../Assests/Images/Profile.jpg';
@@ -13,6 +13,7 @@ export const ViewStaffAttendance = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
 
+  const [staff, setStaff] = useState([]);
   const [att, setAtt] = useState([]);
 
   useEffect(() => {
@@ -105,7 +106,7 @@ export const ViewStaffAttendance = () => {
                 </tbody>
               </table>
               <div className='d-flex flex-column justify-content-end align-items-end mb-0'>
-                <p className='mb-1'>earlyLeaving: {att?.earlyLeaving}</p>
+                <p className='mb-1'>Total Work : {att?.totalWork}</p>
                 <p>Late : {att?.late}</p>
               </div>
 

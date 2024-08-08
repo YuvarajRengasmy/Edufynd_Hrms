@@ -75,10 +75,10 @@ const SACalendar = () => {
       <br />
       <div className='container-fluid'>
         <div className='row'>
-          <div className='col-lg-2 d-none d-lg-block'>
+          <div className='col-lg-3 '>
             <SuperadminSidebar />
           </div>
-          <div className='col-lg-10'>
+          <div className='col-lg-9'>
             <div className='container-fluid p-4'>
               <FullCalendar
                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -102,8 +102,8 @@ const SACalendar = () => {
       </div>
 
       {/* Bootstrap Modal */}
-      <div className={`modal fade ${modalData.show ? 'show' : ''}`} style={{ display: modalData.show ? 'block' : 'none' }} tabIndex="-1" role="dialog">
-        <div className="modal-dialog" role="document">
+      <div className={`modal fade ${modalData.show ? 'show' : ''}`} style={{ display: modalData.show ? 'block' : 'none' }} tabIndex="-1" role="dialog"  aria-labelledby="..." aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Event Details</h5>

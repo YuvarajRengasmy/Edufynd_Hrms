@@ -21,7 +21,6 @@ export const Attendance = () => {
     from: 0,
     to: pageSize,
   });
-
   useEffect(() => {
     getAllStaffDetails();
   }, [pagination.from, pagination.to]);
@@ -38,7 +37,8 @@ export const Attendance = () => {
         console.log("Target",res);
        
         setStaff(res?.data?.result?.attendencetList || []);
-        setPagination({ ...pagination, count: res?.data?.result?.attendencetCount });
+        setPagination({ ...pagination,
+           count: res?.data?.result?.attendencetCount });
       })
       .catch((err) => {
         console.log(err);
@@ -95,33 +95,15 @@ export const Attendance = () => {
             <Sidebar />
           </div>
           <div className="col-lg-9">
-            <section className="d-flex justify-content-between align-items-center mb-4">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <Link
-                      to="/SADashboard"
-                      className="text-dark text-decoration-none"
-                    >
-                      Home
-                    </Link>
-                  </li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Attendace
-                  </li>
-                </ol>
-              </nav>
-              <Link
-                to="/"
-                className="btn"
-                style={{ backgroundColor: "#7267ef", color: "#fff" }}
-              >
-                Log Out
-              </Link>
-            </section>
+           
             <div className="card border-0 p-2">
-              <div className="card-header border-0 bg-white">
+              <div className="card-header bg-white">
+                <div className="float-start">
                 <h6 className="h6 fw-semibold">Daily Attendace Report</h6>
+                </div>
+                <div className="float-end">
+                  <Link to='/StaffMonthlyReports' className="btn btn-sm px-3 py-1 fw-semibold text-capitalize border-0 rounded-1" style={{color:"#fff",background:'#7627ef'}}>View Monthly Report</Link>
+                </div>
               </div>
               <div className="card-body">
                 <div className="d-flex justify-content-between mb-3">

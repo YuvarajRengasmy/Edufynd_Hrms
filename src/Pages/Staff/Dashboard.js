@@ -30,6 +30,8 @@ import { useNavigate } from 'react-router-dom';
 
 export const Dashboard = () => {
   const [checkedInId, setCheckedInId] = useState(null);
+  const [checkInTimestamp, setCheckInTimestamp] = useState(null);
+
   const [staffId, setStaffId] = useState('');
   const navigate = useNavigate();
   const [staff, setStaff] = useState([]);
@@ -61,6 +63,11 @@ export const Dashboard = () => {
       empName: staff.empName,
       timestamp: new Date(),
       employeeId: staff?._id,
+      shiftTiming: staff?.shiftTiming,
+      photo: staff?.photo,
+      email:staff?.email,
+      designation:staff?.designation,
+
     };
   
     // Check if the staff ID and timestamp combination is unique
@@ -68,6 +75,7 @@ export const Dashboard = () => {
       .then((res) => {
         console.log("yui",res);
         console.log(res);
+        setCheckInTimestamp(Date.now().toString());
         setHasCheckedIn(true); // Optionally, you can keep track of check-in status
         setCheckedInId(checkinData.id);
         toast.success('Check-in successful.');
@@ -88,6 +96,8 @@ export const Dashboard = () => {
     CheckOut(checkinData)
       .then((res) => {
         console.log(res);
+        setCheckInTimestamp(null);
+        setHasCheckedIn(false);
         // setHasCheckedIn(false); // Optionally, you can keep track of check-in status
         setCheckedInId(null);
         toast.success('Check-Out successful.');
@@ -172,7 +182,7 @@ export const Dashboard = () => {
         className="container-fluid "
         style={{ fontFamily: "Inter sans-serif", fontSize: "14px" }}
       >
-        <div className="row ">
+        <div className="row  ">
           <div className="col-lg-3 ">
             <Sidebar />
           </div>
@@ -205,6 +215,7 @@ export const Dashboard = () => {
                       <div className="row text-center my-3">
 
       <div className="col">
+     
         <button
           className={`btn btn-sm rounded-1 ${hasCheckedIn ? 'btn-dark' : 'text-white'}`}
           style={{
@@ -224,7 +235,7 @@ export const Dashboard = () => {
             backgroundColor: '#007bff', // Blue color for check-out
           }}
           onClick={handleCheckOut}
-          // disabled={!hasCheckedIn} // Disable button if not checked in
+          //  disabled={!hasCheckedIn} // Disable button if not checked in
         >
           Clock OUT
         </button>
