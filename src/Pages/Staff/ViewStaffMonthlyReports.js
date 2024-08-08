@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { getFilteredDataForPDF } from "../../Api/Staff/Attendence";
+import jsPDF from "jspdf";
 import LOGO from '../../Assests/Images/logo.png';
 import { Link } from 'react-router-dom';
 import Profile from '../../Assests/Images/Profile.jpg'
 export const ViewStaffMonthlyReports = () => {
+
+  
   return (
     <div className='container-fluid mt-4' style={{ fontSize: '14px' }}>
     <div className='row justify-content-center'>
