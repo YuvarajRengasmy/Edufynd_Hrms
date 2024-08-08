@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../../Components/Sidebar";
 import Header from "../../Components/Navbar";
 import { Link } from "react-router-dom";
+import { workingHours } from "../../Utils/DateFormat";
+
+import { toast } from 'react-toastify';
 import {
   LineChart,
   Line,
@@ -19,8 +22,84 @@ import {
   Pie,
   Cell,
 } from "recharts";
+import { getSingleStaff } from "../../Api/Staff/Dashboard";
+import { Checkin,CheckOut } from "../../Api/Staff/Attendence";
+import { getStaffId } from "../../Utils/storage";
+import { useNavigate } from 'react-router-dom';
+
 
 export const Dashboard = () => {
+
+  const [attendanceId, setAttendanceId] = useState(null); // State to store attendance ID
+
+  const navigate = useNavigate();
+  const [staff, setStaff] = useState([]);
+  const [hasCheckedIn, setHasCheckedIn] = useState(false);
+
+  useEffect(() => {
+    getStaffDetails();
+  }, []);
+
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log(res);
+        setStaff(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+  const handleCheckin = () => {
+    
+    Checkin().then(res => {
+        toast.success(res?.data?.message)
+        setHasCheckedIn(true);
+        getStaffDetails();
+       
+    }).catch(err => { console.log(err) })
+}
+
+
+const handleCheckOut = () => {
+  if (!attendanceId) {
+    toast.error('No attendance ID found.');
+    return;
+  }
+
+  const data = { _id: attendanceId };
+
+  CheckOut(data)
+    .then(res => {
+      toast.success(res?.data?.message);
+      setAttendanceId(null); // Clear the attendance ID after successful check-out
+    })
+    .catch(err => {
+      console.error('Checkout error:', err);
+      toast.error('Failed to check out.');
+    });
+};
+
+
+
+// const handleCheckOut = () => {
+//   const data = {
+     
+//       _id: staffId // Ensure attendanceId is set from previous check-in
+//   }
+//   CheckOut(data).then(res => {
+//       toast.success(res?.data?.message)
+//       // setStaffId();
+  
+//       setHasCheckedIn(false);
+//       getStaffDetails();
+     
+//   }).catch(err => { console.log(err) })
+// }
+ 
   const salesData = [
     { month: "Jan", sales: 4000 },
     { month: "Feb", sales: 3000 },
@@ -74,20 +153,8 @@ export const Dashboard = () => {
             <Sidebar />
           </div>
           <div className="col-lg-9">
-            <section className="d-flex justify-content-between align-items-center mb-4">
-              <div className="profile-details d-flex align-items-center">
-                <img
-                  src="https://via.placeholder.com/50"
-                  className="img-fluid rounded-circle me-3"
-                  alt="profile"
-                />
-                <div>
-                  <h6 className="fw-semibold text-capitalize mb-0">
-                    Profile Name
-                  </h6>
-                  <p className="mb-0">@profile</p>
-                </div>
-              </div>
+            <section className="d-flex justify-content-end align-items-center mb-4">
+              
               <Link
                 to="/"
                 className="btn"
@@ -102,32 +169,42 @@ export const Dashboard = () => {
                   <div className="card border-0 shadow-sm">
                     <div className="card-body">
                       <h6 className="card-title mb-2 text-dark">
-                        Welcome Gopinath Velmurugan
+                        Welcome {staff?.empName}
+                          
                       </h6>
                       <h6
                         className="card-title mb-2"
                         style={{ color: "#7267ef" }}
                       >
-                        My Shift: 09:30 am To 06:30 pm
+                        My Shift:{staff?.shiftTiming} 
                       </h6>
                       <div className="row text-center my-3">
-                        <div className="col">
-                          <button
-                            className="btn btn-sm text-white rounded-1"
-                            style={{
-                              backgroundColor: "#17c666",
-                              color: "#fff",
-                            }}
-                          >
-                            Clock IN
-                          </button>
-                        </div>
-                        <div className="col">
-                          <button className="btn btn-secondary btn-sm text-white rounded-1">
-                            Clock OUT
-                          </button>
-                        </div>
-                      </div>
+      <div className="col">
+        <button
+          className={`btn btn-sm rounded-1 ${hasCheckedIn ? 'btn-dark' : 'text-white'}`}
+          style={{
+            backgroundColor: hasCheckedIn ? '#e8e115' : '#17c666', // Dark color if checked in, original color otherwise
+            color: '#fff',
+          }}
+          onClick={handleCheckin}
+          disabled={hasCheckedIn} // Disable button if already checked in
+        >
+          Clock IN
+        </button>
+      </div>
+      <div className="col">
+        <button
+          className="btn btn-secondary btn-sm text-white rounded-1"
+          style={{
+            backgroundColor: '#007bff', // Blue color for check-out
+          }}
+          onClick={handleCheckOut}
+          disabled={!hasCheckedIn} // Disable button if not checked in
+        >
+          Clock OUT
+        </button>
+      </div>
+    </div>
                      
                     </div>
                     <Link
