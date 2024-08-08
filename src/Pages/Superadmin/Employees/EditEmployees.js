@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../../../Components/Navbar";
 import { updateStaff, getSingleStaff,getallStaff } from "../../../Api/SuperAdmin/Employees";
+import { getallDepartment } from "../../../Api/SuperAdmin/departmenthead";
 import {
   isValidPhone,
   isValidEmail,
@@ -93,6 +94,7 @@ export const AddStaff = () => {
   };
   const [staff, setStaff] = useState(initialState);
   const [staffs, setStaffs] = useState([]);
+  const [department, setDepartment] = useState([]);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
 
@@ -102,8 +104,18 @@ export const AddStaff = () => {
   useEffect(() => {
     getAllStaffDetails();
     getStaffDetails();
+    getallDepartmentData();
   }, []);
 
+  const getallDepartmentData = () => {
+    getallDepartment()
+      .then((res) => {
+        setDepartment(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllStaffDetails = () => {
     getallStaff()
       .then((res) => {
@@ -417,19 +429,21 @@ export const AddStaff = () => {
                                 <span className="text-danger">*</span>
                               </label>
 
-                              <input
-                                type="text"
-                                value={staff?.designation}
-                                className="form-control rounded-1  "
-                                placeholder="Example Student Counsellor "
-                                style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                name="designation"
-                                onChange={handleInputs}
-                              />
+                              <select
+                            className="form-select rounded-1"
+                            style={{ fontSize: "12px" }}
+                            name="designation"
+                            onChange={handleInputs}
+                            value={staff?.designation}
+                            
+                          >
+                            <option value="">Select Department Head</option>
+                            {department.map((data, index) => (
+                              <option key={index} value={data?.departmentHead}>
+                                {data?.departmentHead}
+                              </option>
+                            ))}
+                          </select>
                               {errors.designation.required ? (
                                 <span className="form-text text-danger">
                                   This field is required.

@@ -10,11 +10,11 @@ import Navbar from "../../Components/Navbar";
 import { bootstrap } from "bootstrap/dist/js/bootstrap.bundle.min";
 export default function GlobalSettings() {
   const initialStateInputs = {
-    departmentHead : "",
+    department : "",
   };
 
   const initialStateErrors = {
-    departmentHead: { required: false },
+    department: { required: false },
   };
 
   const [open, setOpen] = useState(false);
@@ -40,8 +40,8 @@ export default function GlobalSettings() {
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
 
-    if (!data.departmentHead) {
-      error.departmentHead.required = true;
+    if (!data.department) {
+      error.department.required = true;
     }
 
     return error;
@@ -55,7 +55,7 @@ export default function GlobalSettings() {
 
   const getModuleDetails = () => {
     const data = {
-        departmentHead: inputs.departmentHead,
+        department: inputs.department,
 
     }
     getSingleAllModule(data)
@@ -112,16 +112,16 @@ export default function GlobalSettings() {
     event?.preventDefault();
     setFilter(true);
     const data = {
-      paymentMethod: inputs.paymentMethod,
+      department: inputs.department,
       limit: pageSize,
       page: pagination.from,
     };
     getFilterModule(data)
       .then((res) => {
-        setModuleList(res?.data?.result?.dropDownList || []);
+        setModuleList(res?.data?.result?.departmentList || []);
         setPagination({
           ...pagination,
-          count: res?.data?.result?.dropDownCount || 0,
+          count: res?.data?.result?.departmentCount || 0,
         });
         closeFilterPopup();
       })
@@ -284,11 +284,12 @@ export default function GlobalSettings() {
                             <input
                               type="text"
                               className="form-control"
-                              name="departmentHead"
+                              name="department"
                               onChange={handleInputs}
                               style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               placeholder="Search...Payment Method"
                             />
+                            {/* {errors?.department && <p className="text-danger">{errors?.department}</p>} */}
 
                           </div>
                           <div>
@@ -342,7 +343,7 @@ export default function GlobalSettings() {
                   <thead>
                     <tr style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}>
                       <th className='text-start text-capitalize' style={{ width: "10px" }}>S.No</th>
-                      <th className='text-start text-capitalize' style={{ width: "50px" }}>Payment Method</th>
+                      <th className='text-start text-capitalize' style={{ width: "50px" }}>Head OF Department Name</th>
                       <th  className='text-start text-capitalize' style={{ width: "80px" }}>Actions</th>
                     </tr>
                   </thead>
@@ -351,7 +352,7 @@ export default function GlobalSettings() {
                       moduleList.map((data, index) => (
                         <tr key={index} style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>
                           <td className='text-start text-capitalize'>{pagination.from + index + 1}</td>
-                          <td className='text-start text-capitalize'>{data.departmentHead}</td>
+                          <td className='text-start text-capitalize'>{data.department}</td>
                           <td className='text-start text-capitalize'>
                             <button
                               className="btn btn-white text-center "
@@ -446,11 +447,11 @@ export default function GlobalSettings() {
                     type="text"
                     className="form-control"
                     id="paymentMethod"
-                    name="departmentHead"
-                    value={inputs.departmentHead}
+                    name="department"
+                    value={inputs.department}
                     onChange={handleInputs}
                   />
-                  {submitted && errors.departmentHead.required && (
+                  {submitted && errors.department.required && (
                     <div className="text-danger">DepartmentHead is required</div>
                   )}
                 </div>

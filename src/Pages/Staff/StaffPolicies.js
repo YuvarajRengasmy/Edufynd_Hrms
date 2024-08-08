@@ -1,9 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { getPoliciesDepartment, getallPolicies } from "../../Api/SuperAdmin/Policies";
 import Navbar from '../../Components/StaffNavbar';
 import Sidebar from '../../Components/Sidebar';
 import { Link } from 'react-router-dom';
 
 export const StaffPolicies = () => {
+  const [policies, setPolicies] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [entriesPerPage] = useState(10);
+
+  useEffect(() => {
+    getAllDepartment();
+  }, []);
+
+  const getAllDepartment = () => {
+    getallPolicies()
+      .then((res) => {
+        setPolicies(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+ 
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+ 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <>
       <Navbar />
@@ -49,6 +79,8 @@ export const StaffPolicies = () => {
                         className="form-control form-control-sm rounded-1"
                         placeholder="Search...."
                         style={{ fontSize: '12px' }}
+                        value={searchQuery}
+                        onChange={handleSearch}
                       />
                     </div>
                   </div>
@@ -60,68 +92,75 @@ export const StaffPolicies = () => {
                     >
                       <tr>
                         <th>Title</th>
+                        <th>Department</th>
                         <th>Created At</th>
-                        <th>Added By</th>
-                        <th className="text-center">Actions</th>
+                   
+                        <th>Description</th>
+                        <th>File</th>
+                        
                       </tr>
                     </thead>
                     <tbody style={{ fontSize: '11px' }}>
-                      <tr>
-                        <td>Policy 1</td>
-                        <td>02-08-2024</td>
-                        <td>Saravanan</td>
-                        <td className="text-center d-flex gap-3 justify-content-center">
-                          <Link data-bs-target="#policyModal" data-bs-toggle="modal">
-                            <i className="far fa-edit me-1"></i>
-                          </Link>
-                        </td>
-                      </tr>
+                      {policies.map((data) => (
+                        <tr key={data._id}>
+                          <td>{data.title}</td>
+                          <td>{data.department}</td>
+                          <td>{data.createdBy}</td>
+                         
+                         
+                          <td>{data.description}</td>
+                          <td>
+                                  {data.uploadFile && (
+                                    <a
+                                      className="text-decoration-none"
+                                      href={data.uploadFile}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                    <i className="far fa-eye text-primary me-1"></i>
+                                    </a>
+                                  )}
+                                </td>
+                         
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
                 <div className="card-footer bg-white border-0 d-flex justify-content-between">
-                  <p>Showing 1 to 10 of 12 entries</p>
                   <nav>
                     <ul className="pagination pagination-sm">
                       <li className="page-item">
-                        <Link to="" className="page-link">
+                        <Link
+                          to="#"
+                          className="page-link"
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          aria-disabled={currentPage === 1}
+                        >
                           Previous
                         </Link>
                       </li>
-                      <li className="page-item">
-                        <Link to="" className="page-link">
-                          1
-                        </Link>
-                      </li>
-                      <li className="page-item">
-                        <Link to="" className="page-link">
-                          2
-                        </Link>
-                      </li>
-                      <li className="page-item">
-                        <Link to="" className="page-link">
-                          Next
-                        </Link>
-                      </li>
+                     
+                    
                     </ul>
                   </nav>
                 </div>
               </div>
             </div>
 
-            {/* Modal for policy details */}
+            {/* Modal for data details */}
             <div
               className="modal fade"
-              id="policyModal"
+              id="dataModal"
               aria-hidden="true"
-              aria-labelledby="policyModalLabel"
+              aria-labelledby="dataModalLabel"
               tabIndex="-1"
             >
               <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                   <div className="modal-header">
-                    <h1 className="modal-title fs-5" id="policyModalLabel">
-                      Policy Details
+                    <h1 className="modal-title fs-5" id="dataModalLabel">
+                      data Details
                     </h1>
                     <button
                       type="button"
@@ -134,11 +173,11 @@ export const StaffPolicies = () => {
                     <form>
                       <div className="d-flex gap-4">
                         <p className="fw-semibold">Title:</p>
-                        <p className="">Policy 1</p>
+                        <p className="">data 1</p>
                       </div>
                       <div className="d-flex gap-4">
                         <p className="fw-semibold">Description:</p>
-                        <p className="">This is a dummy description for Policy 1.</p>
+                        <p className="">This is a dummy description for data 1.</p>
                       </div>
                       <div className="d-flex gap-4">
                         <p className="fw-semibold">Department Head:</p>
@@ -148,11 +187,7 @@ export const StaffPolicies = () => {
                         <p className="fw-semibold">File:</p>
                         <p className="">
                           file_name.pdf
-                        
-                           
-                          
                         </p>
-                       
                       </div>
                     </form>
                   </div>
@@ -166,12 +201,12 @@ export const StaffPolicies = () => {
                       Close
                     </button>
                     <button
-                              className="btn btn-sm btn-primary"
-                              data-bs-target="#documentModal"
-                              data-bs-toggle="modal"
-                            >
-                              <i className="fas fa-eye nav-icon"></i> View Document
-                            </button>
+                      className="btn btn-sm btn-primary"
+                      data-bs-target="#documentModal"
+                      data-bs-toggle="modal"
+                    >
+                      <i className="fas fa-eye nav-icon"></i> View Document
+                    </button>
                   </div>
                 </div>
               </div>
@@ -205,10 +240,10 @@ export const StaffPolicies = () => {
                     <button
                       type="button"
                       className="btn btn-primary"
-                      data-bs-target="#policyModal"
+                      data-bs-target="#dataModal"
                       data-bs-toggle="modal"
                     >
-                      Back to Policy Details
+                      Back to data Details
                     </button>
                   </div>
                 </div>

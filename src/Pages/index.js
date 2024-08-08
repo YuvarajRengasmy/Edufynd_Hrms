@@ -1,65 +1,78 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify'; // Optional: for notifications
 
-const Clock = () => {
-  const [userId, setUserId] = useState('');
+const AllowanceForm = () => {
+  const [allowances, setAllowances] = useState([{ name: '', value: '' }]);
 
-  const handleClockIn = async () => {
-    try {
-      const response = await axios.post('http://localhost:3000/clock-in', { userId });
-      toast.success(response.data); // Notify on successful clock-in
-    } catch (error) {
-      toast.error('Failed to clock in.'); // Notify on error
-    }
+  const handleInputChange = (index, event) => {
+    const { name, value } = event.target;
+    const newAllowances = [...allowances];
+    newAllowances[index][name] = value;
+    setAllowances(newAllowances);
   };
 
-  const handleClockOut = async () => {
+  const handleAddClick = () => {
+    setAllowances([...allowances, { name: '', value: '' }]);
+  };
+
+  const handleSaveClick = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/clock-out', { userId });
-      toast.success(response.data); // Notify on successful clock-out
+      // Replace this URL with your backend endpoint
+      const response = await axios.post('https://your-backend-api-url/allowances', allowances);
+      console.log('Saved Data:', response.data); // Handle response as needed
+      alert('Data saved successfully!');
     } catch (error) {
-      toast.error('Failed to clock out.'); // Notify on error
+      console.error('Error saving data:', error);
+      alert('Failed to save data.');
     }
   };
 
   return (
-    <div className="card-body">
-      <h6 className="card-title mb-2 text-dark">Welcome Gopinath Velmurugan</h6>
-      <h6 className="card-title mb-2" style={{ color: '#7267ef' }}>
-        My Shift: 09:30 am To 06:30 pm
-      </h6>
-      <div className="form-group">
-        <label htmlFor="userId">User ID:</label>
-        <input
-          type="text"
-          id="userId"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-          className="form-control"
-        />
-      </div>
-      <div className="row text-center my-3">
-        <div className="col">
-          <button
-            className="btn btn-sm text-white rounded-1"
-            style={{ backgroundColor: '#17c666', color: '#fff' }}
-            onClick={handleClockIn}
-          >
-            Clock IN
-          </button>
-        </div>
-        <div className="col">
-          <button
-            className="btn btn-secondary btn-sm text-white rounded-1"
-            onClick={handleClockOut}
-          >
-            Clock OUT
-          </button>
-        </div>
-      </div>
+    <div className='card-body p-4'>
+      <form>
+        {allowances.map((allowance, index) => (
+          <div key={index} className="mb-3">
+            <label className="form-label">Allowance {index + 1} Name</label>
+            <input
+              type="text"
+              name="name"
+              value={allowance.name}
+              onChange={(event) => handleInputChange(index, event)}
+              className="form-control rounded-1"
+              placeholder="Example House Rent Allowances"
+              style={{ fontSize: '12px' }}
+            />
+            <label className="form-label">Allowance {index + 1} Value</label>
+            <input
+              type="text"
+              name="value"
+              value={allowance.value}
+              onChange={(event) => handleInputChange(index, event)}
+              className="form-control rounded-1"
+              placeholder="Example 2500"
+              style={{ fontSize: '12px' }}
+            />
+          </div>
+        ))}
+        <button
+          type="button"
+          className='btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1'
+          style={{ backgroundColor: '#7267ef' }}
+          onClick={handleAddClick}
+        >
+          <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
+        </button>
+        <button
+          type="button"
+          className='btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1 me-2'
+          style={{ backgroundColor: '#28a745' }}
+          onClick={handleSaveClick}
+        >
+          Save
+        </button>
+      </form>
     </div>
   );
 };
 
-export default Clock;
+export default AllowanceForm;
