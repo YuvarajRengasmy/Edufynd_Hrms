@@ -16,7 +16,7 @@ export const ViewStaff = () => {
     otherAllowance: 0,
     taxDeduction: 0,
     totalDeduction: 0,
-    uploadDocument: 0,
+    uploadDocument: '',
     allowance: [{ name: "", amount:0 }],
     deduction: [{ title: "", amount: 0}],
   };
@@ -74,14 +74,23 @@ export const ViewStaff = () => {
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+ 
     setPayroll({ ...payroll, [name]: value });
+    // const parsedValue = isNaN(value) ? value : parseFloat(value);
+    // setPayroll({ ...payroll, [name]: parsedValue });
   };
 
   const handleListInputChange = (e, index, listName) => {
     const { name, value } = e.target;
+  
     const updatedList = [...payroll[listName]];
     updatedList[index][name] = value;
     setPayroll({ ...payroll, [listName]: updatedList });
+
+    // const parsedValue = isNaN(value) ? value : parseFloat(value);
+    // const updatedList = [...payroll[listName]];
+    // updatedList[index][name] = parsedValue;
+    // setPayroll({ ...payroll, [listName]: updatedList });
   };
  
   
@@ -103,6 +112,7 @@ export const ViewStaff = () => {
 
     savePayroll(payroll, id)
       .then((res) => {  
+        console.log("567667", res)
         toast.success(res?.data?.message);
         getStaffDetails();
 
