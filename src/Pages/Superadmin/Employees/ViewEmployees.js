@@ -11,14 +11,14 @@ export const ViewStaff = () => {
   const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
-    houseRent: null,
-    conveyance: null,
-    otherAllowance: null,
-    taxDeduction: null,
-    totalDeduction: null,
-    uploadDocument: null,
-    allowance: [{ name: "", amount:null }],
-    deduction: [{ title: "", amount: null}],
+    houseRent: 0,
+    conveyance: 0,
+    otherAllowance: 0,
+    taxDeduction: 0,
+    pf: 0,
+    uploadDocument: 0,
+    allowance: [{ name: "", amount:0 }],
+    deduction: [{ title: "", amount:0}],
   };
 
   const initialStateError = {
@@ -26,7 +26,7 @@ export const ViewStaff = () => {
     conveyanceError: "",
     otherAllowanceError: "",
     taxDeductionError: "",
-    totalDeductionError: "",
+    pfError: "",
     uploadDocumentError: "",
     additionalComponentsError: "",
   };
@@ -67,8 +67,8 @@ export const ViewStaff = () => {
       errors.taxDeductionError = "Tax Deduction is required";
     }
 
-    if (!data.totalDeduction) {
-      errors.totalDeductionError = "Total Deduction is required";
+    if (!data.pf) {
+      errors.pfError = "pf is required";
     }
     return errors;
   };
@@ -87,8 +87,8 @@ export const ViewStaff = () => {
   
   const addEntry = (listName) => {
     const newEntry = listName === "allowance"
-      ? { name: "", amount: null}
-      : { title: "", amount: null };
+      ? { name: "", amount: 0}
+      : { title: "", amount: 0 };
     setPayroll({ ...payroll, [listName]: [...payroll[listName], newEntry] });
   };
 
@@ -146,7 +146,7 @@ export const ViewStaff = () => {
                 <div className="row">
                  
                     <div className="col-md-6">
-                      <div className="card border-null mb-3">
+                      <div className="card border-0 mb-3">
                         <div className="card-header bg-white">
                           <h6 className="h6 fw-semibold text-capitalize float-start">Allowances</h6>
                         </div>
@@ -237,23 +237,23 @@ export const ViewStaff = () => {
                       </div>
                     </div>
                     <div className="col-md-6">
-                      <div className="card border-null mb-3">
+                      <div className="card border-0 mb-3">
                         <div className="card-header bg-white">
                           <h6 className="h6 fw-semibold text-capitalize float-start">Deductions</h6>
                         </div>
                         <div className="card-body p-4">
                           <div className="mb-3">
-                            <label className="form-label">Total Deduction</label>
+                            <label className="form-label">Pf</label>
                             <input
                               type="number"
                               className="form-control rounded-1"
-                              name="totalDeduction"
-                              value={payroll.totalDeduction}
+                              name="pf"
+                              value={payroll.pf}
                               onChange={handleInputChange}
                               placeholder="Example 25nullnull"
                               style={{ fontSize: "12px" }}
                             />
-                            {payrollError.totalDeduction && <span className="text-danger">{payrollError.totalDeduction}</span>}
+                            {payrollError.pf && <span className="text-danger">{payrollError.pf}</span>}
                           </div>
                           <div className="mb-3">
                             <label className="form-label">Tax Deductions</label>
@@ -311,7 +311,7 @@ export const ViewStaff = () => {
                       </div>
                       <button
                         type="submit"
-                        className="btn btn-sm text-uppercase px-4 py-2 border-null fw-semibold float-end text-white"
+                        className="btn btn-sm text-uppercase px-4 py-2 border-0 fw-semibold float-end text-white"
                         style={{ backgroundColor: "#231f20" }}
                       >
                         Submit
@@ -350,9 +350,9 @@ export const ViewStaff = () => {
                   </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <div className="card border-null mb-3">
+                    <div className="card border-0 mb-3">
                       <div className="card-header bg-primary text-white">
-                        <h5 className="mb-null">Personal Information</h5>
+                        <h5 className="mb-0">Personal Information</h5>
                       </div>
                       <div className="card-body">
                         <p><i className="fas fa-birthday-cake me-2"></i><strong>DOB:</strong> {staff?.dob}</p>
@@ -418,9 +418,9 @@ export const ViewStaff = () => {
                   </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <div className="card border-null mb-3">
+                    <div className="card border-0 mb-3">
                       <div className="card-header bg-success text-white">
-                        <h5 className="mb-null">Bank Details</h5>
+                        <h5 className="mb-0">Bank Details</h5>
                       </div>
                       <div className="card-body">
                         <p><i className="fas fa-bank me-2"></i><strong>Bank Name:</strong> {staff?.bankName}</p>

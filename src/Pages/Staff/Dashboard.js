@@ -82,7 +82,7 @@ export const Dashboard = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error('Check-in failed.');
+        toast.error('Already clocked in today');
       });
   };
 
