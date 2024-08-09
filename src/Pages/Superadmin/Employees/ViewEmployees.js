@@ -17,8 +17,8 @@ export const ViewStaff = () => {
     taxDeduction: null,
     totalDeduction: null,
     uploadDocument: null,
-    allowances: [{ name: "", amount:null }],
-    deductions: [{ title: "", amount: null}],
+    allowance: [{ name: "", amount:null }],
+    deduction: [{ title: "", amount: null}],
   };
 
   const initialStateError = {
@@ -86,7 +86,7 @@ export const ViewStaff = () => {
  
   
   const addEntry = (listName) => {
-    const newEntry = listName === "allowances"
+    const newEntry = listName === "allowance"
       ? { name: "", amount: null}
       : { title: "", amount: null };
     setPayroll({ ...payroll, [listName]: [...payroll[listName], newEntry] });
@@ -185,13 +185,13 @@ export const ViewStaff = () => {
                               <span className="text-danger">{payrollError.otherAllowanceError}</span>
                             )}
                           </div>
-                          {payroll.allowances.map((allowance, index) => (
+                          {payroll.allowance.map((allowance, index) => (
                             <div key={index} className="mb-3">
                               <input
                                 type="text"
                                 name="name"
                                 value={allowance.name}
-                                onChange={(e) => handleListInputChange(e, index, "allowances")}
+                                onChange={(e) => handleListInputChange(e, index, "allowance")}
                                 className="form-label rounded-1"
                                 style={{ fontSize: "12px" }}
                                 placeholder="Allowance title"
@@ -200,14 +200,14 @@ export const ViewStaff = () => {
                                 type="number"
                                 name="amount"
                                 value={allowance.amount}
-                                onChange={(e) => handleListInputChange(e, index, "allowances")}
+                                onChange={(e) => handleListInputChange(e, index, "allowance")}
                                 className="form-control rounded-1 mt-2"
                                 style={{ fontSize: "12px" }}
                                 placeholder="Amount"
                               />
                               <button
                                 type="button"
-                                onClick={() => removeEntry(index, "allowances")}
+                                onClick={() => removeEntry(index, "allowance")}
                                 className="btn mt-2"
                               >
                                 <i className="far fa-trash-alt text-danger me-1"></i>
@@ -216,7 +216,7 @@ export const ViewStaff = () => {
                           ))}
                           <button
                             type="button"
-                            onClick={() => addEntry("allowances")}
+                            onClick={() => addEntry("allowance")}
                             className="btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1"
                             style={{ backgroundColor: "#7267ef" }}
                           >
@@ -259,13 +259,13 @@ export const ViewStaff = () => {
                               <span className="text-danger">{payrollError.taxDeduction}</span>
                             )}
                           </div>
-                          {payroll.deductions.map((deduction, index) => (
+                          {payroll.deduction.map((deduction, index) => (
                             <div key={index} className="mb-3">
                               <input
                                 type="text"
                                 name="title"
                                 value={deduction.title}
-                                onChange={(e) => handleListInputChange(e, index, "deductions")}
+                                onChange={(e) => handleListInputChange(e, index, "deduction")}
                                 className="form-label rounded-1"
                                 style={{ fontSize: "12px" }}
                                 placeholder="Deduction title"
@@ -274,14 +274,14 @@ export const ViewStaff = () => {
                                 type="number"
                                 name="amount"
                                 value={deduction.amount}
-                                onChange={(e) => handleListInputChange(e, index, "deductions")}
+                                onChange={(e) => handleListInputChange(e, index, "deduction")}
                                 className="form-control rounded-1 mt-2"
                                 style={{ fontSize: "12px" }}
                                 placeholder="Amount"
                               />
                               <button
                                 type="button"
-                                onClick={() => removeEntry(index, "deductions")}
+                                onClick={() => removeEntry(index, "deduction")}
                                 className="btn mt-2"
                               >
                                 <i className="far fa-trash-alt text-danger me-1"></i>
@@ -290,7 +290,7 @@ export const ViewStaff = () => {
                           ))}
                           <button
                             type="button"
-                            onClick={() => addEntry("deductions")}
+                            onClick={() => addEntry("deduction")}
                             className="btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1"
                             style={{ backgroundColor: "#7267ef" }}
                           >
