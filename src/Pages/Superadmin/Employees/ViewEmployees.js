@@ -4,39 +4,47 @@ import Navbar from "../../../Components/Navbar";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getSingleStaff } from "../../../Api/SuperAdmin/Employees";
-import { savePayroll } from "../../../Api/SuperAdmin/Payroll";
+import { savePayroll,getViewStaffPayRoll } from "../../../Api/SuperAdmin/Payroll";
+import { Link } from "react-router-dom";
 
 export const ViewStaff = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
-    houseRent: 0,
-    conveyance: 0,
-    otherAllowance: 0,
-    taxDeduction: 0,
-    pf: 0,
-    uploadDocument: 0,
-    allowance: [{ name: "", amount:0 }],
-    deduction: [{ title: "", amount:0}],
+    basicAllowance: "",
+    hra: "",
+    conveyance: "",
+    performanceDeduction:"",
+    taxDeduction: "",
+    pf: "",
+
+    allowance: [{ name: "", amount:"" }],
+    deduction: [{ title: "", amount:""}],
   };
 
-  const initialStateError = {
-    houseRentError: "",
-    conveyanceError: "",
-    otherAllowanceError: "",
-    taxDeductionError: "",
-    pfError: "",
-    uploadDocumentError: "",
-    additionalComponentsError: "",
+  const initialStateErrors = {
+    basicAllowance: { required: false},
+    hra: { required: false},
+    conveyance: { required: false},
+    performanceDeduction:{ required: false},
+    taxDeduction:{ required: false},
+    pf: { required: false},
+    allowance:{ required: false},
+    deduction:{ required: false},
+   
   };
 
-  const [payrollError, setPayrollError] = useState(initialStateError);
+  const [errors, setErrors] = useState(initialStateErrors);
   const [payroll, setPayroll] = useState(initialState);
   const [staff, setStaff] = useState({});
+  const [pay,setPay]=useState({})
+  const [submitted, setSubmitted] = useState(false);
+
 
   useEffect(() => {
     getStaffDetails();
+    getViewStaffPayRollDetails();
   }, [id]);
 
   const getStaffDetails = () => {
@@ -48,29 +56,26 @@ export const ViewStaff = () => {
         console.error(err);
       });
   };
+
+  const   getViewStaffPayRollDetails = () => {
+    getViewStaffPayRoll(id)
+      .then((res) => {
+        console.log("pay" ,res);
+        setPay(res?.data?.result || {});
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
   const handleValidatePayroll = (data) => {
-    const errors = {};
+    let error = { ...initialStateErrors };
 
-    if (!data.houseRent) {
-      errors.houseRentError = "House Rent Allowance is required";
-    }
-
-    if (!data.conveyance) {
-      errors.conveyanceError = "Conveyance Allowance is required";
-    }
-
-    if (!data.otherAllowance) {
-      errors.otherAllowanceError = "Other Allowance is required";
-    }
-
-    if (!data.taxDeduction) {
-      errors.taxDeductionError = "Tax Deduction is required";
-    }
-
-    if (!data.pf) {
-      errors.pfError = "pf is required";
-    }
-    return errors;
+    if (data.basicAllowance === "") error.basicAllowance.required = true;
+    if (data.hra === "") error.hra.required = true;
+    if (data.conveyance === "") error.conveyance.required = true;
+    if (data.taxDeduction === "") error.taxDeduction.required = true;
+    if (data.pf === "") error.pf.required = true;
+    return error;
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -87,8 +92,8 @@ export const ViewStaff = () => {
   
   const addEntry = (listName) => {
     const newEntry = listName === "allowance"
-      ? { name: "", amount: 0}
-      : { title: "", amount: 0 };
+      ? { name: "", amount: null}
+      : { title: "", amount: null };
     setPayroll({ ...payroll, [listName]: [...payroll[listName], newEntry] });
   };
 
@@ -97,9 +102,26 @@ export const ViewStaff = () => {
     setPayroll({ ...payroll, [listName]: updatedList });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setPayrollError({ ...payrollError, ...handleValidatePayroll(payroll) });
+  const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newError = handleValidatePayroll(payroll);
+    setErrors(newError);
+    setSubmitted(true);
+ 
+  if (handleErrors(newError)) {
     const staffinData = {
       ...payroll,
       
@@ -112,15 +134,17 @@ export const ViewStaff = () => {
       designation:staff?.designation,
 
     };
-    savePayroll(staffinData, id)
+    savePayroll(staffinData)
       .then((res) => {  
         toast.success(res?.data?.message);
+        setPayroll(initialState);
         getStaffDetails();
 
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);
       });
+    }
   };
   
   
@@ -140,201 +164,20 @@ export const ViewStaff = () => {
           </div>
           <div className="col-lg-9" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}>
             <div className="content-header">
-              <div className="container-fluid">
-                <h2 className="mb-4 text-center">Staff Details</h2>
-                <form onSubmit={handleSubmit}>
-                <div className="row">
-                 
-                    <div className="col-md-6">
-                      <div className="card border-0 mb-3">
-                        <div className="card-header bg-white">
-                          <h6 className="h6 fw-semibold text-capitalize float-start">Allowances</h6>
-                        </div>
-                        <div className="card-body p-4">
-                          <div className="mb-3">
-                            <label className="form-label">House Rent Allowance</label>
-                            <input
-                              type="number"
-                              className="form-control rounded-1"
-                              name="houseRent"
-                              value={payroll.houseRent}
-                              onChange={handleInputChange}
-                              placeholder="Example 25nullnull"
-                              style={{ fontSize: "12px" }}
-                            />
-                            {payrollError.houseRentError && (
-                              <span className="text-danger">{payrollError.houseRentError}</span>
-                            )}
-                          </div>
-                          <div className="mb-3">
-                            <label className="form-label">Conveyance</label>
-                            <input
-                              type="number"
-                              className="form-control rounded-1"
-                              name="conveyance"
-                              value={payroll.conveyance}
-                              onChange={handleInputChange}
-                              placeholder="Example 25nullnull"
-                              style={{ fontSize: "12px" }}
-                            />
-                            {payrollError.conveyanceError && (
-                              <span className="text-danger">{payrollError.conveyanceError}</span>
-                            )}
-                          </div>
-                          <div className="mb-3">
-                            <label className="form-label">Other Allowances</label>
-                            <input
-                              type="number"
-                              className="form-control rounded-1"
-                              name="otherAllowance"
-                              value={payroll.otherAllowance}
-                              onChange={handleInputChange}
-                              placeholder="Example 25nullnull"
-                              style={{ fontSize: "12px" }}
-                            />
-                            {payrollError.otherAllowanceError && (
-                              <span className="text-danger">{payrollError.otherAllowanceError}</span>
-                            )}
-                          </div>
-                          {payroll.allowance.map((allowance, index) => (
-                            <div key={index} className="mb-3">
-                              <input
-                                type="text"
-                                name="name"
-                                value={allowance.name}
-                                onChange={(e) => handleListInputChange(e, index, "allowance")}
-                                className="form-label rounded-1"
-                                style={{ fontSize: "12px" }}
-                                placeholder="Allowance title"
-                              />
-                              <input
-                                type="number"
-                                name="amount"
-                                value={allowance.amount}
-                                onChange={(e) => handleListInputChange(e, index, "allowance")}
-                                className="form-control rounded-1 mt-2"
-                                style={{ fontSize: "12px" }}
-                                placeholder="Amount"
-                              />
-                              <button
-                                type="button"
-                                onClick={() => removeEntry(index, "allowance")}
-                                className="btn mt-2"
-                              >
-                                <i className="far fa-trash-alt text-danger me-1"></i>
-                              </button>
-                            </div>
-                          ))}
-                          <button
-                            type="button"
-                            onClick={() => addEntry("allowance")}
-                            className="btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1"
-                            style={{ backgroundColor: "#7267ef" }}
-                          >
-                            <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="card border-0 mb-3">
-                        <div className="card-header bg-white">
-                          <h6 className="h6 fw-semibold text-capitalize float-start">Deductions</h6>
-                        </div>
-                        <div className="card-body p-4">
-                          <div className="mb-3">
-                            <label className="form-label">Pf</label>
-                            <input
-                              type="number"
-                              className="form-control rounded-1"
-                              name="pf"
-                              value={payroll.pf}
-                              onChange={handleInputChange}
-                              placeholder="Example 25nullnull"
-                              style={{ fontSize: "12px" }}
-                            />
-                            {payrollError.pf && <span className="text-danger">{payrollError.pf}</span>}
-                          </div>
-                          <div className="mb-3">
-                            <label className="form-label">Tax Deductions</label>
-                            <input
-                              type="number"
-                              className="form-control rounded-1"
-                              name="taxDeduction"
-                              value={payroll.taxDeduction}
-                              onChange={handleInputChange}
-                              placeholder="Example 25nullnull"
-                              style={{ fontSize: "12px" }}
-                            />
-                            {payrollError.taxDeduction && (
-                              <span className="text-danger">{payrollError.taxDeduction}</span>
-                            )}
-                          </div>
-                          {payroll.deduction.map((deduction, index) => (
-                            <div key={index} className="mb-3">
-                              <input
-                                type="text"
-                                name="title"
-                                value={deduction.title}
-                                onChange={(e) => handleListInputChange(e, index, "deduction")}
-                                className="form-label rounded-1"
-                                style={{ fontSize: "12px" }}
-                                placeholder="Deduction title"
-                              />
-                              <input
-                                type="number"
-                                name="amount"
-                                value={deduction.amount}
-                                onChange={(e) => handleListInputChange(e, index, "deduction")}
-                                className="form-control rounded-1 mt-2"
-                                style={{ fontSize: "12px" }}
-                                placeholder="Amount"
-                              />
-                              <button
-                                type="button"
-                                onClick={() => removeEntry(index, "deduction")}
-                                className="btn mt-2"
-                              >
-                                <i className="far fa-trash-alt text-danger me-1"></i>
-                              </button>
-                            </div>
-                          ))}
-                          <button
-                            type="button"
-                            onClick={() => addEntry("deduction")}
-                            className="btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1"
-                            style={{ backgroundColor: "#7267ef" }}
-                          >
-                            <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
-                          </button>
-                        </div>
-                      </div>
-                      <button
-                        type="submit"
-                        className="btn btn-sm text-uppercase px-4 py-2 border-0 fw-semibold float-end text-white"
-                        style={{ backgroundColor: "#231f20" }}
-                      >
-                        Submit
-                      </button>
-                    </div>
-                 
-                </div>
-                </form>
-              </div>
-              <div className="container-fluid">
+            <div className="container-fluid">
                 <div className="row">
                 <div className='col-md-6'>
-                  <div className="card border-0  mb-3">
+                  <div className="card border-null  mb-3">
                     <div className="card-body text-center">
                       <img
                         src={
                           staff?.photo
                             ? staff?.photo
-                            : "https://via.placeholder.com/150"
+                            : "https://via.placeholder.com/15null"
                         }
                         alt="Profile Photo"
                         className="img-fluid rounded-circle img-thumbnail  mb-3"
-                        style={{ width: "150px", height: "150px" }}
+                        style={{ width: "15nullpx", height: "15nullpx" }}
                       />
                       <h5 className="staff-name">{staff?.empName}</h5>
                       <p className="card-text text-muted">{staff?.designation}</p>
@@ -350,9 +193,9 @@ export const ViewStaff = () => {
                   </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <div className="card border-0 mb-3">
+                    <div className="card border-null mb-3">
                       <div className="card-header bg-primary text-white">
-                        <h5 className="mb-0">Personal Information</h5>
+                        <h5 className="mb-null">Personal Information</h5>
                       </div>
                       <div className="card-body">
                         <p><i className="fas fa-birthday-cake me-2"></i><strong>DOB:</strong> {staff?.dob}</p>
@@ -367,9 +210,9 @@ export const ViewStaff = () => {
                     </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                <div className="card mb-3 border-0">
+                <div className="card mb-3 border-null">
                     <div className="card-header bg-primary text-white">
-                      <h5 className="mb-0">Professional Information</h5>
+                      <h5 className="mb-null">Professional Information</h5>
                     </div>
                     <div className="card-body">
                       <div className="row">
@@ -418,19 +261,287 @@ export const ViewStaff = () => {
                   </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <div className="card border-0 mb-3">
-                      <div className="card-header bg-success text-white">
-                        <h5 className="mb-0">Bank Details</h5>
+                  <div className="card border-0 mb-3">
+                        <div className="card-header bg-white">
+                          <h6 className="h6 fw-semibold text-capitalize float-start">
+                            Total Salary Details
+                          </h6>
+                        </div>
+                        <div className="card-body p-4">
+                          <form>
+                            <div className="row mb-3">
+                              <div className="col-6 fw-bold">
+                                <i className="fas fa-id-badge"></i> Gross Salary:
+                              </div>
+                              <div className="col-6">{pay?.grossSalary}</div>
+                            </div>
+                            <div className="row mb-3">
+                              <div className="col-6 fw-bold">
+                                <i className="fas fa-id-badge"></i> Total Deductions:
+                              </div>
+                              <div className="col-6">{pay?.totalDeduction}</div>
+                            </div>
+                            <div className="row mb-3">
+                              <div className="col-6 fw-bold">
+                                <i className="fas fa-id-badge"></i> Net Salary:
+                              </div>
+                              <div className="col-6">{pay?.netSalary}</div>
+                            </div>
+                           
+                          </form>
+                        </div>
                       </div>
-                      <div className="card-body">
-                        <p><i className="fas fa-bank me-2"></i><strong>Bank Name:</strong> {staff?.bankName}</p>
-                        <p><i className="fas fa-credit-card me-2"></i><strong>Account Number:</strong> {staff?.accountNumber}</p>
-                        <p><i className="fas fa-sort-numeric-up me-2"></i><strong>IFSC Code:</strong> {staff?.ifscCode}</p>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
+              <div className="container-fluid">
+                <h2 className="mb-4 text-center">Staff Details</h2>
+                <form onSubmit={handleSubmit}>
+                <div className="row">
+                 
+                    <div className="col-md-6">
+                      <div className="card border-null mb-3">
+                        <div className="card-header bg-white">
+                          <h6 className="h6 fw-semibold text-capitalize float-start">Allowances</h6>
+                        </div>
+                        <div className="card-body p-4">
+                          <div className="mb-3">
+                            <label className="form-label">Basic Allowance</label>
+                            <input
+                              type="number"
+                              className="form-control rounded-1"
+                              name="basicAllowance"
+                              value={payroll.basicAllowance}
+                              onChange={handleInputChange}
+                              placeholder="Example 25nullnull"
+                              style={{ fontSize: "12px" }}
+                            />
+                          {errors.basicAllowance.required && (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              )}
+                          </div>
+
+                          <div className="mb-3">
+                            <label className="form-label">HRA Allowance</label>
+                            <input
+                              type="number"
+                              className="form-control rounded-1"
+                              name="hra"
+                              value={payroll.hra}
+                              onChange={handleInputChange}
+                              placeholder="Example 2500 Basic Allowance"
+                              style={{ fontSize: "12px" }}
+                            />
+                           {errors.hra.required && (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              )}
+                          </div>
+                          <div className="mb-3">
+                            <label className="form-label">Conveyance</label>
+                            <input
+                              type="number"
+                              className="form-control rounded-1"
+                              name="conveyance"
+                              value={payroll.conveyance}
+                              onChange={handleInputChange}
+                              placeholder="Example 25nullnull"
+                              style={{ fontSize: "12px" }}
+                            />
+                           {errors.conveyance.required && (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              )}
+                          </div>
+                         
+                          {payroll.allowance.map((allowance, index) => (
+                            <div key={index} className="mb-3">
+                              <input
+                                type="text"
+                                name="name"
+                                value={allowance.name}
+                                onChange={(e) => handleListInputChange(e, index, "allowance")}
+                                className="form-label rounded-1"
+                                style={{ fontSize: "12px" }}
+                                placeholder="Allowance title"
+                              />
+                              <input
+                                type="number"
+                                name="amount"
+                                value={allowance.amount}
+                                onChange={(e) => handleListInputChange(e, index, "allowance")}
+                                className="form-control rounded-1 mt-2"
+                                style={{ fontSize: "12px" }}
+                                placeholder="Amount"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => removeEntry(index, "allowance")}
+                                className="btn mt-2"
+                              >
+                                <i className="far fa-trash-alt text-danger me-1"></i>
+                              </button>
+                            </div>
+                          ))}
+                          <button
+                            type="button"
+                            onClick={() => addEntry("allowance")}
+                            className="btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1"
+                            style={{ backgroundColor: "#7267ef" }}
+                          >
+                            <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="card border-null mb-3">
+                        <div className="card-header bg-white">
+                          <h6 className="h6 fw-semibold text-capitalize float-start">Deductions</h6>
+                        </div>
+                        <div className="card-body p-4">
+                          <div className="mb-3">
+                            <label className="form-label"> Provident Fund</label>
+                            <input
+                              type="number"
+                              className="form-control rounded-1"
+                              name="pf"
+                              value={payroll.pf}
+                              onChange={handleInputChange}
+                              placeholder="Pf Ammount if type is not set, then set the value to 0"
+                              style={{ fontSize: "12px" }}
+                            />
+                               {errors.pf.required && (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              )}
+                          </div>
+                          <div className="mb-3">
+                            <label className="form-label">Professional Tax</label>
+                            <input
+                              type="number"
+                              className="form-control rounded-1"
+                              name="taxDeduction"
+                              value={payroll.taxDeduction}
+                              onChange={handleInputChange}
+                              placeholder="Example Basic Ammount 200"
+                              style={{ fontSize: "12px" }}
+                            />
+                           {errors.taxDeduction.required && (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              )}
+                          </div>
+                          <div className="mb-3">
+                            <label className="form-label">Performance Deduction</label>
+                            <input
+                              type="number"
+                              className="form-control rounded-1"
+                              name="performanceDeduction"
+                              value={payroll.performanceDeduction}
+                              onChange={handleInputChange}
+                              placeholder="Performance Deduction type is not set, then set the value to 0"
+                              style={{ fontSize: "12px" }}
+                            />
+                          </div>
+                          {payroll.deduction.map((deduction, index) => (
+                            <div key={index} className="mb-3">
+                              <input
+                                type="text"
+                                name="title"
+                                value={deduction.title}
+                                onChange={(e) => handleListInputChange(e, index, "deduction")}
+                                className="form-label rounded-1"
+                                style={{ fontSize: "12px" }}
+                                placeholder="Deduction title"
+                              />
+                              <input
+                                type="number"
+                                name="amount"
+                                value={deduction.amount}
+                                onChange={(e) => handleListInputChange(e, index, "deduction")}
+                                className="form-control rounded-1 mt-2"
+                                style={{ fontSize: "12px" }}
+                                placeholder="Amount"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => removeEntry(index, "deduction")}
+                                className="btn mt-2"
+                              >
+                                <i className="far fa-trash-alt text-danger me-1"></i>
+                              </button>
+                            </div>
+                          ))}
+                          <button
+                            type="button"
+                            onClick={() => addEntry("deduction")}
+                            className="btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1"
+                            style={{ backgroundColor: "#7267ef" }}
+                          >
+                            <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
+                          </button>
+                        </div>
+                      </div>
+                    
+                    </div>
+                    {/* <div className="col-md-6">
+                    <div className="card border-0 mb-3">
+                        <div className="card-header bg-white">
+                          <h6 className="h6 fw-semibold text-capitalize float-start">
+                            Documents
+                          </h6>
+                        </div>
+                        <div className="card-body p-4">
+                          <form>
+                            <div className="mb-3">
+                              <label className="form-label">Document</label>
+                              <input
+                                type="file"
+                                className="form-control rounded-1"
+                                style={{ fontSize: "12px" }}
+                                name="uploadDocument"
+                                onChange={handleInputChange}
+                              />
+                            </div>
+                            <button
+                              className="btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1"
+                              style={{ backgroundColor: "#7267ef" }}
+                            >
+                              <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                      </div> */}
+                     <div className="col-md-7">
+                   
+                      <button
+                       type="submit"
+                              className="btn btn-sm text-capitalize fw-semibold px-3 py-1 float-end ms-3"
+                              style={{ backgroundColor: "#7267ef", color: "#fff" }}
+                            >
+                              Update
+                            </button>
+                            <Link
+                            to="/SAListEmployees"
+                              className="btn btn-sm text-capitalize fw-semibold px-3 py-1 float-end"
+                              style={{ backgroundColor: "#231f20", color: "#fff" }}
+                            >
+                              Cancel
+                            </Link>
+                           
+                    </div>
+                </div>
+                </form>
+              </div>
+             
             </div>
           </div>
         </div>

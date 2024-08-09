@@ -352,7 +352,7 @@ export default function GlobalSettings() {
                       moduleList.map((data, index) => (
                         <tr key={index} style={{ backgroundColor: '#fff', fontFamily: "Plus Jakarta Sans", fontSize: "11px" }}>
                           <td className='text-start text-capitalize'>{pagination.from + index + 1}</td>
-                          <td className='text-start text-capitalize'>{data.department}</td>
+                          <td className='text-start text-capitalize'>{data.departmentHead}</td>
                           <td className='text-start text-capitalize'>
                             <button
                               className="btn btn-white text-center "

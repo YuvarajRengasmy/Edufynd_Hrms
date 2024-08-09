@@ -13,6 +13,10 @@ export const updatePayroll= (data) => {
 export const getSingleAllPayroll = (data) => {
     return API.get(`${Payroll}/getSinglePayroll`, { params: { _id: data } })
 }
+export const getViewStaffPayRoll = (data) => {
+    return API.get(`${Payroll}/getViewStaffPayRoll`, { params: { staffId: data } })
+}
+
 export const getallPayroll = () => {
     return API.get(`${Payroll}`)
 }
