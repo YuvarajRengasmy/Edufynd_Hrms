@@ -11,24 +11,24 @@ export const ViewStaff = () => {
   const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
-    houseRent: 0,
-    conveyance: 0,
-    otherAllowance: 0,
-    taxDeduction: 0,
-    pf: 0,
-    uploadDocument: 0,
-    allowance: [{ name: "", amount:0 }],
-    deduction: [{ title: "", amount:0}],
+    houseRent: null,
+    conveyance: null,
+   
+    taxDeduction: null,
+    pf: null,
+    uploadDocument: null,
+    allowance: [{ name: "", amount:null }],
+    deduction: [{ title: "", amount:null}],
   };
 
   const initialStateError = {
     houseRentError: "",
     conveyanceError: "",
-    otherAllowanceError: "",
+   
     taxDeductionError: "",
     pfError: "",
     uploadDocumentError: "",
-    additionalComponentsError: "",
+   
   };
 
   const [payrollError, setPayrollError] = useState(initialStateError);
@@ -59,9 +59,7 @@ export const ViewStaff = () => {
       errors.conveyanceError = "Conveyance Allowance is required";
     }
 
-    if (!data.otherAllowance) {
-      errors.otherAllowanceError = "Other Allowance is required";
-    }
+ 
 
     if (!data.taxDeduction) {
       errors.taxDeductionError = "Tax Deduction is required";
@@ -87,8 +85,8 @@ export const ViewStaff = () => {
   
   const addEntry = (listName) => {
     const newEntry = listName === "allowance"
-      ? { name: "", amount: 0}
-      : { title: "", amount: 0 };
+      ? { name: "", amount: null}
+      : { title: "", amount: null };
     setPayroll({ ...payroll, [listName]: [...payroll[listName], newEntry] });
   };
 
@@ -146,7 +144,7 @@ export const ViewStaff = () => {
                 <div className="row">
                  
                     <div className="col-md-6">
-                      <div className="card border-0 mb-3">
+                      <div className="card border-null mb-3">
                         <div className="card-header bg-white">
                           <h6 className="h6 fw-semibold text-capitalize float-start">Allowances</h6>
                         </div>
@@ -181,21 +179,7 @@ export const ViewStaff = () => {
                               <span className="text-danger">{payrollError.conveyanceError}</span>
                             )}
                           </div>
-                          <div className="mb-3">
-                            <label className="form-label">Other Allowances</label>
-                            <input
-                              type="number"
-                              className="form-control rounded-1"
-                              name="otherAllowance"
-                              value={payroll.otherAllowance}
-                              onChange={handleInputChange}
-                              placeholder="Example 25nullnull"
-                              style={{ fontSize: "12px" }}
-                            />
-                            {payrollError.otherAllowanceError && (
-                              <span className="text-danger">{payrollError.otherAllowanceError}</span>
-                            )}
-                          </div>
+                         
                           {payroll.allowance.map((allowance, index) => (
                             <div key={index} className="mb-3">
                               <input
@@ -237,7 +221,7 @@ export const ViewStaff = () => {
                       </div>
                     </div>
                     <div className="col-md-6">
-                      <div className="card border-0 mb-3">
+                      <div className="card border-null mb-3">
                         <div className="card-header bg-white">
                           <h6 className="h6 fw-semibold text-capitalize float-start">Deductions</h6>
                         </div>
@@ -311,8 +295,8 @@ export const ViewStaff = () => {
                       </div>
                       <button
                         type="submit"
-                        className="btn btn-sm text-uppercase px-4 py-2 border-0 fw-semibold float-end text-white"
-                        style={{ backgroundColor: "#231f20" }}
+                        className="btn btn-sm text-uppercase px-4 py-2 border-null fw-semibold float-end text-white"
+                        style={{ backgroundColor: "#231f2null" }}
                       >
                         Submit
                       </button>
@@ -324,17 +308,17 @@ export const ViewStaff = () => {
               <div className="container-fluid">
                 <div className="row">
                 <div className='col-md-6'>
-                  <div className="card border-0  mb-3">
+                  <div className="card border-null  mb-3">
                     <div className="card-body text-center">
                       <img
                         src={
                           staff?.photo
                             ? staff?.photo
-                            : "https://via.placeholder.com/150"
+                            : "https://via.placeholder.com/15null"
                         }
                         alt="Profile Photo"
                         className="img-fluid rounded-circle img-thumbnail  mb-3"
-                        style={{ width: "150px", height: "150px" }}
+                        style={{ width: "15nullpx", height: "15nullpx" }}
                       />
                       <h5 className="staff-name">{staff?.empName}</h5>
                       <p className="card-text text-muted">{staff?.designation}</p>
@@ -350,9 +334,9 @@ export const ViewStaff = () => {
                   </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <div className="card border-0 mb-3">
+                    <div className="card border-null mb-3">
                       <div className="card-header bg-primary text-white">
-                        <h5 className="mb-0">Personal Information</h5>
+                        <h5 className="mb-null">Personal Information</h5>
                       </div>
                       <div className="card-body">
                         <p><i className="fas fa-birthday-cake me-2"></i><strong>DOB:</strong> {staff?.dob}</p>
@@ -367,9 +351,9 @@ export const ViewStaff = () => {
                     </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                <div className="card mb-3 border-0">
+                <div className="card mb-3 border-null">
                     <div className="card-header bg-primary text-white">
-                      <h5 className="mb-0">Professional Information</h5>
+                      <h5 className="mb-null">Professional Information</h5>
                     </div>
                     <div className="card-body">
                       <div className="row">
@@ -418,9 +402,9 @@ export const ViewStaff = () => {
                   </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <div className="card border-0 mb-3">
+                    <div className="card border-null mb-3">
                       <div className="card-header bg-success text-white">
-                        <h5 className="mb-0">Bank Details</h5>
+                        <h5 className="mb-null">Bank Details</h5>
                       </div>
                       <div className="card-body">
                         <p><i className="fas fa-bank me-2"></i><strong>Bank Name:</strong> {staff?.bankName}</p>
