@@ -1,27 +1,21 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallStaff, deleteStaff ,updateStaff} from "../../Api/SuperAdmin/Employees";
+import { getallStaff, deleteStaff, updateStaff } from "../../Api/SuperAdmin/Employees";
+import { getallPayroll, updatePayroll } from "../../Api/SuperAdmin/Payroll";
 import { Link } from "react-router-dom";
 import SuperAdminSidebar from "../../Components/SuperadminSidebar";
 import Navbar from "../../Components/Navbar";
-// import { formatDate } from "../../../Utils/DateFormat";
-
 import { FaFilter } from "react-icons/fa";
 import { toast } from "react-toastify";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Pagination,
-  backdropClasses,
-  radioClasses,
-} from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
+import { Close as CloseIcon } from "@mui/icons-material";
 
 export const ListEmployees = () => {
   const initialStateInputs = {
     description: "",
+    grossSalary: "",
+    totalDeduction: "",
+    netSalary: "",
   };
 
   const initialStateErrors = {
@@ -35,15 +29,16 @@ export const ListEmployees = () => {
     }
     return error;
   };
+
   const [inputs, setInputs] = useState(initialStateInputs);
   const [filter, setFilter] = useState(false);
-  const [isEditing, setIsEditing] = useState(false); // Track if editing
-  const [editId, setEditId] = useState(null); // Track the id of the item being edited
+  const [isEditing, setIsEditing] = useState(false);
+  const [editId, setEditId] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState(initialStateErrors);
-  const [staff, setStaff] = useState();
+  const [staff, setStaff] = useState([]);
   const [open, setOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState();
+  const [deleteId, setDeleteId] = useState(null);
   const pageSize = 10;
   const [pagination, setPagination] = useState({
     count: 0,
@@ -61,10 +56,10 @@ export const ListEmployees = () => {
       page: pagination.from,
     };
 
-    getallStaff(data)
+    getallPayroll(data)
       .then((res) => {
-        setStaff(res?.data?.result);
-        setPagination({ ...pagination, count: res?.data?.result?.staffCount });
+        setStaff(res?.data?.result || []);
+        setPagination({ ...pagination, count: res?.data?.result?.staffCount || 0 });
       })
       .catch((err) => {
         console.log(err);
@@ -73,35 +68,37 @@ export const ListEmployees = () => {
 
   const openPopup = (data) => {
     setOpen(true);
-    setDeleteId(data);
+    setDeleteId(data._id); // Assuming 'data' contains the staff ID to delete
   };
 
   const closePopup = () => {
     setOpen(false);
   };
+
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
   };
-  const deleteStaffData = () => {
-    deleteStaff(deleteId)
-      .then((res) => {
-        toast.success(res?.data?.message);
-        closePopup();
-        getAllStaffDetails();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+ 
+
+  const handleInputs = (event) => {
+    setInputs({ ...inputs, [event.target.name]: event.target.value });
   };
+
   const handleEditModule = (data) => {
-    setInputs(data); // Set the form inputs to the data of the item being edited
-    setIsEditing(true); // Set editing mode to true
-    setEditId(data._id); // Set the ID of the item being edited
-    setSubmitted(false); // Reset submitted state
-    setErrors(initialStateErrors); // Reset errors
+    setInputs({ description: data.description || "" ,
+      grossSalary: data.grossSalary || "",
+      totalDeduction: data.totalDeduction || "",
+      netSalary: data.netSalary || "",
+    }); // Set the form inputs to the data of the item being edited
+    setIsEditing(true);
+    setEditId(data._id);
+    setSubmitted(false);
+    setErrors(initialStateErrors);
   };
+ 
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -113,41 +110,49 @@ export const ListEmployees = () => {
     }
     return true;
   };
+
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent the default form submission behavior
+  
+    // Validate inputs and get errors
     const newError = handleValidation(inputs);
     setErrors(newError);
     setSubmitted(true);
-
+  
+    // If there are no validation errors
     if (handleErrors(newError)) {
       const data = {
         ...inputs,
-        _id: editId, // If editing, include the ID in the data
+        _id: editId, // Include the staff ID for editing
       };
-
+  
+      // Check if we are in edit mode
       if (isEditing) {
-        updateStaff(data)
+        // Update staff data
+       updatePayroll(data)
           .then((res) => {
-            toast.success(res?.data?.message);
-            event.target.reset();
-            setInputs(initialStateInputs);
-            setErrors(initialStateErrors);
-            setSubmitted(false);
-           
-            closePopup();
+            toast.success(res?.data?.message); // Display success message
+            event.target.reset(); // Reset the form
+            setInputs(initialStateInputs); // Reset inputs
+            setErrors(initialStateErrors); // Reset errors
+            setSubmitted(false); // Reset submission state
+            closePopup(); // Close the dialog
+            getAllStaffDetails(); // Refresh the staff list
           })
           .catch((err) => {
-            toast.error(err?.response?.data?.message);
+            toast.error(err?.response?.data?.message); // Display error message
           });
+      } else {
+        // Handle case where isEditing is false (if necessary)
       }
     }
   };
+
   const tableRef = useRef(null);
 
   useEffect(() => {
     const table = tableRef.current;
 
-    // Apply SortableJS to the table headers
     const sortable = new Sortable(table.querySelector("thead tr"), {
       animation: 150,
       swapThreshold: 0.5,
@@ -156,7 +161,6 @@ export const ListEmployees = () => {
         const oldIndex = evt.oldIndex;
         const newIndex = evt.newIndex;
 
-        // Move the columns in the tbody
         table.querySelectorAll("tbody tr").forEach((row) => {
           const cells = Array.from(row.children);
           row.insertBefore(cells[oldIndex], cells[newIndex]);
@@ -183,7 +187,6 @@ export const ListEmployees = () => {
             <SuperAdminSidebar />
           </div>
           <div className="col-lg-9">
-           
             <div className="card border-0 p-2">
               <div className="card-header border-0 bg-white">
                 <h6 className="h6 fw-semibold float-start">PayRoll Report</h6>
@@ -198,7 +201,7 @@ export const ListEmployees = () => {
                             <div className="card-table">
                               <div className="table-responsive">
                                 <table
-                                  className=" table table-hover card-table dataTable table-responsive-sm text-center"
+                                  className="table table-hover card-table dataTable table-responsive-sm text-center"
                                   style={{ color: "#9265cc", fontSize: "13px" }}
                                   ref={tableRef}
                                 >
@@ -210,40 +213,32 @@ export const ListEmployees = () => {
                                       }}
                                     >
                                       <th className="text-capitalize text-start sortable-handle">
-                                        {" "}
                                         S.No.
                                       </th>
                                       <th className="text-capitalize text-start sortable-handle">
-                                        Emp_ID{" "}
+                                        Emp_ID
+                                      </th>
+                                      
+                                      <th className="text-capitalize text-start sortable-handle">
+                                        Name
                                       </th>
                                       <th className="text-capitalize text-start sortable-handle">
-                                        {" "}
-                                        DOJ{" "}
-                                      </th>
-                                      <th className="text-capitalize text-start sortable-handle">
-                                        {" "}
-                                        Name{" "}
-                                      </th>
-                                      <th className="text-capitalize text-start sortable-handle">
-                                        {" "}
                                         Designation
                                       </th>
                                       <th className="text-capitalize text-start sortable-handle">
-                                        {" "}
-                                        Reporting_Manager{" "}
+                                        Reporting_Manager
                                       </th>
                                       <th className="text-capitalize text-start sortable-handle">
-                                        {" "}
-                                        Contact No{" "}
-                                      </th>
-
-                                      <th className="text-capitalize text-start sortable-handle">
-                                        {" "}
-                                        Status{" "}
+                                        Contact No
                                       </th>
                                       <th className="text-capitalize text-start sortable-handle">
-                                        {" "}
-                                        Action{" "}
+                                       Salary
+                                      </th>
+                                      <th className="text-capitalize text-start sortable-handle">
+                                        Status
+                                      </th>
+                                      <th className="text-capitalize text-start sortable-handle">
+                                        Action
                                       </th>
                                     </tr>
                                   </thead>
@@ -260,11 +255,9 @@ export const ListEmployees = () => {
                                           {pagination.from + index + 1}
                                         </td>
                                         <td className="text-capitalize text-start">
-                                          {data?.employeeID}
+                                          {data?.employeeId}
                                         </td>
-                                        <td className="text-capitalize text-start">
-                                          {data?.doj}
-                                        </td>
+                                        
                                         <td className="text-capitalize text-start">
                                           {data?.empName}
                                         </td>
@@ -277,153 +270,38 @@ export const ListEmployees = () => {
                                         <td className="text-capitalize text-start">
                                           {data?.mobileNumber}
                                         </td>
-
                                         <td className="text-capitalize text-start">
-                                          {data?.status}
+                                          {data?.netSalary}
                                         </td>
-
+                                        <td className="text-capitalize text-start">
+                                          {data?.description}
+                                        </td>
                                         <td>
                                           <div className="d-flex">
-                                            <i
-                                              className="fa fa-wallet"
-                                              aria-hidden="true"
-                                              data-bs-toggle="modal"
-                                              data-bs-target="#PayrollViewModal"
-                                              style={{
-                                                fontSize: "12px",
-                                                color: "#7627ef",
-                                                cursor: "pointer",
-                                              }}
-                                              onClick={() => { handleEditModule(data) }}
-                                            />
-
-                                            <div
-                                              class="modal fade"
-                                              id="PayrollViewModal"
-                                              tabindex="-1"
-                                              aria-labelledby="exampleModalLabel"
-                                              aria-hidden="true"
+                                           
+                                            <button
+                                              className="btn  btn-sm me-2"
+                                              onClick={() => handleEditModule(data)}
                                             >
-                                              <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                  <div class="modal-header">
-                                                    <h1
-                                                      class="modal-title fs-5"
-                                                      id="exampleModalLabel"
-                                                    >
-                                                     Payroll Details
-                                                    </h1>
-                                                    <button
-                                                      type="button"
-                                                      class="btn-close"
-                                                      data-bs-dismiss="modal"
-                                                      aria-label="Close"
-                                                    ></button>
-                                                  </div>
-                                                  <div class="modal-body ">
-                                                    <form>
-                                                      <div className="row mb-3">
-                                                        <div className="col-6 fw-bold">
-                                                          <i class="fas fa-dollar-sign nav-icon"></i>
-                                                          &nbsp;&nbsp;Gross
-                                                          Salary:
-                                                        </div>
-                                                        <div className="col-6">
-                                                          18,000
-                                                        </div>
-                                                      </div>
-                                                      <div className="row mb-3">
-                                                        <div className="col-6 fw-bold">
-                                                          <i class="fas fa-minus nav-icon"></i>
-                                                          &nbsp;&nbsp;Total
-                                                          Deductions:
-                                                        </div>
-                                                        <div className="col-6">
-                                                          500
-                                                        </div>
-                                                      </div>
-                                                      <div className="row mb-3">
-                                                        <div className="col-6 fw-bold">
-                                                          <i class="fas fa-wallet nav-icon"></i>
-                                                          &nbsp;&nbsp;Net
-                                                          Salary:
-                                                        </div>
-                                                        <div className="col-6">
-                                                          17,500
-                                                        </div>
-                                                      </div>
-                                                      <div class="mb-3 text-start">
-                                                        <label class="form-label">
-                                                          Description
-                                                        </label>
-                                                        <input
-                                                          type="text"
-                                                          class="form-control rounded-1 text-muted"
-                                                          placeholder="Message...."
-                                                          style={{
-                                                            fontSize: "12px",
-                                                          }}
-                                                        />
-                                                      </div>
-                                                    </form>
-                                                  </div>
-                                                  <div class="modal-footer">
-                                                    <button
-                                                      type="button"
-                                                      class="btn btn-light border-0 px-4 py-2 fw-semibold text-capitalize rounded-1"
-                                                      data-bs-dismiss="modal"
-                                                      style={{
-                                                        fontSize: "12px",
-                                                      }}
-                                                    >
-                                                      Close
-                                                    </button>
-                                                    <button
-                                                      type="button"
-                                                      class="btn  border-0 px-4 py-2 fw-semibold text-capitalize rounded-1"
-                                                      style={{
-                                                        backgroundColor:
-                                                          "#7627ef",
-                                                        color: "#fff",
-                                                        fontSize: "12px",
-                                                      }}
-                                                    >
-                                                      Save{" "}
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
+                                              <i className="fa fa-wallet"></i>
+                                            </button>
+                                           
                                           </div>
                                         </td>
                                       </tr>
                                     ))}
-                                    {staff?.length === 0 ? (
-                                      <tr>
-                                        <td
-                                          className="form-text text-danger"
-                                          colSpan="9"
-                                        >
-                                          No data In Staff
-                                        </td>
-                                      </tr>
-                                    ) : null}
                                   </tbody>
                                 </table>
                               </div>
                             </div>
-                            <div className="float-end my-2">
-                            <Pagination
-                              count={Math.ceil(pagination.count / pageSize)}
-                              onChange={handlePageChange}
-                              variant="outlined"
-                              shape="rounded"
-                              color="primary"
-                            />
                           </div>
-                          </div>
-                          
-                        
+                        </div>
+                        <div className="d-flex justify-content-center">
+                          <Pagination
+                            count={Math.ceil(pagination.count / pageSize)}
+                            onChange={handlePageChange}
+                            shape="rounded"
+                          />
                         </div>
                       </div>
                     </div>
@@ -434,32 +312,88 @@ export const ListEmployees = () => {
           </div>
         </div>
       </div>
-      <Dialog open={open}>
-        <DialogContent>
-          <div className="text-center m-4">
-            <h5 className="mb-4 text-capitalize">
-              Are you sure you want to Delete <br /> the selected Staff?
-            </h5>
-            <button
-              type="button"
-              className="btn btn-save btn-danger fw-semibold text-uppercase rounded-pill px-4 py-2 mx-3"
-              onClick={deleteStaffData}
-              style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-            >
-              Yes
+
+     
+
+      <Dialog open={isEditing} onClose={() => setIsEditing(false)} >
+        <DialogTitle>Payment Status</DialogTitle>
+        <DialogContent style={{ width: '500px' }}>
+        <form  onSubmit={handleSubmit}>
+            <div className="form-group mb-3">
+
+            <div className="row mb-3">
+                                                        <div className="col-6 fw-bold">
+                                                          <i class="fas fa-dollar-sign nav-icon"></i>
+                                                          &nbsp;&nbsp;Gross
+                                                          Salary:
+                                                        </div>
+                                                        <div className="col-6">
+                                                         {inputs?.grossSalary}
+                                                        </div>
+                                                      </div>
+                                                      <div className="row mb-3">
+                                                        <div className="col-6 fw-bold">
+                                                          <i class="fas fa-minus nav-icon"></i>
+                                                          &nbsp;&nbsp;Total
+                                                          Deductions:
+                                                        </div>
+                                                        <div className="col-6">
+                                                         {inputs?.totalDeduction}
+                                                        </div>
+                                                      </div>
+                                                      <div className="row mb-3">
+                                                        <div className="col-6 fw-bold">
+                                                          <i class="fas fa-wallet nav-icon"></i>
+                                                          &nbsp;&nbsp;Net
+                                                          Salary:
+                                                        </div>
+                                                        <div className="col-6">
+                                                          {inputs.netSalary}
+                                                        </div>
+                                                      </div>
+                                                      <div className="mb-3">
+              <label htmlFor="description" className="form-label">Description</label>
+              <input
+                type="text"
+                className="form-control"
+                id="description"
+                name="description"
+                value={inputs.description}
+                onChange={handleInputs}
+              />
+              {submitted && errors.description.required && (
+                <div className="text-danger">Description is required</div>
+              )}
+            </div>
+            
+            </div>
+            <div className="text-center">
+            <button 
+            type="submit"
+            className="btn btn-cancel border-0 fw-semibold text-uppercase py-1 px-3 rounded-pill text-white float-end bg"
+           
+           style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
+           >
+              Save
             </button>
-            <button
-              type="button"
-              className="btn btn-cancel btn-success fw-semibold text-uppercase rounded-pill px-4 py-2 "
-              onClick={closePopup}
-              style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-            >
-              No
+            <button     
+              onClick={() => setIsEditing(false)}   
+            className="btn btn-cancel border-0 fw-semibold text-uppercase py-1 px-3 rounded-pill text-white float-end bg"
+            style={{ backgroundColor: "#0f2239", fontSize: "12px" }}
+         >
+              Cencel
             </button>
+           
+         
           </div>
+            
+        
+          </form>
+          
         </DialogContent>
       </Dialog>
     </>
   );
 };
+
 export default ListEmployees;

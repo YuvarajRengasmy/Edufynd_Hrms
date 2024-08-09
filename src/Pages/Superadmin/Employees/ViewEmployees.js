@@ -11,14 +11,14 @@ export const ViewStaff = () => {
   const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
-    houseRent: 0,
-    conveyance: 0,
-    otherAllowance: 0,
-    taxDeduction: 0,
-    totalDeduction: 0,
-    uploadDocument: '',
-    allowance: [{ name: "", amount:0 }],
-    deduction: [{ title: "", amount: 0}],
+    houseRent: null,
+    conveyance: null,
+    otherAllowance: null,
+    taxDeduction: null,
+    totalDeduction: null,
+    uploadDocument: null,
+    allowance: [{ name: "", amount:null }],
+    deduction: [{ title: "", amount: null}],
   };
 
   const initialStateError = {
@@ -74,30 +74,21 @@ export const ViewStaff = () => {
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
- 
     setPayroll({ ...payroll, [name]: value });
-    // const parsedValue = isNaN(value) ? value : parseFloat(value);
-    // setPayroll({ ...payroll, [name]: parsedValue });
   };
 
   const handleListInputChange = (e, index, listName) => {
     const { name, value } = e.target;
-  
     const updatedList = [...payroll[listName]];
     updatedList[index][name] = value;
     setPayroll({ ...payroll, [listName]: updatedList });
-
-    // const parsedValue = isNaN(value) ? value : parseFloat(value);
-    // const updatedList = [...payroll[listName]];
-    // updatedList[index][name] = parsedValue;
-    // setPayroll({ ...payroll, [listName]: updatedList });
   };
  
   
   const addEntry = (listName) => {
     const newEntry = listName === "allowance"
-      ? { name: "", amount: 0}
-      : { title: "", amount: 0 };
+      ? { name: "", amount: null}
+      : { title: "", amount: null };
     setPayroll({ ...payroll, [listName]: [...payroll[listName], newEntry] });
   };
 
@@ -109,10 +100,20 @@ export const ViewStaff = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setPayrollError({ ...payrollError, ...handleValidatePayroll(payroll) });
+    const staffinData = {
+      ...payroll,
+      
+      empName: staff.empName,
+      staffId: staff._id,
+      employeeId: staff?.employeeID,
+      reportingManager: staff?.reportingManager,
+      photo: staff?.photo,
+      mobileNumber:staff?.mobileNumber,
+      designation:staff?.designation,
 
-    savePayroll(payroll, id)
+    };
+    savePayroll(staffinData, id)
       .then((res) => {  
-        console.log("567667", res)
         toast.success(res?.data?.message);
         getStaffDetails();
 
@@ -145,7 +146,7 @@ export const ViewStaff = () => {
                 <div className="row">
                  
                     <div className="col-md-6">
-                      <div className="card border-0 mb-3">
+                      <div className="card border-null mb-3">
                         <div className="card-header bg-white">
                           <h6 className="h6 fw-semibold text-capitalize float-start">Allowances</h6>
                         </div>
@@ -236,7 +237,7 @@ export const ViewStaff = () => {
                       </div>
                     </div>
                     <div className="col-md-6">
-                      <div className="card border-0 mb-3">
+                      <div className="card border-null mb-3">
                         <div className="card-header bg-white">
                           <h6 className="h6 fw-semibold text-capitalize float-start">Deductions</h6>
                         </div>
@@ -310,7 +311,7 @@ export const ViewStaff = () => {
                       </div>
                       <button
                         type="submit"
-                        className="btn btn-sm text-uppercase px-4 py-2 border-0 fw-semibold float-end text-white"
+                        className="btn btn-sm text-uppercase px-4 py-2 border-null fw-semibold float-end text-white"
                         style={{ backgroundColor: "#231f20" }}
                       >
                         Submit
@@ -349,9 +350,9 @@ export const ViewStaff = () => {
                   </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <div className="card border-0 mb-3">
+                    <div className="card border-null mb-3">
                       <div className="card-header bg-primary text-white">
-                        <h5 className="mb-0">Personal Information</h5>
+                        <h5 className="mb-null">Personal Information</h5>
                       </div>
                       <div className="card-body">
                         <p><i className="fas fa-birthday-cake me-2"></i><strong>DOB:</strong> {staff?.dob}</p>
@@ -417,9 +418,9 @@ export const ViewStaff = () => {
                   </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <div className="card border-0 mb-3">
+                    <div className="card border-null mb-3">
                       <div className="card-header bg-success text-white">
-                        <h5 className="mb-0">Bank Details</h5>
+                        <h5 className="mb-null">Bank Details</h5>
                       </div>
                       <div className="card-body">
                         <p><i className="fas fa-bank me-2"></i><strong>Bank Name:</strong> {staff?.bankName}</p>
