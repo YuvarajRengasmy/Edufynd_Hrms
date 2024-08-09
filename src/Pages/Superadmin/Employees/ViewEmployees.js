@@ -11,14 +11,14 @@ export const ViewStaff = () => {
   const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
-    houseRent: null,
-    conveyance: null,
-    otherAllowance: null,
-    taxDeduction: null,
-    totalDeduction: null,
-    uploadDocument: null,
-    allowances: [{ name: "", amount:null }],
-    deductions: [{ title: "", amount: null}],
+    houseRent: 0,
+    conveyance: 0,
+    otherAllowance: 0,
+    taxDeduction: 0,
+    totalDeduction: 0,
+    uploadDocument: 0,
+    allowance: [{ name: "", amount:0 }],
+    deduction: [{ title: "", amount: 0}],
   };
 
   const initialStateError = {
@@ -86,9 +86,9 @@ export const ViewStaff = () => {
  
   
   const addEntry = (listName) => {
-    const newEntry = listName === "allowances"
-      ? { name: "", amount: null}
-      : { title: "", amount: null };
+    const newEntry = listName === "allowance"
+      ? { name: "", amount: 0}
+      : { title: "", amount: 0 };
     setPayroll({ ...payroll, [listName]: [...payroll[listName], newEntry] });
   };
 
@@ -135,7 +135,7 @@ export const ViewStaff = () => {
                 <div className="row">
                  
                     <div className="col-md-6">
-                      <div className="card border-null mb-3">
+                      <div className="card border-0 mb-3">
                         <div className="card-header bg-white">
                           <h6 className="h6 fw-semibold text-capitalize float-start">Allowances</h6>
                         </div>
@@ -185,13 +185,13 @@ export const ViewStaff = () => {
                               <span className="text-danger">{payrollError.otherAllowanceError}</span>
                             )}
                           </div>
-                          {payroll.allowances.map((allowance, index) => (
+                          {payroll.allowance.map((allowance, index) => (
                             <div key={index} className="mb-3">
                               <input
                                 type="text"
                                 name="name"
                                 value={allowance.name}
-                                onChange={(e) => handleListInputChange(e, index, "allowances")}
+                                onChange={(e) => handleListInputChange(e, index, "allowance")}
                                 className="form-label rounded-1"
                                 style={{ fontSize: "12px" }}
                                 placeholder="Allowance title"
@@ -200,14 +200,14 @@ export const ViewStaff = () => {
                                 type="number"
                                 name="amount"
                                 value={allowance.amount}
-                                onChange={(e) => handleListInputChange(e, index, "allowances")}
+                                onChange={(e) => handleListInputChange(e, index, "allowance")}
                                 className="form-control rounded-1 mt-2"
                                 style={{ fontSize: "12px" }}
                                 placeholder="Amount"
                               />
                               <button
                                 type="button"
-                                onClick={() => removeEntry(index, "allowances")}
+                                onClick={() => removeEntry(index, "allowance")}
                                 className="btn mt-2"
                               >
                                 <i className="far fa-trash-alt text-danger me-1"></i>
@@ -216,7 +216,7 @@ export const ViewStaff = () => {
                           ))}
                           <button
                             type="button"
-                            onClick={() => addEntry("allowances")}
+                            onClick={() => addEntry("allowance")}
                             className="btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1"
                             style={{ backgroundColor: "#7267ef" }}
                           >
@@ -226,7 +226,7 @@ export const ViewStaff = () => {
                       </div>
                     </div>
                     <div className="col-md-6">
-                      <div className="card border-null mb-3">
+                      <div className="card border-0 mb-3">
                         <div className="card-header bg-white">
                           <h6 className="h6 fw-semibold text-capitalize float-start">Deductions</h6>
                         </div>
@@ -259,13 +259,13 @@ export const ViewStaff = () => {
                               <span className="text-danger">{payrollError.taxDeduction}</span>
                             )}
                           </div>
-                          {payroll.deductions.map((deduction, index) => (
+                          {payroll.deduction.map((deduction, index) => (
                             <div key={index} className="mb-3">
                               <input
                                 type="text"
                                 name="title"
                                 value={deduction.title}
-                                onChange={(e) => handleListInputChange(e, index, "deductions")}
+                                onChange={(e) => handleListInputChange(e, index, "deduction")}
                                 className="form-label rounded-1"
                                 style={{ fontSize: "12px" }}
                                 placeholder="Deduction title"
@@ -274,14 +274,14 @@ export const ViewStaff = () => {
                                 type="number"
                                 name="amount"
                                 value={deduction.amount}
-                                onChange={(e) => handleListInputChange(e, index, "deductions")}
+                                onChange={(e) => handleListInputChange(e, index, "deduction")}
                                 className="form-control rounded-1 mt-2"
                                 style={{ fontSize: "12px" }}
                                 placeholder="Amount"
                               />
                               <button
                                 type="button"
-                                onClick={() => removeEntry(index, "deductions")}
+                                onClick={() => removeEntry(index, "deduction")}
                                 className="btn mt-2"
                               >
                                 <i className="far fa-trash-alt text-danger me-1"></i>
@@ -290,7 +290,7 @@ export const ViewStaff = () => {
                           ))}
                           <button
                             type="button"
-                            onClick={() => addEntry("deductions")}
+                            onClick={() => addEntry("deduction")}
                             className="btn btn-sm fw-semibold text-capitalize text-white float-end px-4 py-1"
                             style={{ backgroundColor: "#7267ef" }}
                           >
@@ -300,7 +300,7 @@ export const ViewStaff = () => {
                       </div>
                       <button
                         type="submit"
-                        className="btn btn-sm text-uppercase px-4 py-2 border-null fw-semibold float-end text-white"
+                        className="btn btn-sm text-uppercase px-4 py-2 border-0 fw-semibold float-end text-white"
                         style={{ backgroundColor: "#231f20" }}
                       >
                         Submit
@@ -339,9 +339,9 @@ export const ViewStaff = () => {
                   </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <div className="card border-null mb-3">
+                    <div className="card border-0 mb-3">
                       <div className="card-header bg-primary text-white">
-                        <h5 className="mb-null">Personal Information</h5>
+                        <h5 className="mb-0">Personal Information</h5>
                       </div>
                       <div className="card-body">
                         <p><i className="fas fa-birthday-cake me-2"></i><strong>DOB:</strong> {staff?.dob}</p>
@@ -407,9 +407,9 @@ export const ViewStaff = () => {
                   </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <div className="card border-null mb-3">
+                    <div className="card border-0 mb-3">
                       <div className="card-header bg-success text-white">
-                        <h5 className="mb-null">Bank Details</h5>
+                        <h5 className="mb-0">Bank Details</h5>
                       </div>
                       <div className="card-body">
                         <p><i className="fas fa-bank me-2"></i><strong>Bank Name:</strong> {staff?.bankName}</p>
