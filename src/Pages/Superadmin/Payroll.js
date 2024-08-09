@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallStaff, deleteStaff } from "../../Api/SuperAdmin/Employees";
+import { getallStaff, deleteStaff ,updateStaff} from "../../Api/SuperAdmin/Employees";
 import { Link } from "react-router-dom";
 import SuperAdminSidebar from "../../Components/SuperadminSidebar";
 import Navbar from "../../Components/Navbar";
 // import { formatDate } from "../../../Utils/DateFormat";
+
 import { FaFilter } from "react-icons/fa";
 import { toast } from "react-toastify";
 
@@ -19,6 +20,27 @@ import {
 } from "@mui/material";
 
 export const ListEmployees = () => {
+  const initialStateInputs = {
+    description: "",
+  };
+
+  const initialStateErrors = {
+    description: { required: false },
+  };
+
+  const handleValidation = (data) => {
+    let error = { ...initialStateErrors };
+    if (!data.description) {
+      error.description.required = true;
+    }
+    return error;
+  };
+  const [inputs, setInputs] = useState(initialStateInputs);
+  const [filter, setFilter] = useState(false);
+  const [isEditing, setIsEditing] = useState(false); // Track if editing
+  const [editId, setEditId] = useState(null); // Track the id of the item being edited
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState(initialStateErrors);
   const [staff, setStaff] = useState();
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
@@ -73,7 +95,53 @@ export const ListEmployees = () => {
         console.log(err);
       });
   };
+  const handleEditModule = (data) => {
+    setInputs(data); // Set the form inputs to the data of the item being edited
+    setIsEditing(true); // Set editing mode to true
+    setEditId(data._id); // Set the ID of the item being edited
+    setSubmitted(false); // Reset submitted state
+    setErrors(initialStateErrors); // Reset errors
+  };
+  const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newError = handleValidation(inputs);
+    setErrors(newError);
+    setSubmitted(true);
 
+    if (handleErrors(newError)) {
+      const data = {
+        ...inputs,
+        _id: editId, // If editing, include the ID in the data
+      };
+
+      if (isEditing) {
+        updateStaff(data)
+          .then((res) => {
+            toast.success(res?.data?.message);
+            event.target.reset();
+            setInputs(initialStateInputs);
+            setErrors(initialStateErrors);
+            setSubmitted(false);
+           
+            closePopup();
+          })
+          .catch((err) => {
+            toast.error(err?.response?.data?.message);
+          });
+      }
+    }
+  };
   const tableRef = useRef(null);
 
   useEffect(() => {
@@ -226,6 +294,7 @@ export const ListEmployees = () => {
                                                 color: "#7627ef",
                                                 cursor: "pointer",
                                               }}
+                                              onClick={() => { handleEditModule(data) }}
                                             />
 
                                             <div
