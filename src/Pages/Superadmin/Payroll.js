@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
 import { getallStaff, deleteStaff, updateStaff } from "../../Api/SuperAdmin/Employees";
-import { getallPayroll, updatePayroll } from "../../Api/SuperAdmin/Payroll";
+import { getallPayroll, updatePayroll, } from "../../Api/SuperAdmin/Payroll";
 import { Link } from "react-router-dom";
 import SuperAdminSidebar from "../../Components/SuperadminSidebar";
 import Navbar from "../../Components/Navbar";
@@ -137,7 +137,7 @@ export const ListEmployees = () => {
             setErrors(initialStateErrors); // Reset errors
             setSubmitted(false); // Reset submission state
             closePopup(); // Close the dialog
-            getAllStaffDetails(); // Refresh the staff list
+            
           })
           .catch((err) => {
             toast.error(err?.response?.data?.message); // Display error message
