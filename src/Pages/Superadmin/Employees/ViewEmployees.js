@@ -100,8 +100,19 @@ export const ViewStaff = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setPayrollError({ ...payrollError, ...handleValidatePayroll(payroll) });
+    const staffinData = {
+      ...payroll,
+      
+      empName: staff.empName,
+      staffId: staff._id,
+      employeeId: staff?.employeeID,
+      reportingManager: staff?.reportingManager,
+      photo: staff?.photo,
+      mobileNumber:staff?.mobileNumber,
+      designation:staff?.designation,
 
-    savePayroll(payroll, id)
+    };
+    savePayroll(staffinData, id)
       .then((res) => {  
         toast.success(res?.data?.message);
         getStaffDetails();

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
 import { getallStaff, deleteStaff, updateStaff } from "../../Api/SuperAdmin/Employees";
+import { getallPayroll, updatePayroll } from "../../Api/SuperAdmin/Payroll";
 import { Link } from "react-router-dom";
 import SuperAdminSidebar from "../../Components/SuperadminSidebar";
 import Navbar from "../../Components/Navbar";
@@ -12,6 +13,9 @@ import { Close as CloseIcon } from "@mui/icons-material";
 export const ListEmployees = () => {
   const initialStateInputs = {
     description: "",
+    grossSalary: "",
+    totalDeduction: "",
+    netSalary: "",
   };
 
   const initialStateErrors = {
@@ -52,7 +56,7 @@ export const ListEmployees = () => {
       page: pagination.from,
     };
 
-    getallStaff(data)
+    getallPayroll(data)
       .then((res) => {
         setStaff(res?.data?.result || []);
         setPagination({ ...pagination, count: res?.data?.result?.staffCount || 0 });
@@ -77,30 +81,24 @@ export const ListEmployees = () => {
     setPagination({ ...pagination, from: from, to: to });
   };
 
-  const deleteStaffData = () => {
-    deleteStaff(deleteId)
-      .then((res) => {
-        toast.success(res?.data?.message);
-        closePopup();
-        getAllStaffDetails();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+ 
 
   const handleInputs = (event) => {
     setInputs({ ...inputs, [event.target.name]: event.target.value });
   };
 
   const handleEditModule = (data) => {
-    setInputs({ description: data.description || "" }); // Set the form inputs to the data of the item being edited
+    setInputs({ description: data.description || "" ,
+      grossSalary: data.grossSalary || "",
+      totalDeduction: data.totalDeduction || "",
+      netSalary: data.netSalary || "",
+    }); // Set the form inputs to the data of the item being edited
     setIsEditing(true);
     setEditId(data._id);
     setSubmitted(false);
     setErrors(initialStateErrors);
   };
-
+ 
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -131,7 +129,7 @@ export const ListEmployees = () => {
       // Check if we are in edit mode
       if (isEditing) {
         // Update staff data
-        updateStaff(data)
+       updatePayroll(data)
           .then((res) => {
             toast.success(res?.data?.message); // Display success message
             event.target.reset(); // Reset the form
@@ -220,9 +218,7 @@ export const ListEmployees = () => {
                                       <th className="text-capitalize text-start sortable-handle">
                                         Emp_ID
                                       </th>
-                                      <th className="text-capitalize text-start sortable-handle">
-                                        DOJ
-                                      </th>
+                                      
                                       <th className="text-capitalize text-start sortable-handle">
                                         Name
                                       </th>
@@ -234,6 +230,9 @@ export const ListEmployees = () => {
                                       </th>
                                       <th className="text-capitalize text-start sortable-handle">
                                         Contact No
+                                      </th>
+                                      <th className="text-capitalize text-start sortable-handle">
+                                       Salary
                                       </th>
                                       <th className="text-capitalize text-start sortable-handle">
                                         Status
@@ -256,11 +255,9 @@ export const ListEmployees = () => {
                                           {pagination.from + index + 1}
                                         </td>
                                         <td className="text-capitalize text-start">
-                                          {data?.employeeID}
+                                          {data?.employeeId}
                                         </td>
-                                        <td className="text-capitalize text-start">
-                                          {data?.doj}
-                                        </td>
+                                        
                                         <td className="text-capitalize text-start">
                                           {data?.empName}
                                         </td>
@@ -272,6 +269,9 @@ export const ListEmployees = () => {
                                         </td>
                                         <td className="text-capitalize text-start">
                                           {data?.mobileNumber}
+                                        </td>
+                                        <td className="text-capitalize text-start">
+                                          {data?.netSalary}
                                         </td>
                                         <td className="text-capitalize text-start">
                                           {data?.description}
@@ -315,9 +315,9 @@ export const ListEmployees = () => {
 
      
 
-      <Dialog open={isEditing} onClose={() => setIsEditing(false)}>
-        <DialogTitle>Edit Employee</DialogTitle>
-        <DialogContent>
+      <Dialog open={isEditing} onClose={() => setIsEditing(false)} >
+        <DialogTitle>Payment Status</DialogTitle>
+        <DialogContent style={{ width: '500px' }}>
         <form  onSubmit={handleSubmit}>
             <div className="form-group mb-3">
 
@@ -328,7 +328,7 @@ export const ListEmployees = () => {
                                                           Salary:
                                                         </div>
                                                         <div className="col-6">
-                                                          18,000
+                                                         {inputs?.grossSalary}
                                                         </div>
                                                       </div>
                                                       <div className="row mb-3">
@@ -338,7 +338,7 @@ export const ListEmployees = () => {
                                                           Deductions:
                                                         </div>
                                                         <div className="col-6">
-                                                          500
+                                                         {inputs?.totalDeduction}
                                                         </div>
                                                       </div>
                                                       <div className="row mb-3">
@@ -348,7 +348,7 @@ export const ListEmployees = () => {
                                                           Salary:
                                                         </div>
                                                         <div className="col-6">
-                                                          17,500
+                                                          {inputs.netSalary}
                                                         </div>
                                                       </div>
                                                       <div className="mb-3">
@@ -371,7 +371,7 @@ export const ListEmployees = () => {
             <button 
             type="submit"
             className="btn btn-cancel border-0 fw-semibold text-uppercase py-1 px-3 rounded-pill text-white float-end bg"
-            
+           
            style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
            >
               Save
