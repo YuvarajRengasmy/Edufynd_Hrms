@@ -278,6 +278,15 @@ export const ListEmployees = () => {
                                         </td>
                                         <td>
                                           <div className="d-flex">
+                                            <Link 
+                                              to={{
+                                                pathname: "/SAviewpayslip",
+                                                search: `?id=${data?._id}`,
+                                              }}
+                                              className="btn btn-sm btn-primary me-2"
+                                            >
+                                              <i className="fa fa-eye"></i>
+                                            </Link>
                                            
                                             <button
                                               className="btn  btn-sm me-2"

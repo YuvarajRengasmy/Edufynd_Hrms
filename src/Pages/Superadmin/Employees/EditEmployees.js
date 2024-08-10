@@ -5,12 +5,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../../../Components/Navbar";
 import { updateStaff, getSingleStaff,getallStaff } from "../../../Api/SuperAdmin/Employees";
 import { getallDepartment } from "../../../Api/SuperAdmin/departmenthead";
-import {
-  isValidPhone,
-  isValidEmail,
-  isValidName,
-  isValidDob,
-} from "../../../Utils/Validation";
+import {isValidPhone,isValidIFSCCode,isValidEmail,isValidName,isValidDob,isValidBankAccountNumber,isValidPFNumber} from "../../../Utils/Validation";
 import Sidebar from "../../../Components/SuperadminSidebar";
 import { FaTrash } from "react-icons/fa";
 import Select from "react-select";
@@ -55,6 +50,11 @@ export const AddStaff = () => {
     ipAddress: "",
     userName: "",
     loginPassword: "",
+    bankName: "",
+    bankAccountNo: "",
+    bankIFSC: "",
+    bankBranch:"",
+    pfAccountNo:"",
   };
   const initialStateErrors = {
     photo: { required: false },
@@ -91,6 +91,11 @@ export const AddStaff = () => {
     ipAddress: { required: false },
     userName: { required: false },
     loginPassword: { required: false },
+    bankName: { required: false },
+    bankAccountNo: { required: false },
+    bankIFSC: { required: false },
+    bankBranch:{required:false},
+    pfAccountNo:{required:false},
   };
   const [staff, setStaff] = useState(initialState);
   const [staffs, setStaffs] = useState([]);
@@ -196,6 +201,37 @@ export const AddStaff = () => {
     }
     if (data.companyAssests === "") {
       error.companyAssests.required = true;
+    }
+
+    if(data.bankName === "") {
+      error.bankName.required = true;
+    }
+    if (!isValidName(data.bankName)) {
+      error.bankName.valid = true;
+    } 
+    if(data.bankAccountNo === "") {
+      error.bankAccountNo.required = true;
+    }
+    if (!isValidBankAccountNumber(data.bankAccountNo)) {
+      error.bankAccountNo.valid = true;
+    }
+    if(data.bankIFSC === "") {
+      error.bankIFSC.required = true;
+    }
+    if(!isValidIFSCCode(data.bankIFSC)) {
+      error.bankIFSC.valid = true;
+    }
+    if(data.bankBranch === "") {
+      error.bankBranch.required = true;
+    }
+    if (!isValidName(data.bankBranch)) {
+      error.bankBranch.valid = true;
+    }
+    if(data.pfAccountNo === "") {
+      error.pfAccountNo.required = true;
+    }
+    if(!isValidPFNumber(data.pfAccountNo)) {
+      error.pfAccountNo.valid = true;
     }
     if (!isValidName(data.empName)) {
       error.empName.valid = true;
@@ -439,8 +475,8 @@ export const AddStaff = () => {
                           >
                             <option value="">Select Department Head</option>
                             {department.map((data, index) => (
-                              <option key={index} value={data?.departmentHead}>
-                                {data?.departmentHead}
+                              <option key={index} value={data?.department}>
+                                {data?.department}
                               </option>
                             ))}
                           </select>
@@ -904,6 +940,146 @@ export const AddStaff = () => {
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
+                              ) : null}
+                            </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                              Bank Name{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control rounded-1"
+                                placeholder="Example Employment..."
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                name="bankName"
+                                onChange={handleInputs}
+                                value={staff?.bankName}
+                              />
+                              {errors.bankName.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : errors.bankName.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter Letter Only.
+                                </div>
+                              ) : null}
+                            </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                              Bank AccountNo{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control rounded-1"
+                                placeholder="Example Employment..."
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                name="bankAccountNo"
+                                onChange={handleInputs}
+                                value={staff?.bankAccountNo}
+                              />
+                             {errors.bankAccountNo.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : errors.bankAccountNo.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter Vaild Bank AccountNo Only.
+                                </div>
+                              ) : null}
+                            </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                              Bank IFSC{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control rounded-1"
+                                placeholder="Example Employment..."
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                name="bankIFSC"
+                                onChange={handleInputs}
+                                value={staff?.bankIFSC}
+                              />
+                               {errors.bankIFSC.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : errors.bankIFSC.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter Vaild Bank IFSC Only.
+                                </div>
+                              ) : null}
+                            </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                              Bank Branch{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control rounded-1"
+                                placeholder="Example Employment..."
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                name="bankBranch"
+                                onChange={handleInputs}
+                                value={staff?.bankBranch}
+                              />
+                              {errors.bankBranch.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : errors.bankBranch.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter Vaild Bank Branch Only.
+                                </div>
+                              ) : null}
+                            </div>
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                              Pf AccountNo{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control rounded-1"
+                                placeholder="Example Employment..."
+                                style={{
+                                  backgroundColor: "#fff",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                                name="pfAccountNo"
+                                onChange={handleInputs}
+                                value={staff?.pfAccountNo}
+                              />
+                              {errors.pfAccountNo.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : errors.pfAccountNo.valid ? (
+                                <div className="text-danger form-text">
+                                  Enter Vaild pf AccountNo Only.
+                                </div>
                               ) : null}
                             </div>
 
