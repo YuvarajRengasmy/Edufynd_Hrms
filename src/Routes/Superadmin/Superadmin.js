@@ -14,6 +14,8 @@ import Payroll from "../../Pages/Superadmin/Payroll";
 import SACalendar from "../../Pages/Superadmin/SACalendar";
 import PrivateRoute from '../../Pages/Login/PrivateRoute';
 import DepartmentHead from "../../Pages/Superadmin/departmentHead";
+import Documentation from "../../Pages/Superadmin/Documentation";
+import SAPassword from "../../Pages/Superadmin/SAPassword";
 export const Superadmin = () => {
   return (
     <div>
@@ -33,6 +35,11 @@ export const Superadmin = () => {
         <Route path="/SAPayroll" element={<Payroll />} />
 
         <Route path="/SACalendar" element={<SACalendar />} />
+
+        <Route path="/SADoumentation" element={<Documentation/>}/>
+        <Route path="/SAPassword" element={<SAPassword/>}/>
+
+        
       </Routes>
     </div>
   );

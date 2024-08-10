@@ -8,11 +8,12 @@ const SuperadminSidebar = () => {
   const [isCoreHrCollapsed, setCoreHrCollapsed] = useState(true);
   const [isAttendanceCollapsed, setAttendanceCollapsed] = useState(true);
   const [isInventoryCollapsed, setInventoryCollapsed] = useState(true);
-
+  const [isSettingsCollapsed, setSettingsCollapsed] = useState(true);
+  
   const handleCoreHrToggle = () => setCoreHrCollapsed(!isCoreHrCollapsed);
   const handleAttendanceToggle = () => setAttendanceCollapsed(!isAttendanceCollapsed);
   const handleInventoryToggle = () => setInventoryCollapsed(!isInventoryCollapsed);
-
+  const handleSettingsToggle = () => setSettingsCollapsed(!isSettingsCollapsed);
   return (
     <>
       {/* Off-Canvas Sidebar for smaller screens */}
@@ -242,7 +243,7 @@ const SuperadminSidebar = () => {
                 <i className="fas fa-calendar-check me-2"></i>
                 Attendance
               </span>
-              &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;     <i className={`fas ${isAttendanceCollapsed ? "fa-chevron-right" : "fa-chevron-down"}`}></i>
+              &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;     <i className= {`fas ${isAttendanceCollapsed ? "fa-chevron-right" : "fa-chevron-down"}`}></i>
             </button>
             <div className={`collapse ${!isAttendanceCollapsed ? "show" : ""}`} id="attendanceCollapse">
               <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
@@ -297,12 +298,44 @@ const SuperadminSidebar = () => {
               </ul>
             </div>
           </li>
-          <li>
+
+          <li className="nav-item mb-2">
+            <button
+              className="nav-link d-flex align-items-center justify-content-between"
+              type="button"
+              onClick={handleSettingsToggle }
+              aria-expanded={!isSettingsCollapsed}
+            >
+              <span>
+                <i className="fas fa-cog fa-spin me-2"></i>
+                Settings
+              </span>
+              &nbsp;  &nbsp;  &nbsp;&nbsp;   <i className={`fas ${isSettingsCollapsed ? "fa-chevron-right" : "fa-chevron-down"}`}></i>
+            </button>
+            <div className={`collapse ${!isSettingsCollapsed ? "show" : ""}`} id="inventoryCollapse">
+              <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li>
                   <Link to="/SASettings" className="nav-link d-flex align-items-center">
-                    <i className="fas fa-cog fa-spin me-2"></i>
-                   Settings
+                    <i className="fas fa-warehouse me-2"></i>
+                   Department Head
                   </Link>
                 </li>
+                <li>
+                  <Link to="/SADoumentation" className="nav-link d-flex align-items-center">
+                    <i className="fas fa-warehouse me-2"></i>
+                 Documentation
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/SAPassword" className="nav-link d-flex align-items-center">
+                    <i className="fas fa-warehouse me-2"></i>
+                  Password
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </li>
+          
         </ul>
         </div>
       </div>
