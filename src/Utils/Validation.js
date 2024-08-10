@@ -3,6 +3,17 @@ export const isValidBankAccountNumber = (accountNumber) => {
   return regex.test(accountNumber);
 };
 
+export const isValidPFNumber = (pfNumber) => {
+  const regex = /^[A-Z]{2}\d{7}$/; // Example pattern: 2 uppercase letters followed by 7 digits
+  return regex.test(pfNumber);
+};
+
+export const isValidIFSCCode = (ifscCode) => {
+  // Regular expression for IFSC code validation
+  const regex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+  return regex.test(ifscCode);
+};
+
 export function isValidPassword(pass) {
   return /^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[\W])/.test(pass);
 }

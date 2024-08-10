@@ -132,6 +132,11 @@ export const ViewStaff = () => {
       photo: staff?.photo,
       mobileNumber:staff?.mobileNumber,
       designation:staff?.designation,
+      bankName:staff?.bankName,
+      bankAccountNo:staff?.bankAccountNo,
+      bankIFSC:staff?.bankIFSC,
+      bankBranch:staff?.bankBranch,
+      pfAccountNo:staff?.pfAccountNo,
 
     };
     savePayroll(staffinData)
