@@ -144,6 +144,7 @@ export const Navbar = () => {
                     onClick={logout}>
                       Log Out
                     </Link>
+                    
                   </li>
                 </ul>
                   
