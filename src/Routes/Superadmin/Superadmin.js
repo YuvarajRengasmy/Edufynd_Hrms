@@ -17,6 +17,7 @@ import DepartmentHead from "../../Pages/Superadmin/departmentHead";
 import Documentation from "../../Pages/Superadmin/Documentation";
 import SAPassword from "../../Pages/Superadmin/SAPassword";
 import SAPaySlip from "../../Pages/Superadmin/SAPaySlip";
+import SAAddAnnouncement from "../../Pages/Superadmin/Annoucement/SAAddAnnouncement";
 export const Superadmin = () => {
   return (
     <div>
@@ -37,6 +38,8 @@ export const Superadmin = () => {
         <Route path="/SADoumentation" element={<Documentation/>}/>
         <Route path="/SAPassword" element={<SAPassword/>}/>
         <Route path="/SAViewPaySlip" element={<SAPaySlip/>}/>
+
+        <Route path="/SAAddAnnouncement" element={<SAAddAnnouncement/>}/>
       </Routes>
     </div>
   );
