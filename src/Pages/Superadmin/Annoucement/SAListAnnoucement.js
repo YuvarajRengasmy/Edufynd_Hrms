@@ -16,7 +16,11 @@ export const SAListAnnoucement = () => {
                     <SuperadminSidebar/>
                 </div>
                 <div className='col-lg-9'>
-                    <div className='container'></div>
+                    <div className='container'>
+
+
+                        
+                    </div>
                     </div>
                     </div>
                     </div>

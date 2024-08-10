@@ -218,7 +218,7 @@ const SuperadminSidebar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/SAannouncement" className="nav-link d-flex align-items-center">
+                  <Link to="/SAAddAnnouncement" className="nav-link d-flex align-items-center">
                     <i className="fas fa-bullhorn me-2"></i>
                     Announcement
                   </Link>
