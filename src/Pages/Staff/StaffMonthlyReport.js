@@ -151,8 +151,8 @@ export const StaffMonthlyReport = () => {
                   </form>
                 </div>
               </div>
-              <div className='row mt-4'  id='contentToPrint'>
-                <div className='col-xl-12 col-lg-6 col-md-8 col-sm-12 align-self-center'>
+              <div className='row mt-4'  >
+                <div className='col-xl-12 col-lg-6 col-md-8 col-sm-12 align-self-center' id='contentToPrint'>
                   <div className='card rounded-1 border-0'>
                     <div className='card-header bg-white'>
                       <div className='float-start'>
