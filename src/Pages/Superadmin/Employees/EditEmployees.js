@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Flags from "react-world-flags";
 import { toast } from "react-toastify";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../../../Components/Navbar";
@@ -7,7 +6,6 @@ import { updateStaff, getSingleStaff,getallStaff } from "../../../Api/SuperAdmin
 import { getallDepartment } from "../../../Api/SuperAdmin/departmenthead";
 import {isValidPhone,isValidIFSCCode,isValidEmail,isValidName,isValidDob,isValidBankAccountNumber,isValidPFNumber} from "../../../Utils/Validation";
 import Sidebar from "../../../Components/SuperadminSidebar";
-import { FaTrash } from "react-icons/fa";
 import Select from "react-select";
 export const AddStaff = () => {
  

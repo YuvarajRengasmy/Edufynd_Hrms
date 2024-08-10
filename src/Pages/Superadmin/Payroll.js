@@ -1,14 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallStaff, deleteStaff, updateStaff } from "../../Api/SuperAdmin/Employees";
 import { getallPayroll, updatePayroll, } from "../../Api/SuperAdmin/Payroll";
 import { Link } from "react-router-dom";
 import SuperAdminSidebar from "../../Components/SuperadminSidebar";
 import Navbar from "../../Components/Navbar";
-import { FaFilter } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
-import { Close as CloseIcon } from "@mui/icons-material";
 
 export const ListEmployees = () => {
   const initialStateInputs = {

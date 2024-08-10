@@ -3,7 +3,6 @@ import { savePolicies, getallPolicies, deletePolicies, updatePolicies } from '..
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
-
 import { getallDepartment } from "../../Api/SuperAdmin/departmenthead";
 import Sidebar from "../../Components/SuperadminSidebar";
 import Header from "../../Components/Navbar";

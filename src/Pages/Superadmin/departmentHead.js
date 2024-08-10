@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import React, { useEffect, useState, useRef } from "react";
 import SuperAdminSidebar from "../../Components/SuperadminSidebar";
 import Navbar from "../../Components/Navbar";
-import { bootstrap } from "bootstrap/dist/js/bootstrap.bundle.min";
 export default function GlobalSettings() {
   const initialStateInputs = {
     department : "",
