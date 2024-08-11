@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import StaffDashboard from "../../Pages/Staff/Dashboard";
 import Attendance from "../../Pages/Staff/Attendance";
-import Demo from "../../Pages/index";
 import Profile from "../../Pages/Staff/Profile";
 import StaffCalendar from "../../Pages/Staff/StaffCalendar";
 import StaffComplaints from "../../Pages/Staff/StaffComplaints";
@@ -20,15 +19,10 @@ export const Staff = () => {
     <div>
       <Routes>
         <Route path="/StaffDashboard" element={<PrivateRoute><StaffDashboard /></PrivateRoute>} />
-        <Route path="/Demo" element={<PrivateRoute><Demo /></PrivateRoute>} />
-
         <Route path="/StaffAttendance" element={<PrivateRoute><Attendance /></PrivateRoute>} />
         <Route path="/ViewStaffAttendance" element={<PrivateRoute><ViewStaffAttendance /></PrivateRoute>} />
         <Route path="/StaffMonthlyReports" element={<PrivateRoute><StaffMonthlyReport /></PrivateRoute>} />
         <Route path="/ViewStaffMonthlyReports" element={<PrivateRoute><ViewStaffMonthlyReports /></PrivateRoute>} />
-
-
-
         <Route path="/StaffProfile" element={<PrivateRoute><Profile /></PrivateRoute>} />
         <Route path="/StaffCalendar" element={<PrivateRoute><StaffCalendar /></PrivateRoute>} />
         <Route path="/StaffComplaints" element={<PrivateRoute><StaffComplaints /></PrivateRoute>} />
