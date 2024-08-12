@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Logo from '../../Assests/Images/logo.png';
 import {getSingleAllPayroll } from "../../Api/SuperAdmin/Payroll";
 import { Link } from "react-router-dom";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import { useLocation } from "react-router-dom";
 
 
@@ -24,14 +26,29 @@ export const SAPaySlip = () => {
             console.error(err);
           });
       };
-
+      const handlePrint = () => {
+        window.print();
+      };
+    
+      const handleDownloadPDF = () => {
+        const input = document.getElementById('contentToPrint');
+        html2canvas(input).then((canvas) => {
+          const imgData = canvas.toDataURL('image/png');
+          const pdf = new jsPDF();
+          const imgWidth = 210;
+          const imgHeight = canvas.height * imgWidth / canvas.width;
+          pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+          pdf.save('Staff_Attendance.pdf');
+        });
+      };
 
     return (
-        <div className="container my-4" style={{ fontSize: '14px', fontFamily: "Inter sans-serif", }}>
+        <>
+        <div className="container my-4" style={{ fontSize: '14px', fontFamily: "Inter sans-serif", }} >
             <div className="row justify-content-center">
-                <div className="col-md-9">
-                    <div className="card border-0 rounded-3 shadow-sm">
-                        <div className="card-header bg-white  border-bottom" style={{ fontSize: '12px' }}>
+                <div className="col-md-9 " >
+                    <div className="card border-0 rounded-3 shadow-sm " id='contentToPrint'>
+                        <div className="card-header  bg-white border-bottom" style={{ fontSize: '12px' }}>
                             <div className="row align-items-center">
                                 <div className="col-md-9">
                                     <h3 className="mb-1 fw-semibold" style={{ fontFamily: 'Josefin Sans, sans-serif' }}>Afynd</h3>
@@ -41,15 +58,15 @@ export const SAPaySlip = () => {
                                     </p>
                                 </div>
                                 <div className="col-md-3 text-center">
-                                    <img src={Logo} alt="Company Logo" className="img-fluid" style={{ maxHeight: '60px' }} />
+                                    <img src={Logo} alt="Company Logo" className="img-fluid" style={{ maxHeight: '60px',backgroundColor: '#fff' }} />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="card-body p-4">
+                        <div className="card-body p-4" style={{  backgroundColor: '#fff' }}>
                             <div className="row justify-content-center">
                                 <div className="col-md-12">
-                                    <div className="row mb-4">
+                                    <div className="row mb-4" style={{  backgroundColor: '#fff' }}>
                                         <h5 className="fw-bold">Payslip for the month of August, 2024</h5>
                                         <div className="col-md-6">
                                             <h6 style={{ color: '#7627ef' }}>Employee Pay Summary</h6>
@@ -63,15 +80,15 @@ export const SAPaySlip = () => {
                                                 <div className="col-6 mb-1"><strong><i class="fas fa-building-columns "></i>&nbsp;&nbsp;Bank Name</strong></div>
                                                 <div className="col-6 mb-1">:  {pay?.bankName}</div>
                                                 <div className="col-6 mb-1"><strong><i class="fas fa-credit-card "></i>&nbsp;&nbsp;Bank Account No</strong></div>
-                                                <div className="col-6 mb-1">:  {pay?.bankAccNo}</div>
+                                                <div className="col-6 mb-1">:  {pay?.bankAccountNo}</div>
 
                                                 <div className="col-6 mb-1"><strong><i class="fas fa-passport "></i>&nbsp;&nbsp;Provident Fund No</strong></div>
-                                                <div className="col-6 mb-1">:  {pay?.pfNo}</div>
+                                                <div className="col-6 mb-1">:  {pay?.pfAccountNo}</div>
 
 
                                             </div>
                                         </div>
-                                        <div className="col-md-6">
+                                        <div className="col-md-6 bg-white">
                                             <h6 className="text-center">Employee Net Pay</h6>
                                             <h2 className="mb-1 text-center fw-bold" style={{ color: '#28A745' }}>&#8377;{pay?.netSalary}</h2>
                                             <p className="mb-1 text-center fw-normal"><strong>Pay Days: {pay?.payDays} | LOP Days:{pay?.lopDays} </strong></p>
@@ -181,9 +198,17 @@ export const SAPaySlip = () => {
 
                         </div>
                     </div>
+
+                    <div className='d-flex justify-content-center align-items-center mt-3 gap-3'>
+        <button onClick={handlePrint} className='btn btn-sm text-capitalize fw-semibold px-2 py-2 border-0' style={{ backgroundColor: '#28A745', color: '#FFFFFF' }}><i className="fa-solid fa-print" style={{fontSize: '20px'}}></i></button>
+        <button onClick={handleDownloadPDF} className='btn btn-sm text-capitalize fw-semibold px-2 py-2 border-0' style={{ backgroundColor: '#FF0000', color: '#FFFFFF' }}> <i className="fa-solid fa-file-pdf" style={{fontSize: '20px'}}></i></button>
+      </div>
                 </div>
+                
             </div>
         </div>
+       
+      </>
     );
 }
 
