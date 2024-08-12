@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { saveDepartment, getallDepartments, deleteDepartment, updateDepartment } from '../../Api/SuperAdmin/Department';
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import {getallStaff } from "../../Api/SuperAdmin/Employees";
 import { toast } from 'react-toastify';
 import { formatDate } from "../../Utils/DateFormat";
 
@@ -22,6 +23,7 @@ const Department = () => {
 
   const [open, setOpen] = useState(false);
   const [department, setDepartment] = useState([]);
+  const [staff, setStaff] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [inputs, setInputs] = useState(initialStateInputs);
@@ -80,6 +82,7 @@ const Department = () => {
   useEffect(() => {
     getAllDepartment();
     getallDepartmentData();
+    getallStaffData();
   }, []);
 
   const handlePageChange = (event, value) => {
@@ -104,7 +107,16 @@ const Department = () => {
         console.log(err);
       });
   };
-
+  const getallStaffData = () => {
+    getallStaff()
+      .then((res) => {
+        console.log("res", res);
+        setStaff(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllDepartment = () => {
     getallDepartments()
       .then((res) => {
@@ -177,21 +189,27 @@ const Department = () => {
                       <div className="card-body">
                         <div className="mb-3">
                           <label className="form-label">Name</label>
-                          <input
-                            type="text"
-                            className="form-control rounded-1"
-                            placeholder="Example James Lee"
+                          <select
+                            className="form-select rounded-1"
+                            aria-label="Default select example"
                             style={{ fontSize: "12px" }}
                             onChange={handleInputChange}
                             name="name"
                             value={inputs.name}
-                          />
+                          >
+                            <option value="">Select Department Head</option>
+                            {staff?.map((data, index) => (
+                              <option key={index} value={data?.empName}>
+                                {data?.empName}
+                              </option>
+                            ))}
+                          </select>
                           {errors?.name.required && (
                             <p className="text-danger">Name is required</p>
                           )}
                         </div>
                         <div className="mb-3">
-                          <label className="form-label">Department Head</label>
+                          <label className="form-label">Department Name</label>
                           <select
                             className="form-select rounded-1"
                             aria-label="Default select example"
@@ -200,10 +218,10 @@ const Department = () => {
                             name="departmentHead"
                             value={inputs.departmentHead}
                           >
-                            <option value="">Select Department Head</option>
+                            <option value="">Select Department Name</option>
                             {department?.map((data, index) => (
-                              <option key={index} value={data?.departmentHead}>
-                                {data?.departmentHead}
+                              <option key={index} value={data?.department}>
+                                {data?.department}
                               </option>
                             ))}
                           </select>

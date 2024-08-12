@@ -7,7 +7,7 @@ export const saveStaff = (data) => {
 }
 
 export const getallStaff = () => {
-    return API.get(`${Staff}/`)
+    return API.get(`${Staff}`)
 }
 
 export const deleteStaff = (data) => {
