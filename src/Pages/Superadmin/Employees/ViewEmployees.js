@@ -132,6 +132,11 @@ export const ViewStaff = () => {
       photo: staff?.photo,
       mobileNumber:staff?.mobileNumber,
       designation:staff?.designation,
+      bankName:staff?.bankName,
+      bankAccountNo:staff?.bankAccountNo,
+      bankIFSC:staff?.bankIFSC,
+      bankBranch:staff?.bankBranch,
+      pfAccountNo:staff?.pfAccountNo,
 
     };
     savePayroll(staffinData)
@@ -201,7 +206,7 @@ export const ViewStaff = () => {
                         <p><i className="fas fa-birthday-cake me-2"></i><strong>DOB:</strong> {staff?.dob}</p>
                         <p><i className="fas fa-calendar-day me-2"></i><strong>DOJ:</strong> {staff?.doj}</p>
                         <p><i className="fas fa-user me-2"></i><strong>Gender:</strong> {staff?.gender}</p>
-                        <p><i className="fas fa-phone me-2"></i><strong>Phone:</strong> {staff?.phone}</p>
+                        <p><i className="fas fa-phone me-2"></i><strong>Phone:</strong> {staff?.mobileNumber}</p>
                         <p><i className="fas fa-envelope me-2"></i><strong>Email:</strong> {staff?.email}</p>
                         <p><i className="fas fa-map-marker-alt me-2"></i><strong>Address:</strong> {staff?.address}</p>
                         <p><i className="fas fa-briefcase me-2"></i><strong>Department:</strong> {staff?.department}</p>

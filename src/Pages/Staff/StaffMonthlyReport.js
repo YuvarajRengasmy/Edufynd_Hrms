@@ -151,19 +151,19 @@ export const StaffMonthlyReport = () => {
                   </form>
                 </div>
               </div>
-              <div className='row mt-4'>
-                <div className='col-xl-12 col-lg-6 col-md-8 col-sm-12 align-self-center'>
+              <div className='row mt-4'  >
+                <div className='col-xl-12 col-lg-6 col-md-8 col-sm-12 align-self-center' id='contentToPrint'>
                   <div className='card rounded-1 border-0'>
                     <div className='card-header bg-white'>
                       <div className='float-start'>
                         <img src={LOGO} alt='company_logo' className='img-fluid' style={{ width: '11rem', height: '3rem' }} />
                       </div>
                     </div>
-                    <div className='card-body' id='contentToPrint'>
+                    <div className='card-body'>
                       <div className="profile">
                         <div className="row g-0">
                           <div className="col-md-2">
-                            <img src={att?.photo ? att?.photo : Profile} className="img-fluid rounded-circle" style={{ width: '5rem', height: '5rem' }} alt="Profile" />
+                            <img src={att?.photo ? att?.photo : Profile} className="img-fluid rounded-circle" style={{ width: '7rem', height: '7rem' }} alt="Profile" />
                           </div>
                           <div className="col-md-10">
                             <div className="card-body">
@@ -203,15 +203,15 @@ export const StaffMonthlyReport = () => {
                       ) : (
                         <p>No data available for the selected date range.</p>
                       )}
-                      <div className='d-flex justify-content-center align-items-center gap-3'>
-                        <button onClick={handlePrint} className='btn btn-sm text-capitalize fw-semibold px-4 py-2 border-0' style={{ backgroundColor: '#28A745', color: '#FFFFFF' }}>Print</button>
-                        <button onClick={handleDownloadPDF} className='btn btn-sm text-capitalize fw-semibold px-4 py-2 border-0' style={{ backgroundColor: '#FFC107', color: '#FFFFFF' }}>Download PDF</button>
-                        <Link to='/StaffMonthlyReports' className='btn btn-sm text-capitalize fw-semibold border-0 px-4 py-2' style={{ backgroundColor: '#007BFF', color: '#FFFFFF' }}>View Attendance</Link>
-                      </div>
+                      
                     </div>
                   </div>
                 </div>
               </div>
+              <div className='d-flex justify-content-center align-items-center mt-3 gap-3'>
+                        <button onClick={handlePrint} className='btn btn-sm text-capitalize fw-semibold px-2 py-2 border-0' style={{ backgroundColor: '#28A745', color: '#FFFFFF' }}><i className="fa-solid fa-print" style={{fontSize: '20px'}}></i></button>
+                        <button onClick={handleDownloadPDF} className='btn btn-sm text-capitalize fw-semibold px-2 py-2 border-0' style={{ backgroundColor: '#FF0000', color: '#FFFFFF' }}> <i className="fa-solid fa-file-pdf" style={{fontSize: '20px'}}></i></button>
+                      </div>
             </div>
           </div>
         </div>

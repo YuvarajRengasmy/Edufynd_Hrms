@@ -33,14 +33,10 @@ export const Superadmin = () => {
         <Route path="/SAEditEmployees" element={<PrivateRoute><EditEmployees /></PrivateRoute>} />
         <Route path="/SAViewEmployees" element={<PrivateRoute><ViewEmployees /></PrivateRoute>} />
         <Route path="/SASettings" element={<PrivateRoute><DepartmentHead /></PrivateRoute>} />
-
         <Route path="/SAPayroll" element={<Payroll />} />
-
         <Route path="/SACalendar" element={<SACalendar />} />
-
         <Route path="/SADoumentation" element={<Documentation/>}/>
         <Route path="/SAPassword" element={<SAPassword/>}/>
-
         <Route path="/SAViewPaySlip" element={<SAPaySlip/>}/>
 
         <Route path="/SAAddAnnouncement" element={<SAAddAnnouncement/>}/>

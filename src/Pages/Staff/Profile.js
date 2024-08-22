@@ -92,7 +92,7 @@ export const Profile = () => {
                               <h5 className="card-title mb-0">{staff?.empName}</h5>
                               <p className="card-text mb-1">{staff?.designation}</p>
                               <p className="text-bg-success d-inline px-3 py-1 text-capitalize fw-semibold rounded-1">
-                                <small>{staff?.status}</small>
+                                <small>{staff?.active}</small>
                               </p>
                             </div>
                           </div>

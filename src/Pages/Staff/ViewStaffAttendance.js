@@ -51,13 +51,13 @@ export const ViewStaffAttendance = () => {
 
   return (
     <div className='container-fluid mt-4' style={{ fontSize: '14px' }}>
-      <div className='row justify-content-center'>
-        <div className='col-xl-5 col-lg-6 col-md-8 col-sm-12 align-self-center'>
+      <div className='row justify-content-center' >
+        <div className='col-xl-5 col-lg-6 col-md-8 col-sm-12 align-self-center'  id='contentToPrint'>
           <div className='card rounded-1 border-0'>
             <div className='card-header bg-white'>
               <img src={LOGO} alt='company_logo' className='img-fluid' style={{ width: '30%', height: '40px' }} />
             </div>
-            <div className='card-body' id='contentToPrint'>
+            <div className='card-body'>
               <div className="profile">
                 <div className="row g-0">
                   <div className="col-md-2">
@@ -109,16 +109,19 @@ export const ViewStaffAttendance = () => {
                 <p>Late : {att?.late}</p>
               </div>
 
-              <div className='d-flex justify-content-center align-items-center gap-3'>
-                <button onClick={handlePrint} className='btn btn-sm text-capitalize fw-semibold px-4 py-2 border-0' style={{ backgroundColor: '#28A745', color: '#FFFFFF' }}>Print</button>
-                <button onClick={handleDownloadPDF} className='btn btn-sm text-capitalize fw-semibold px-4 py-2 border-0' style={{ backgroundColor: '#FFC107', color: '#FFFFFF' }}>Download PDF</button>
-                <Link to='/StaffAttendance' className='btn btn-sm text-capitalize fw-semibold border-0 px-4 py-2' style={{ backgroundColor: '#007BFF', color: '#FFFFFF' }}>View Attendance</Link>
-              </div>
+
+             
             </div>
           </div>
         </div>
       </div>
+      <div className='d-flex justify-content-center align-items-center gap-3 mt-3'>
+     <button onClick={handlePrint} className='btn btn-sm text-capitalize fw-semibold px-2 py-2 border-0' style={{ backgroundColor: '#28A745', color: '#FFFFFF' }}><i className="fa-solid fa-print" style={{fontSize: '20px'}}></i></button>
+     <button onClick={handleDownloadPDF} className='btn btn-sm text-capitalize fw-semibold px-2 py-2 border-0' style={{ backgroundColor: '#FFC107', color: '#FFFFFF' }}> <i className="fa-solid fa-file-pdf" style={{fontSize: '20px'}}></i></button>
+     <Link to='/StaffAttendance' className='btn btn-sm text-capitalize fw-semibold border-0 px-2 py-2' style={{ backgroundColor: '#007BFF', color: '#FFFFFF' }}><i className="fas fa-backspace" style={{fontSize: '20px'}}></i></Link>
+   </div>
     </div>
+    
   );
 }
 
