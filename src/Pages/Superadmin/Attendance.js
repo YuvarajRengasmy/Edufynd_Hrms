@@ -146,11 +146,20 @@ export const Attendance = () => {
                     {staff.map((data) => (
                       <tr key={data._id}>
                         <td>{data?.empName}</td>
-                        <td>{formatYears(data?.clockIn)}</td>
+                        <td>{formatYears(data?.date)}</td>
                         <td>{data?.status}</td>
                         <td>{formatDated(data?.clockIn)}</td>
                         <td>{formatDated(data?.clockOut)}</td>
                         <td>{data?.late}</td>
+
+
+                        {/* <td>{data?.date}</td>
+                        <td>{data?.status}</td>
+                        <td>{data?.clockIn}</td>
+                        <td>{data?.clockOut}</td>
+                        <td>{data?.late}</td> */}
+
+
                         <td>{data?.earlyLeaving}</td>
                         <td className="text-center d-flex gap-3 justify-content-center">
                           <Link to={{ pathname: "/SAViewAttendance", search: `?id=${data?._id}` }}>
