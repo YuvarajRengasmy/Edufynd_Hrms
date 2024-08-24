@@ -101,8 +101,16 @@ export const localDate = (data) => {
   };
 
 export const formatDated = (data) => {
-  console.log("balan", data)
+
   const date = new Date(data);
   return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
  
+};
+
+export const formatTime = (data) => {
+  if (data === null) {
+    return "00:00";  // Or "N/A", depending on your requirements
+  }
+  const date = new Date(data);
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 };

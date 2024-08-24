@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import SuperAdminSidebar from "../../Components/SuperadminSidebar";
 import Navbar from "../../Components/Navbar";
 import { Pagination } from "@mui/material";
-import { formatDated, formatYears } from "../../Utils/DateFormat";
+import { formatDated, formatYears, formatTime } from "../../Utils/DateFormat";
 
 export const Attendance = () => {
   const [staff, setStaff] = useState([]);
@@ -146,18 +146,11 @@ export const Attendance = () => {
                     {staff.map((data) => (
                       <tr key={data._id}>
                         <td>{data?.empName}</td>
-                        <td>{formatYears(data?.date)}</td>
+                        <td>{formatYears (data?.clockIn ?? data?.date)}</td>
                         <td>{data?.status}</td>
-                        <td>{formatDated(data?.clockIn)}</td>
-                        <td>{formatDated(data?.clockOut)}</td>
+                        <td>{formatTime(data?.clockIn)}</td>
+                        <td>{formatTime(data?.clockOut)}</td>
                         <td>{data?.late}</td>
-
-
-                        {/* <td>{data?.date}</td>
-                        <td>{data?.status}</td>
-                        <td>{data?.clockIn}</td>
-                        <td>{data?.clockOut}</td>
-                        <td>{data?.late}</td> */}
 
 
                         <td>{data?.earlyLeaving}</td>
