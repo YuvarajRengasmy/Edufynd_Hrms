@@ -1,7 +1,7 @@
 body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
  
   background-color:#f0f2f8 !important;
 }
@@ -16,12 +16,12 @@ body {
 /* Hide the spin buttons in Chrome, Safari, Edge, and Opera */
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+  -webkit-appearance: none !important;
+  margin: 0 !important;
 }
 
 /* Hide the spin buttons in Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
+  -moz-appearance: textfield !important;
 }
 
