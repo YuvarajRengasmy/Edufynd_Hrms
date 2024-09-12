@@ -34,7 +34,6 @@ export const AddStaff = () => {
     city: "",
     idCard: "",
     active: "",
-    privileges: "",
     companyAssests: "",
     mobileName: "",
     brandName: "",
@@ -75,7 +74,7 @@ export const AddStaff = () => {
     city: { required: false },
     idCard: { required: false }, // – Yes / No (If ‘Yes’ card to be generated)
     active: { required: false },
-    privileges: { required: false },
+    
     companyAssests: { required: false },
     mobileName: { required: false },
     brandName: { required: false },
@@ -180,9 +179,7 @@ export const AddStaff = () => {
     if (data.active === "") {
       error.active.required = true;
     }
-    if (data.privileges === "") {
-      error.privileges.required = true;
-    }
+    
     if (data.companyAssests === "") {
       error.companyAssests.required = true;
     }
@@ -874,29 +871,7 @@ export const AddStaff = () => {
                                 </span>
                               ) : null}
                             </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Privileges/Rights{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control rounded-1"
-                                placeholder="Example Employment..."
-                                style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                name="privileges"
-                                onChange={handleInputs}
-                              />
-                              {errors.privileges.required ? (
-                                <span className="form-text text-danger">
-                                  This field is required.
-                                </span>
-                              ) : null}
-                            </div>
+                            
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                               Bank Name{" "}
