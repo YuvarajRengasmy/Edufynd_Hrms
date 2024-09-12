@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Header from "../../Components/StaffNavbar";
 import Sidebar from "../../Components/Sidebar";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
-import {formatDated, formatYears  } from "../../Utils/DateFormat";
+import {formatDated, formatTime, formatYears  } from "../../Utils/DateFormat";
 import { toast } from "react-toastify";
 import { getStaffId } from "../../Utils/storage";
 
@@ -153,12 +153,14 @@ export const Attendance = () => {
                   </thead>
                   <tbody style={{ fontSize: "11px" }}>
                     {staff?.map((data) => (
+                 
                       <tr>
+                        
                         <td>{data?.empName}</td>
-                        <td>{formatYears (data?.clockIn)}</td>
+                        <td>{formatYears (data?.clockIn ?? data?.date)}</td>
                         <td>{data?.status}</td>
-                        <td>{formatDated (data?.clockIn)}</td> 
-                        <td>{formatDated (data?.clockOut)}</td>
+                        <td>{formatTime (data?.clockIn)}</td> 
+                        <td>{formatTime (data?.clockOut)}</td>
                         <td>{data?.late}</td>
                         <td>{data?.earlyLeaving}</td>
                         <td className=" text-center d-flex gap-3 justify-content-center">

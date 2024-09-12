@@ -45,6 +45,7 @@ export const Dashboard = () => {
 
   const getStaffDetails = () => {
     const id = getStaffId();
+    console.log(id)
     getSingleStaff(id)
       .then((res) => {
         console.log(res);
