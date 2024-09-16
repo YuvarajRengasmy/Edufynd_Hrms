@@ -8,9 +8,10 @@ import {
   faList,
 } from "@fortawesome/free-solid-svg-icons";
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+
 import { getSuperAdminId } from "../Utils/storage";
 import {getSingleSuperAdmin } from "../Api/SuperAdmin/Dashboard";
-import { useNavigate } from 'react-router-dom';
 import { clearStorage } from "../Utils/storage";
 import { Tooltip } from "react-tooltip";
 import { Link } from "react-router-dom";
